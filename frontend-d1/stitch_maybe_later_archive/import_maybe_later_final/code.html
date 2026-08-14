@@ -1,0 +1,370 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Maybe Later - Import</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container": "#e9eef3",
+                "surface-bright": "#f5faff",
+                "surface-container-lowest": "#ffffff",
+                "secondary": "#3c627c",
+                "outline": "#74777c",
+                "on-error-container": "#93000a",
+                "background": "#f5faff",
+                "on-tertiary-fixed-variant": "#594415",
+                "inverse-primary": "#bac8d9",
+                "error-container": "#ffdad6",
+                "surface-tint": "#52606f",
+                "surface-dim": "#d5dbe0",
+                "tertiary-container": "#483507",
+                "on-primary-fixed": "#0f1d2a",
+                "on-error": "#ffffff",
+                "on-surface-variant": "#44474c",
+                "tertiary": "#2f2000",
+                "primary-fixed-dim": "#bac8d9",
+                "on-primary-container": "#95a2b3",
+                "on-secondary-fixed-variant": "#224b64",
+                "surface-variant": "#dee3e8",
+                "surface": "#f5faff",
+                "primary": "#162431",
+                "error": "#ba1a1a",
+                "secondary-container": "#b8dffd",
+                "on-tertiary-container": "#ba9e66",
+                "tertiary-fixed-dim": "#e1c388",
+                "on-secondary-container": "#3d637d",
+                "surface-container-low": "#eff4f9",
+                "on-surface": "#171c20",
+                "primary-fixed": "#d6e4f6",
+                "on-primary": "#ffffff",
+                "primary-container": "#2c3947",
+                "on-tertiary": "#ffffff",
+                "on-background": "#171c20",
+                "inverse-surface": "#2c3135",
+                "outline-variant": "#c4c6cc",
+                "secondary-fixed": "#c8e6ff",
+                "on-tertiary-fixed": "#261900",
+                "on-secondary": "#ffffff",
+                "tertiary-fixed": "#ffdea2",
+                "on-secondary-fixed": "#001e2e",
+                "surface-container-highest": "#dee3e8",
+                "surface-container-high": "#e4e9ee",
+                "inverse-on-surface": "#ecf1f6",
+                "secondary-fixed-dim": "#a5cbe9",
+                "on-primary-fixed-variant": "#3b4856"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "stack-sm": "8px",
+                "margin-desktop": "64px",
+                "stack-lg": "32px",
+                "stack-md": "16px",
+                "container-max": "1280px",
+                "margin-mobile": "20px",
+                "gutter": "24px"
+        },
+        "fontFamily": {
+                "display-md": [
+                        "Fraunces"
+                ],
+                "display-lg-mobile": [
+                        "Fraunces"
+                ],
+                "display-lg": [
+                        "Fraunces"
+                ],
+                "body-lg": [
+                        "IBM Plex Sans"
+                ],
+                "label-caps": [
+                        "IBM Plex Mono"
+                ],
+                "headline-sm": [
+                        "Fraunces"
+                ],
+                "body-md": [
+                        "IBM Plex Sans"
+                ],
+                "label-technical": [
+                        "IBM Plex Mono"
+                ]
+        },
+        "fontSize": {
+                "display-md": [
+                        "32px",
+                        {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "display-lg-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "1.05",
+                                "fontWeight": "700"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "1.4",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-sm": [
+                        "24px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.5",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-technical": [
+                        "13px",
+                        {
+                                "lineHeight": "1.4",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .drag-active {
+            border-color: theme('colors.on-tertiary-container');
+            background-color: theme('colors.surface-container-high');
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col antialiased">
+<div class="flex flex-1 h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex bg-surface-container-lowest dark:bg-primary-container h-full w-72 border-r border-outline-variant flex-col p-6 gap-stack-lg z-40 overflow-y-auto">
+<div class="flex items-center gap-3 border border-outline-variant rounded p-3 bg-surface-container-low">
+<img alt="Maybe Later Logo" class="w-8 h-8 rounded-DEFAULT object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDofKyR4D57U4Ml6z5zl_Eqi0WnHNSQo_eTh4Ut_JeZg1UhooRV16JQap9Ryz_KRfLcQEAnMhKmgBHdhodR5VCza4KBDnsagU1Refg6UHbPkHNZgIt4fjyFaOoxmlaPNa-3A-ouweTG7ar11tq4YyTM0YDLq-CH4ZabJd9QgnmjMJI4vESJf_QXfbFXe_WdnZJg2kaVVpLAW5MozF5-ABBcPXaqiAxnw3bOZnoYOR_YSAfldOo6-6axmkPLCJyZMDyNSnY">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed leading-tight">Maybe Later</h2>
+<p class="font-label-technical text-label-technical text-on-surface-variant">Personal Archive</p>
+</div>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all font-body-md text-body-md rounded" placeholder="Search archive..." type="text">
+</div>
+<button class="w-full py-3 px-4 bg-primary text-on-primary font-body-md rounded-DEFAULT hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span> New Archive
+</button>
+<nav class="flex flex-col gap-1 mt-2">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant px-4 py-2 uppercase tracking-wider">Navigation</h3>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+<span class="font-body-md text-body-md">Gallery</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">collections_bookmark</span>
+<span class="font-body-md text-body-md">Collections</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+<span class="font-body-md text-body-md">Needs Review</span>
+</a>
+<a class="flex items-center gap-4 text-on-tertiary-container bg-tertiary-container/10 px-4 py-2 rounded-lg transition-colors font-medium border-l-4 border-on-tertiary-container" href="#">
+<span class="material-symbols-outlined text-[20px]">upload</span>
+<span class="font-body-md text-body-md">Import</span>
+</a>
+</nav>
+<nav class="flex-1 flex flex-col gap-1 mt-2">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant px-4 py-2 uppercase tracking-wider">Library</h3>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">archive</span>
+<span class="font-body-md text-body-md">All Items</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">grade</span>
+<span class="font-body-md text-body-md">Favorites</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1; color: theme('colors.tertiary-fixed-dim');">error</span>
+<span class="font-body-md text-body-md">Unorganized</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-6 flex flex-col gap-4">
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-body-md text-body-md text-sm">Support</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">shield</span>
+<span class="font-body-md text-body-md text-sm">Privacy</span>
+</a>
+</div>
+<div class="flex items-center gap-3 px-4 pt-2 border-t border-outline-variant/50">
+<img alt="User profile" class="w-10 h-10 rounded-full object-cover border border-outline-variant/50" data-alt="A minimalist, geometric avatar representing a user profile, featuring muted primary colors on a soft background, in a modern editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA84fpEGJKdFLBCqBTJBhHW01Sb8UGVyjKh1KRTkqgFEJzq0kQsId9Lup4piREhbNwtbd5kABhEageyvvREhNx_42gekUzOrbgEWkbNY-0gjOmc9DGncyXH4Xo8JgWSt_cgcXnLJzx0k0K8yS_eHH3Q27Wxyz_sPYSbzSVxvJ2I1ZpC7sJQ2jkg-uvXBgiW5Z73Z37P-jsaMi_ULCP7e2PNzxqfn-0CmYKm61aLwiFG6W3TomiHhnZqYQ">
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-on-surface truncate">Alex Editor</p>
+<p class="text-xs text-on-surface-variant truncate">alex@example.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-surface">
+<div class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
+<div class="mb-stack-lg border-l-4 border-on-tertiary-container pl-6">
+<h1 class="font-display-md text-display-md md:font-display-lg md:text-display-lg text-primary mb-2">NEW: Import - Maybe Later (Final)</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Drag and drop screenshots, images, or documents to add them to your archive. We'll automatically extract text and metadata.</p>
+</div>
+<!-- Dropzone -->
+<div class="border-2 border-dashed border-outline-variant rounded-xl bg-surface-container-lowest hover:bg-surface-container transition-colors duration-300 flex flex-col items-center justify-center py-24 px-6 text-center cursor-pointer mb-stack-lg relative overflow-hidden group" id="dropzone">
+<div class="absolute inset-0 bg-on-tertiary-container/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+<span class="material-symbols-outlined text-6xl text-primary/40 mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:text-on-tertiary-container">cloud_upload</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Drag &amp; drop files here</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">or click to browse from your device</p>
+<button class="px-6 py-3 bg-primary text-on-primary font-body-md text-body-md rounded-DEFAULT hover:bg-primary/90 transition-colors shadow-[0_4px_20px_rgba(44,57,71,0.05)] border border-primary">
+                        Select Files
+                    </button>
+<div class="absolute bottom-4 left-0 w-full text-center">
+<span class="font-label-technical text-label-technical text-on-surface-variant/60">Supports PNG, JPG, PDF (Max 50MB)</span>
+</div>
+</div>
+<!-- Upload Queue (Example State) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h4 class="font-body-md text-body-md font-medium text-primary">Upload Queue</h4>
+<span class="font-label-technical text-label-technical text-on-surface-variant">2 PROCESSING</span>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Item 1: Uploading -->
+<div class="p-4 px-6 flex items-center gap-4 hover:bg-surface-container transition-colors">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant">image</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<p class="font-body-md text-body-md text-primary truncate">Screenshot_2023-10-27_at_14.22.01.png</p>
+<span class="font-label-technical text-label-technical text-on-surface-variant ml-4 shrink-0">72%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5 overflow-hidden">
+<div class="bg-on-tertiary-container h-1.5 rounded-full" style="width: 72%"></div>
+</div>
+<div class="mt-1 flex justify-between">
+<span class="font-label-technical text-label-technical text-on-surface-variant/70 text-[11px]">UPLOADING</span>
+<span class="font-label-technical text-label-technical text-on-surface-variant/70 text-[11px]">2.4 MB / 3.1 MB</span>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors shrink-0">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<!-- Item 2: Processing (OCR etc) -->
+<div class="p-4 px-6 flex items-center gap-4 hover:bg-surface-container transition-colors bg-surface-container-lowest">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant relative overflow-hidden">
+<div class="absolute inset-0 bg-on-tertiary-container/10 animate-pulse"></div>
+<span class="material-symbols-outlined text-on-tertiary-container relative z-10">document_scanner</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<p class="font-body-md text-body-md text-primary truncate">Receipt_Dinner_Oct26.pdf</p>
+<span class="font-label-technical text-label-technical text-on-tertiary-container ml-4 shrink-0 animate-pulse">PROCESSING</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5 overflow-hidden">
+<div class="bg-on-tertiary-container h-1.5 rounded-full w-full opacity-50"></div>
+</div>
+<div class="mt-1">
+<span class="font-label-technical text-label-technical text-on-surface-variant/70 text-[11px]">Extracting text...</span>
+</div>
+</div>
+</div>
+<!-- Item 3: Complete -->
+<div class="p-4 px-6 flex items-center gap-4 hover:bg-surface-container transition-colors opacity-70">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant">
+<img alt="Uploaded thumbnail" class="w-full h-full object-cover rounded" data-alt="A small thumbnail of a design moodboard featuring minimalist typography and muted pastel colors, representing a successfully uploaded image asset." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh_-mtGMGelMqeRcG1wFdJ-hK6VdNaQ1IX-jZfK042Goech8n9R7BkPIkp7WB6F7yKj8a86ftfrVmZMbrDRjJSyZtwHMVXDvsQ__8ALU9MbO69vGooY8lBzmXCT35w1mUrEcQIaZ3Ni3GTAIMSrV1Jy1Jp4Xq3lqHLoc34-IGOURJxfw68oUs-qCm0yPabTnKnK2UOVliJjxRSr2vq2hYG2OvIxTPU15FkitUYFad6rZLjn9XtnBWWzw">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<p class="font-body-md text-body-md text-primary truncate line-through decoration-primary/30">Moodboard_V2_Final.jpg</p>
+<span class="font-label-technical text-label-technical text-on-surface-variant ml-4 shrink-0 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> UPLOADED</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Simple drag and drop visual feedback
+        const dropzone = document.getElementById('dropzone');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropzone.classList.add('drag-active');
+        }
+
+        function unhighlight(e) {
+            dropzone.classList.remove('drag-active');
+        }
+    </script>
+
+
+</body></html>

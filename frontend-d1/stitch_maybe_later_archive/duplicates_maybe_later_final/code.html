@@ -1,0 +1,349 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title class="">NEW: Duplicates - Maybe Later (Final)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "primary": "#2C3947",
+                "secondary": "#547A95",
+                "tertiary": "#C2A56D",
+                "background": "#E8EDF2",
+                "surface": "#E8EDF2",
+                "surface-card": "#F6F8FA",
+                "on-primary-fixed": "#0f1d2a",
+                "on-secondary-fixed": "#001e2e",
+                "on-tertiary": "#ffffff",
+                "on-surface-variant": "#44474c",
+                "secondary-fixed-dim": "#a5cbe9",
+                "on-surface": "#171c20",
+                "on-background": "#171c20",
+                "surface-variant": "#dee3e8",
+                "secondary-fixed": "#c8e6ff",
+                "surface-tint": "#52606f",
+                "surface-container-high": "#e4e9ee",
+                "on-primary-container": "#95a2b3",
+                "primary-fixed": "#d6e4f6",
+                "secondary-container": "#b8dffd",
+                "inverse-on-surface": "#ecf1f6",
+                "surface-container-low": "#eff4f9",
+                "on-primary": "#ffffff",
+                "outline-variant": "#c4c6cc",
+                "on-error-container": "#93000a",
+                "surface-dim": "#d5dbe0",
+                "tertiary-fixed": "#ffdea2",
+                "inverse-primary": "#bac8d9",
+                "surface-container-lowest": "#ffffff",
+                "inverse-surface": "#2c3135",
+                "tertiary-container": "#483507",
+                "on-error": "#ffffff",
+                "tertiary-fixed-dim": "#e1c388",
+                "error": "#ba1a1a",
+                "surface-container-highest": "#dee3e8",
+                "on-primary-fixed-variant": "#3b4856",
+                "error-container": "#ffdad6",
+                "on-tertiary-fixed-variant": "#594415",
+                "on-secondary-fixed-variant": "#224b64",
+                "on-secondary": "#ffffff",
+                "surface-container": "#e9eef3",
+                "on-tertiary-fixed": "#261900",
+                "outline": "#74777c",
+                "primary-fixed-dim": "#bac8d9",
+                "on-secondary-container": "#3d637d",
+                "on-tertiary-container": "#ba9e66",
+                "primary-container": "#2c3947",
+                "surface-bright": "#f5faff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-desktop": "64px",
+                "stack-lg": "32px",
+                "margin-mobile": "20px",
+                "max-width": "1280px",
+                "stack-md": "16px",
+                "gutter": "24px",
+                "stack-sm": "8px"
+        },
+        "fontFamily": {
+                "display-md": [
+                        "Fraunces"
+                ],
+                "body-lg": [
+                        "IBM Plex Sans"
+                ],
+                "display-lg": [
+                        "Fraunces"
+                ],
+                "label-technical": [
+                        "IBM Plex Mono"
+                ],
+                "body-md": [
+                        "IBM Plex Sans"
+                ],
+                "headline-sm": [
+                        "Fraunces"
+                ],
+                "display-lg-mobile": [
+                        "Fraunces"
+                ],
+                "label-caps": [
+                        "IBM Plex Mono"
+                ]
+        },
+        "fontSize": {
+                "display-md": [
+                        "32px",
+                        {
+                                "lineHeight": "35px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "29px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "48px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-technical": [
+                        "13px",
+                        {
+                                "lineHeight": "18px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-sm": [
+                        "24px",
+                        {
+                                "lineHeight": "29px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "38px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "17px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .shadow-subtle {
+            box-shadow: 0 4px 20px rgba(44, 57, 71, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-[#E8EDF2] text-[#171c20] font-body-md min-h-screen flex flex-col md:flex-row">
+<!-- TopNavBar (Mobile Only) -->
+<header class="md:hidden w-full px-margin-mobile py-4 bg-[#E8EDF2] shadow-[0_4px_20px_rgba(44,57,71,0.05)] flex justify-between items-center sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKguiOoz-valXD7rBS_rBmt98U_VFqNFtPcFZ9O0xv83n2qCqDpNTqVTGEBDKmfNIoXZAp77fo89FoziyuWL9l_P8y8UwWg2CHtaoAM_jPO3fi9G-_JEz8nB8Fn0npobSqk3grGUuTQf0E3-FUaZanZw8Dk7OktXNI3p3ia45I1IyPLqCry6dZdqpi8-mdTjiG3HCO3p9L0WlcvELVk-aYbVh1VD8GhlRfzo4fJ5qXCq_IzFyYb-B1U79XwydL8gdIcMM" alt="Maybe Later Logo" class="w-full h-full object-cover"></div>
+<div class="font-display-md text-display-md font-bold text-[#2C3947] dark:text-[#d6e4f6]">Maybe Later</div>
+</div>
+<button class="text-[#2C3947] p-2">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex flex-col w-[280px] h-screen fixed left-0 top-0 bg-[#E8EDF2] dark:bg-[#ffffff] shadow-[0_4px_20px_rgba(44,57,71,0.05)] py-stack-lg px-gutter gap-stack-md z-40 border-r border-[#2C3947]/10">
+<div class="mb-stack-lg flex items-center gap-3">
+<div class="w-10 h-10 overflow-hidden flex-shrink-0 rounded-full"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp99595XPT203ycmYZ6-4p-jzvjicvCOIm8qJCFELB8RA1ErhMw6cFrMGvY60gkzGBlvL7I5DGK_aeGKIha0FqcTakZszEGiurD7ZMiS5oI1KvLl4XcgOldhaI7AaEAYMZP6H_mCcZrSjNopU4gL5-xCy5XYvgsfatSzCOGcfHBwCoyZzw6B5146cvl5h9ctXqDxYJlZrt3prXwdOjyZLHbUcJp8WYv7oAQiOSsVESHxGzZ7D1cA_RFhjvGsnD3Cs-GAE" alt="Maybe Later Logo" class="w-full h-full object-cover"></div>
+<div>
+<h1 class="font-display-md text-display-md font-bold text-[#2C3947] dark:text-[#d6e4f6] mb-1">Maybe Later</h1>
+<p class="font-label-technical text-label-technical text-[#44474c]">Personal Archive</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-body-md text-body-md">Gallery</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
+<span class="font-body-md text-body-md">Collections</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-body-md text-body-md">Needs Review</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 bg-[#547A95]/15 dark:bg-[#483507] text-[#547A95] dark:text-[#ba9e66] font-semibold rounded-lg cursor-pointer active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+<span class="font-body-md text-body-md">Duplicates</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="move_to_inbox">move_to_inbox</span>
+<span class="font-body-md text-body-md">Import</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">All Items</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+<span class="font-body-md text-body-md">Favorites</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="notification_important">notification_important</span>
+<span class="font-body-md text-body-md">Unorganized</span>
+</a>
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto pt-stack-md border-t border-[#2C3947]/10">
+<a class="flex items-center gap-3 py-2 px-3 rounded text-[#44474c] hover:text-[#2C3947] dark:hover:text-[#d6e4f6] hover:bg-[#dee3e8] dark:hover:bg-[#dee3e8] transition-colors duration-200 cursor-pointer active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-label-technical text-label-technical">user@example.com</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[280px] bg-[#E8EDF2] min-h-screen">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg md:py-margin-desktop">
+<!-- Page Header -->
+<header class="mb-stack-lg flex justify-between items-end">
+<div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-[#2C3947] mb-2">NEW: Duplicates - Maybe Later (Final)</h1>
+<p class="font-body-lg text-body-lg text-[#44474c]">We found a few things that look familiar.</p>
+</div>
+<div class="hidden md:flex items-center gap-2">
+<span class="px-3 py-1 bg-[#e4e9ee] rounded text-[#171c20] font-label-technical text-label-technical border border-[#2C3947]/10">2 Groups Found</span>
+</div>
+</header>
+<!-- Duplicates Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-gutter mb-margin-desktop">
+<!-- Duplicate Group Card 1 -->
+<article class="bg-[#F6F8FA] rounded-xl p-stack-md shadow-sm border border-[#2C3947]/10 flex flex-col gap-stack-md">
+<div class="flex justify-between items-center border-b border-[#2C3947]/10 pb-stack-sm">
+<h2 class="font-label-caps text-label-caps text-[#2C3947] tracking-wider uppercase">Duplicate Group #1</h2>
+<span class="font-label-technical text-label-technical text-[#171c20] bg-[#C2A56D] rounded px-2 py-0.5 font-medium">2 Items • 98% Similarity</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-stack-md">
+<!-- Mini-Browser Frame 1 -->
+<div class="flex-1 border border-[#2C3947]/10 rounded overflow-hidden bg-[#ffffff] group cursor-pointer">
+<div class="bg-[#2c3947] h-6 flex items-center px-2 gap-1.5 opacity-90">
+<div class="w-2.5 h-2.5 rounded-full bg-[#ba1a1a] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#C2A56D] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#a5cbe9] opacity-40"></div>
+</div>
+<div class="aspect-square relative overflow-hidden bg-[#E8EDF2]">
+<img class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A vintage, beautifully lit photograph of a mid-century modern chair in a minimalist living room. Sunlight streaming through large windows creates soft, warm shadows. The color palette is composed of natural wood tones, crisp whites, and a pop of muted olive green. High-resolution editorial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDdnBotONlATMITHCQytp9jIAF_vJTWXxIionHuRJB2CXViES7CA9pycP5xAdK6G1xWtV0lWk3R0h2Qcrxdj-JOBBPV4L5PRHW6-fYQhP6C7id7SO7vR1Y20ikxNYBxFGqWYs_4ZWzeoyQFCLfgU4OoJtKK29pKd70lZIx__PEuQFu6C8t9x-1CeIa3I8Kq1OkJr4K_YwAuoUuryEL5lk2x4ys1MwokrwD3uqrvYAAHbQy_AStgSq-fg">
+</div>
+<div class="p-2 border-t border-[#2C3947]/10 bg-[#F6F8FA]">
+<p class="font-label-technical text-label-technical text-[#44474c] truncate">Captured: Oct 12, 2023</p>
+</div>
+</div>
+<!-- Mini-Browser Frame 2 -->
+<div class="flex-1 border border-[#2C3947]/10 rounded overflow-hidden bg-[#ffffff] group cursor-pointer ring-2 ring-[#2C3947]/20">
+<div class="bg-[#2c3947] h-6 flex items-center px-2 gap-1.5 opacity-90">
+<div class="w-2.5 h-2.5 rounded-full bg-[#ba1a1a] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#C2A56D] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#a5cbe9] opacity-40"></div>
+</div>
+<div class="aspect-square relative overflow-hidden bg-[#E8EDF2]">
+<img class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A vintage, beautifully lit photograph of a mid-century modern chair in a minimalist living room, slightly different angle than previous. Sunlight streaming through large windows creates soft, warm shadows. The color palette is composed of natural wood tones, crisp whites, and a pop of muted olive green. High-resolution editorial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm0XpD77c0r25OP6C0dMKSUeacN9D-CW-h5JGk4Q5bigKTEjQcf9BafOsBlbOO-3hh259ZBoSizv3TWiqWAcULhedXJUDFuWJnDjM92stykqqijFVo_4KJ5lo6hx51BinwdKxCq1t-EVSHO1KQfdGXDKCbVdI_-M3AwSWguKiau0sRoWWdPEvk5BVca3v6hcwV5yZaOBA0RaRmc7k0V5uPgwIF6V_JGFjliPxBc3XFJBv0u44KUclpfw">
+<div class="absolute top-2 right-2 bg-[#C2A56D] text-[#171c20] px-2 py-0.5 rounded font-label-technical text-label-technical font-medium text-[10px]">Higher Res</div>
+</div>
+<div class="p-2 border-t border-[#2C3947]/10 bg-[#F6F8FA] flex justify-between items-center">
+<p class="font-label-technical text-label-technical text-[#44474c] truncate">Captured: Oct 14, 2023</p>
+<span class="material-symbols-outlined text-[#2C3947] text-[16px]" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 justify-end mt-auto pt-stack-sm">
+<button class="px-4 py-2 rounded border border-[#2C3947]/20 text-[#2C3947] font-body-md text-body-md hover:bg-[#2C3947]/5 transition-colors">Keep Both</button>
+<button class="px-4 py-2 rounded bg-[#2C3947] text-[#ffffff] font-body-md text-body-md hover:bg-[#2C3947]/90 transition-colors">Keep Selection &amp; Archive Other</button>
+</div>
+</article>
+<!-- Duplicate Group Card 2 -->
+<article class="bg-[#F6F8FA] rounded-xl p-stack-md shadow-sm border border-[#2C3947]/10 flex flex-col gap-stack-md">
+<div class="flex justify-between items-center border-b border-[#2C3947]/10 pb-stack-sm">
+<h2 class="font-label-caps text-label-caps text-[#2C3947] tracking-wider uppercase">Duplicate Group #2</h2>
+<span class="font-label-technical text-label-technical text-[#171c20] bg-[#C2A56D] rounded px-2 py-0.5 font-medium">2 Items • 95% Similarity</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-stack-md">
+<!-- Mini-Browser Frame 1 -->
+<div class="flex-1 border border-[#2C3947]/10 rounded overflow-hidden bg-[#ffffff] group cursor-pointer ring-2 ring-[#2C3947]/20">
+<div class="bg-[#2c3947] h-6 flex items-center px-2 gap-1.5 opacity-90">
+<div class="w-2.5 h-2.5 rounded-full bg-[#ba1a1a] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#C2A56D] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#a5cbe9] opacity-40"></div>
+</div>
+<div class="aspect-square relative overflow-hidden bg-[#E8EDF2]">
+<img class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A macro shot of intricate typography on a textured, off-white paper stock. The ink is a deep, rich navy blue. Shallow depth of field highlights a specific letterform. Soft, diffused studio lighting creates a sophisticated, premium print aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCljpoFRyCenajXMlGfDCH1tdutZnxiVhRsekDFQ-fMQ8Eg9WKcKD_RI1BNLeFgliMFtDKqThttLr-Bw9HJ5rauD1K5fk9qzHtMpvibWj-B7qDGFi8SULhn8Fdsw5lepb5JuLriRpoXoKFfz1kaaD0ZgPL5ZXXImPmkV4VjXkFogS528knJzxQcmJkEK1C8QrQfPGettdTDRSER4G9r8LdzAj57z51UNVAOcaTC86_i2kzAqbeEwhnfdw">
+</div>
+<div class="p-2 border-t border-[#2C3947]/10 bg-[#F6F8FA] flex justify-between items-center">
+<p class="font-label-technical text-label-technical text-[#44474c] truncate">Source: Web Clipper</p>
+<span class="material-symbols-outlined text-[#2C3947] text-[16px]" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+<!-- Mini-Browser Frame 2 -->
+<div class="flex-1 border border-[#2C3947]/10 rounded overflow-hidden bg-[#ffffff] group cursor-pointer">
+<div class="bg-[#2c3947] h-6 flex items-center px-2 gap-1.5 opacity-90">
+<div class="w-2.5 h-2.5 rounded-full bg-[#ba1a1a] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#C2A56D] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#a5cbe9] opacity-40"></div>
+</div>
+<div class="aspect-square relative overflow-hidden bg-[#E8EDF2]">
+<img class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 blur-[1px]" data-alt="A slightly darker, lower resolution macro shot of intricate typography on a textured paper stock. The ink is a deep navy blue. Shallow depth of field. Soft, diffused studio lighting creates a sophisticated aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqx3OixyqnwUrzG1G9lbrhgwdUduX5g8wmN4uKzXhOJ04-MzJ2QOfLg6cC1fcqQtO7iUocFbPAj8vOU0r864pjH82Wnp7sVCbFTC8KblHHpdTwnV8CI63mekvjB8PEtZmOPnRtM2wMFcxoUDgXKqh2LiTRpCKJLVkHvB1EyLT8q5YiOokCZTJJM9EyrQfqbSn4dCGSORZiUDJ4ADxd9Ny4vwQCXiJ7WHAPdxzrnmvM85m-Kn1W4nKHZg">
+<div class="absolute inset-0 bg-[#2C3947]/5"></div>
+</div>
+<div class="p-2 border-t border-[#2C3947]/10 bg-[#F6F8FA]">
+<p class="font-label-technical text-label-technical text-[#44474c] truncate">Source: Manual Upload</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 justify-end mt-auto pt-stack-sm">
+<button class="px-4 py-2 rounded border border-[#2C3947]/20 text-[#2C3947] font-body-md text-body-md hover:bg-[#2C3947]/5 transition-colors">Keep Both</button>
+<button class="px-4 py-2 rounded bg-[#2C3947] text-[#ffffff] font-body-md text-body-md hover:bg-[#2C3947]/90 transition-colors">Keep Selection &amp; Archive Other</button>
+</div>
+</article>
+</div>
+</div>
+</main>
+
+
+</body></html>

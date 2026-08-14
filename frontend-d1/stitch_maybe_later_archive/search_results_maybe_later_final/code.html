@@ -1,0 +1,335 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title class="">NEW: Search Results - Maybe Later (Final)</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;family=IBM+Plex+Mono:ital,wght@0,100..700;1,100..700&amp;family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#c4c6cc",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#bac8d9",
+                    "on-surface": "#171c20",
+                    "on-tertiary-fixed-variant": "#594415",
+                    "inverse-on-surface": "#ecf1f6",
+                    "on-primary-container": "#95a2b3",
+                    "on-primary-fixed-variant": "#3b4856",
+                    "surface-container-highest": "#dee3e8",
+                    "on-surface-variant": "#44474c",
+                    "secondary-fixed": "#c8e6ff",
+                    "inverse-surface": "#2c3135",
+                    "error": "#ba1a1a",
+                    "background": "#f5faff",
+                    "tertiary-container": "#483507",
+                    "surface-variant": "#dee3e8",
+                    "surface-container": "#e9eef3",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#001e2e",
+                    "tertiary-fixed": "#ffdea2",
+                    "on-secondary-container": "#3d637d",
+                    "primary-container": "#2c3947",
+                    "primary-fixed": "#d6e4f6",
+                    "secondary": "#3c627c",
+                    "on-background": "#171c20",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#b8dffd",
+                    "surface-bright": "#f5faff",
+                    "primary-fixed-dim": "#bac8d9",
+                    "surface": "#f5faff",
+                    "tertiary": "#2f2000",
+                    "on-primary": "#ffffff",
+                    "primary": "#162431",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#d5dbe0",
+                    "on-tertiary-container": "#ba9e66",
+                    "surface-tint": "#52606f",
+                    "tertiary-fixed-dim": "#e1c388",
+                    "secondary-fixed-dim": "#a5cbe9",
+                    "outline": "#74777c",
+                    "on-tertiary-fixed": "#261900",
+                    "surface-container-low": "#eff4f9",
+                    "surface-container-high": "#e4e9ee",
+                    "on-secondary-fixed-variant": "#224b64",
+                    "on-primary-fixed": "#0f1d2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "container-max": "1280px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "stack-sm": "8px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Fraunces"],
+                    "body-md": ["IBM Plex Sans"],
+                    "headline-sm": ["Fraunces"],
+                    "body-lg": ["IBM Plex Sans"],
+                    "display-md": ["Fraunces"],
+                    "label-caps": ["IBM Plex Mono"],
+                    "display-lg": ["Fraunces"],
+                    "label-technical": ["IBM Plex Mono"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.05", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-md": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-technical": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .ocr-highlight {
+            background-color: rgba(194, 165, 109, 0.2);
+            color: #C2A56D; /* Warm Gold accent */
+            padding: 0 2px;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+        
+        /* Custom scrollbar for masonry view */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(22, 36, 49, 0.1); /* Primary with opacity */
+            border-radius: 4px;
+        }
+        
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 24px;
+        }
+        
+        @media (min-width: 768px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+        
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 32px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
+<!-- Mobile Top Navigation (Visible only on mobile) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile py-4 bg-surface border-b border-primary/10 sticky top-0 z-50">
+<div class="flex items-center gap-2"><img alt="Maybe Later Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdhplPkmHG57Nv4zKXVEiyEKde7SsPCSsW8Zbv3wg0rIcFF1JcnGEmtl09oM3YkB54xkT2Tv5QfTZbvJ8dkYIZLA-cRzH9VFUKtllRV89HMhfPm20H667tOKrqhJOLYAPgD2ZMzZ6OOqBylrY4OF4qJN-bq_HI98FOcizO9wBCSbTGzHvgqH8kzw0mP3FB-gprOomas2mxDVG-DA4b2Y0XQirsI4rb0KACaTwNtSazkV-9HP60SyZsozGShDyNBWVR3i8"><div class="font-display-md text-display-md font-bold text-primary">Maybe Later</div></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</header>
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 py-stack-lg px-8 gap-stack-md bg-surface-container-low border-r border-primary/10 z-40">
+<!-- Brand -->
+<div class="flex items-center gap-3 mb-stack-lg"><img alt="Maybe Later Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCykX2kWqTH8_A6h4D3H4wOZiInyqorathVdRenXcIfHJCGbhL3IECJIEymWEOARa5DK-C0hJB8WmXgcAZv3mRXv6D4Wbb-kivSIMflUCEe7I5F9zD6OKnRV8iZmZlwb_hVnmU9L_dBSIURjzSVP28gSK3mXNJu5azZ6XTDyZEEP4QlYTGVDRZ4gUr_wLhmfhg2b_5QjEVeJpSLMJ6FwfljzcxfSGU_B-pKfzFzGuCn99k5lezXgRa-AJnNLCwZJUMMbNQ"><div class="font-display-md text-display-md text-primary">Maybe Later</div></div>
+<div class="font-label-technical text-label-technical text-on-surface-variant mb-stack-md uppercase tracking-widest opacity-70">Your Archive</div>
+<!-- Navigation Links -->
+<ul class="flex flex-col gap-4 flex-1">
+<!-- Active state semantic matching: Since this is a search page, "All Items" is the closest logical parent container for search results -->
+<li class="flex items-center gap-3 font-body-md text-body-md text-primary font-bold cursor-pointer active:translate-x-1 transition-transform group">
+<span class="material-symbols-outlined text-primary" data-icon="grid_view" data-weight="fill" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="">All Items</span>
+</li>
+<li class="flex items-center gap-3 font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:translate-x-1 transition-transform group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="star">star</span>
+<span class="">Favorites</span>
+</li>
+<li class="flex items-center gap-3 font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:translate-x-1 transition-transform group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="inventory_2">inventory_2</span>
+<span class="">Unorganized</span>
+</li>
+</ul>
+<!-- Footer Links -->
+<ul class="flex flex-col gap-4 mt-auto pt-stack-lg border-t border-primary/10">
+<li class="flex items-center gap-3 font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:translate-x-1 transition-transform group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="help_outline">help_outline</span>
+<span class="">Support</span>
+</li>
+<li class="flex items-center gap-3 font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer active:translate-x-1 transition-transform group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="lock">lock</span>
+<span class="">Privacy</span>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 px-margin-mobile md:px-margin-desktop py-stack-lg md:py-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Search Header Section -->
+<header class="mb-stack-lg flex flex-col gap-stack-md">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-technical text-label-technical">
+<a class="hover:text-primary transition-colors" href="#">Library</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary font-medium">Search</span>
+</div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary">Search results</h1>
+<!-- Search Input (Active State) -->
+<div class="relative w-full max-w-2xl mt-4">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-primary ml-2">search</span>
+<input class="w-full bg-transparent border-0 border-b-2 border-primary text-primary font-body-lg text-body-lg pl-10 pr-10 py-3 focus:ring-0 focus:border-primary focus:-translate-y-[2px] transition-all placeholder:text-outline outline-none" placeholder="Search archive..." type="text" value="linear">
+<button class="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors mr-2 cursor-pointer">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-2 uppercase tracking-widest">
+                14 results found
+            </div>
+</header>
+<!-- Results Grid (Masonry Layout) -->
+<div class="masonry-grid mt-stack-lg">
+<!-- Result Card 1 (OCR Match) -->
+<div class="masonry-item bg-surface-container-lowest rounded-lg border border-primary/10 overflow-hidden hover:shadow-[0_4px_20px_rgba(44,57,71,0.05)] transition-shadow duration-300 group cursor-pointer">
+<!-- Mini Browser Header -->
+<div class="h-8 bg-primary w-full flex items-center px-3 gap-1.5 border-b border-primary/20">
+<div class="w-2.5 h-2.5 rounded-full bg-error opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#fbbc04] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#34a853] opacity-40"></div>
+</div>
+<!-- Image Container -->
+<div class="relative w-full overflow-hidden bg-surface-container-low aspect-[4/3]">
+<img class="w-full h-full object-cover mix-blend-multiply group-hover:scale-[1.02] transition-transform duration-500 ease-out" data-alt="A clean, minimalist UI screenshot of a project management tool. The interface features a dark mode aesthetic with crisp sans-serif typography, subtle grid lines, and small geometric icons. A prominent task list is visible in the center column. The overall lighting is flat and digital, highlighting the precision of the layout in a sophisticated, modern software environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7O6M2xqejZB8k1Y71-h0Wmf6lvnug5TlEYZKzd2jihtcc2v4fsiwsfx0zin3VtIq-JjVt1zzHu_A7-_JEbb2OIUlcddMIQ8s6wgn4a_sJASnchK1TgbA8xiHjYa3PFbdHO-D2Wq0NqlavKB5IhEtYlO7-jXVap4uA5QFLYf51Ech7_1qS5YHeXTGkBJKQFIo5mVSBojTMIFGiwWYT5-8rI41encUUiXxxzWX5DZSdIcVy8ijvXq238A">
+</div>
+<!-- Content / Metadata -->
+<div class="p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">document_scanner</span>
+                            OCR MATCH
+                        </span>
+<span class="font-label-technical text-label-technical text-outline">Oct 12, 2023</span>
+</div>
+<!-- OCR Snippet -->
+<p class="font-body-md text-body-md text-on-surface line-clamp-3 leading-relaxed border-l-2 border-primary/10 pl-3 italic text-sm">
+                        "...integration with <span class="ocr-highlight">linear</span> to sync issues and epics automatically across your workspace..."
+                    </p>
+<!-- Tags -->
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-1 rounded">UI Design</span>
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-1 rounded">SaaS</span>
+</div>
+</div>
+</div>
+<!-- Result Card 2 (Tag Match) -->
+<div class="masonry-item bg-surface-container-lowest rounded-lg border border-primary/10 overflow-hidden hover:shadow-[0_4px_20px_rgba(44,57,71,0.05)] transition-shadow duration-300 group cursor-pointer">
+<div class="h-8 bg-primary w-full flex items-center px-3 gap-1.5 border-b border-primary/20">
+<div class="w-2.5 h-2.5 rounded-full bg-error opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#fbbc04] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#34a853] opacity-40"></div>
+</div>
+<div class="relative w-full overflow-hidden bg-surface-container-low aspect-square">
+<img class="w-full h-full object-cover mix-blend-multiply group-hover:scale-[1.02] transition-transform duration-500 ease-out" data-alt="A sophisticated web design moodboard featuring abstract geometric patterns, muted pastel color palettes, and elegant serif typography specimens. The layout is asymmetrical and heavily relies on negative space, resembling a high-end editorial spread. The lighting is soft and diffused, creating a calm, gallery-like atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCRfBM2xheTYjALaluKkZhGTFi6WzcJ-MRQ_xCecc1T_KzbAvqIK9CpJZsA9OUzLtzUSZWQn_frWgpcDccWgA6abO_o1Wxqj0gkVNq4bwCl9zXaYuwRTGT-vmEwDSZz_mPLLFityazlBIiTzQIDNVnO7A9vm_DqerZVbCcpRrW0jJo2RZR8Xs7c6w1enQwx4-K4zXc3sZWgw0b_1oakXV3o86VtnBivIWRYogSn2m8tL-GIDh_lR3khQ">
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">sell</span>
+                            TAG MATCH
+                        </span>
+<span class="font-label-technical text-label-technical text-outline">Sep 28, 2023</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Moodboard Concept Alpha</h3>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-1 rounded border border-secondary/30 bg-secondary/20 font-medium">linear</span>
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-1 rounded">Inspiration</span>
+</div>
+</div>
+</div>
+<!-- Result Card 3 (Title Match) -->
+<div class="masonry-item bg-surface-container-lowest rounded-lg border border-primary/10 overflow-hidden hover:shadow-[0_4px_20px_rgba(44,57,71,0.05)] transition-shadow duration-300 group cursor-pointer">
+<div class="h-8 bg-primary w-full flex items-center px-3 gap-1.5 border-b border-primary/20">
+<div class="w-2.5 h-2.5 rounded-full bg-error opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#fbbc04] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#34a853] opacity-40"></div>
+</div>
+<div class="relative w-full overflow-hidden bg-surface-container-low aspect-[3/4]">
+<img class="w-full h-full object-cover mix-blend-multiply group-hover:scale-[1.02] transition-transform duration-500 ease-out" data-alt="A detailed wireframe sketch of a complex mobile application interface on dotted grid paper. The lines are precise and technical, drawn with a fine-tip black pen. Annotations in small, neat handwriting surround the UI elements. The lighting mimics natural daylight falling across a wooden desk surface, emphasizing the tactile quality of the paper." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBliQEsm3z44HFOGRFvDKwomrYukGUcVJ_qCffrQmNeYa64gzQNfoXkHaV8prX4aG0xfdKqBo1FAxWDYiebk40kSONL4phu1zjfx-Qf7Bto_EPiqKHMM3YxRJ6QayR7WrKvCc7ugLMVp_IvFWQVjFSSZpRxFkzUPN8BNeQr2-5RFFGzv7vjHqpza_zsslV8rhh7gKWj4pXXiwu0zuszT7DFr-T2-v5K0NpHMOWZ2SVeAKdYi8jq5R633w">
+</div>
+<div class="p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<span class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">title</span>
+                            TITLE MATCH
+                        </span>
+<span class="font-label-technical text-label-technical text-outline">Aug 15, 2023</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary leading-tight">Notes on <span class="ocr-highlight bg-transparent px-0 underline decoration-[#C2A56D] decoration-2 underline-offset-4">Linear</span> App Redesign</h3>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-1 rounded">Wireframes</span>
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-1 rounded">UX</span>
+</div>
+</div>
+</div>
+<!-- Add a few more skeleton-like items to suggest 14 results -->
+<div class="masonry-item bg-surface-container-lowest rounded-lg border border-primary/10 overflow-hidden hover:shadow-[0_4px_20px_rgba(44,57,71,0.05)] transition-shadow duration-300 group cursor-pointer opacity-80">
+<div class="h-8 bg-primary w-full flex items-center px-3 gap-1.5 border-b border-primary/20">
+<div class="w-2.5 h-2.5 rounded-full bg-error opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#fbbc04] opacity-40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#34a853] opacity-40"></div>
+</div>
+<div class="relative w-full overflow-hidden bg-surface-container-low aspect-video flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-4xl opacity-50" data-icon="image">image</span>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<span class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">OCR MATCH</span>
+<div class="h-4 bg-surface-variant rounded w-3/4"></div>
+<div class="h-4 bg-surface-variant rounded w-1/2"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Visible only on mobile, suppressed side nav replacement) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-primary/10 flex justify-around items-center py-3 z-50 shadow-[0_-4px_20px_rgba(44,57,71,0.05)]">
+<!-- Replicating the logic from the side nav: All Items is active for search context -->
+<div class="flex flex-col items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-primary" data-icon="grid_view" data-weight="fill" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-label-caps text-[10px] text-primary font-bold">All Items</span>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="star">star</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">Favorites</span>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">Unorganized</span>
+</div>
+</nav>
+
+
+</body></html>

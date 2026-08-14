@@ -1,0 +1,403 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NEW Maybe Later - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "secondary": "#547A95",
+                "tertiary": "#C2A56D",
+                "on-primary-fixed": "#0f1d2a",
+                "on-secondary-fixed": "#001e2e",
+                "on-tertiary": "#ffffff",
+                "on-surface-variant": "#44474c",
+                "secondary-fixed-dim": "#a5cbe9",
+                "on-surface": "#171c20",
+                "on-background": "#171c20",
+                "surface-variant": "#dee3e8",
+                "secondary-fixed": "#c8e6ff",
+                "surface-tint": "#52606f",
+                "surface-container-high": "#e4e9ee",
+                "on-primary-container": "#95a2b3",
+                "primary-fixed": "#d6e4f6",
+                "secondary-container": "#b8dffd",
+                "inverse-on-surface": "#ecf1f6",
+                "surface-container-low": "#eff4f9",
+                "on-primary": "#ffffff",
+                "outline-variant": "#c4c6cc",
+                "on-error-container": "#93000a",
+                "surface-dim": "#d5dbe0",
+                "surface-card": "#F6F8FA",
+                "tertiary-fixed": "#ffdea2",
+                "inverse-primary": "#bac8d9",
+                "surface-container-lowest": "#ffffff",
+                "inverse-surface": "#2c3135",
+                "tertiary-container": "#483507",
+                "on-error": "#ffffff",
+                "background": "#E8EDF2",
+                "tertiary-fixed-dim": "#e1c388",
+                "error": "#ba1a1a",
+                "primary": "#2C3947",
+                "surface-container-highest": "#dee3e8",
+                "on-primary-fixed-variant": "#3b4856",
+                "error-container": "#ffdad6",
+                "on-tertiary-fixed-variant": "#594415",
+                "on-secondary-fixed-variant": "#224b64",
+                "on-secondary": "#ffffff",
+                "surface-container": "#e9eef3",
+                "on-tertiary-fixed": "#261900",
+                "outline": "#74777c",
+                "surface": "#E8EDF2",
+                "primary-fixed-dim": "#bac8d9",
+                "on-secondary-container": "#3d637d",
+                "on-tertiary-container": "#ba9e66",
+                "primary-container": "#2c3947",
+                "surface-bright": "#f5faff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-desktop": "64px",
+                "stack-lg": "32px",
+                "margin-mobile": "20px",
+                "max-width": "1280px",
+                "stack-md": "16px",
+                "gutter": "24px",
+                "stack-sm": "8px"
+        },
+        "fontFamily": {
+                "display-md": [
+                        "Fraunces"
+                ],
+                "body-lg": [
+                        "IBM Plex Sans"
+                ],
+                "display-lg": [
+                        "Fraunces"
+                ],
+                "label-technical": [
+                        "IBM Plex Mono"
+                ],
+                "body-md": [
+                        "IBM Plex Sans"
+                ],
+                "headline-sm": [
+                        "Fraunces"
+                ],
+                "display-lg-mobile": [
+                        "Fraunces"
+                ],
+                "label-caps": [
+                        "IBM Plex Mono"
+                ]
+        },
+        "fontSize": {
+                "display-md": [
+                        "32px",
+                        {
+                                "lineHeight": "35px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "29px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "48px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-technical": [
+                        "13px",
+                        {
+                                "lineHeight": "18px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-sm": [
+                        "24px",
+                        {
+                                "lineHeight": "29px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "38px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "17px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: theme('colors.outline-variant');
+            border-radius: 20px;
+            border: 2px solid theme('colors.surface-container-lowest');
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: theme('colors.outline-variant');
+            border-radius: theme('borderRadius.full');
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: theme('colors.primary');
+            cursor: pointer;
+            border: 2px solid theme('colors.on-primary');
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased h-screen overflow-hidden flex">
+<!-- Unified Sidebar Component -->
+<!-- The user is on the Settings page, so "Settings" is active -->
+<aside class="bg-surface-container-low dark:bg-surface-container-lowest shadow-[0_4px_20px_rgba(44,57,71,0.05)] w-[280px] h-screen fixed left-0 top-0 hidden md:flex flex-col py-stack-lg px-gutter gap-stack-md z-20 overflow-y-auto custom-scrollbar border-r border-primary/5">
+<!-- Header area -->
+<div class="mb-stack-lg flex items-center justify-between"><div class="flex items-center gap-3">
+  <div aria-label="Maybe Later logo" class="w-10 h-10 rounded-full overflow-hidden shrink-0 shadow-sm border border-primary/20"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIlUSqfl9LTKCtwvefhYb5rM5asbSIpWUEqGMmvH9_oMWRhUiAHrNFKbeYmGWbNuvNKZvXWI2XkhfLjRQsb7yGBvKXJR4wqZoPe6LjqmHEylpDDBnITBpAXGqkuMH0peCXnytxVvugQbQPPs6xy3XjillLkeIIwtxK0Wh3R2K1YAnSIiYQ5ZYM-IcsmfQjhk29GwalUVeh11vUWwEAChQGP9GXsH2F1OwyVpBoyouSO0xFyZfDd3MBpMVwhPvT6zVONTU" alt="Maybe Later Logo" class="w-full h-full object-cover rounded-full"></div>
+  <div>
+    <h1 class="font-display-md text-display-md font-bold text-primary dark:text-primary-fixed mb-1 tracking-tight">Maybe Later</h1>
+    <p class="font-label-technical text-label-technical text-on-surface-variant">Personal Archive</p>
+  </div>
+</div></div>
+<!-- CTA -->
+<button class="w-full py-3 px-4 bg-primary text-on-primary rounded-lg font-body-md text-body-md hover:bg-primary/90 transition-colors duration-200 mb-stack-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">add</span>
+            New Archive
+        </button>
+<!-- Navigation Tabs -->
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">grid_view</span>
+<span class="font-body-md text-body-md">Gallery</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">folder_special</span>
+<span class="font-body-md text-body-md">Collections</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">fact_check</span>
+<span class="font-body-md text-body-md">Needs Review</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">file_copy</span>
+<span class="font-body-md text-body-md">Duplicates</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">move_to_inbox</span>
+<span class="font-body-md text-body-md">Import</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">inventory_2</span>
+<span class="font-body-md text-body-md">All Items</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">star</span>
+<span class="font-body-md text-body-md">Favorites</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">notification_important</span>
+<span class="font-body-md text-body-md">Unorganized</span>
+</a>
+<!-- ACTIVE ITEM -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container font-semibold rounded-lg scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<!-- Footer -->
+<div class="mt-auto pt-stack-md border-t border-primary/10">
+<div class="flex items-center gap-3 px-2 py-2 text-on-surface-variant font-label-technical text-label-technical truncate">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">account_circle</span>
+<span class="">user@example.com</span>
+</div>
+</div>
+</aside>
+<!-- Mobile Nav (Bottom Bar) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-surface-container-lowest border-t border-primary/10 md:hidden flex justify-around items-center py-3 z-20 pb-[max(env(safe-area-inset-bottom),12px)] px-4">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">grid_view</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">folder_special</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">star</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-secondary-container bg-secondary-container px-4 py-1 rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">settings</span>
+</a>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-0 md:ml-[280px] h-full overflow-y-auto custom-scrollbar pt-stack-lg md:pt-margin-desktop px-margin-mobile md:px-margin-desktop pb-32 md:pb-margin-desktop">
+<div class="max-w-[800px] mx-auto w-full">
+<header class="mb-stack-lg border-b border-primary/10 pb-stack-lg">
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight">Settings</h2>
+</header>
+<div class="flex flex-col gap-stack-lg">
+<!-- Section 1: Account Info -->
+<section class="bg-surface-card border border-primary/10 rounded-xl p-stack-lg shadow-[0_4px_20px_rgba(44,57,71,0.02)]">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-stack-md flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: &quot;FILL&quot; 0;">person</span>
+                        Account Info
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="flex flex-col gap-2">
+<label class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Name</label>
+<input class="font-body-md text-body-md text-on-surface bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary px-0 py-2 transition-colors" readonly="" type="text" value="Archivist">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Email</label>
+<input class="font-body-md text-body-md text-on-surface bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary px-0 py-2 transition-colors" readonly="" type="email" value="archivist@example.com">
+</div>
+</div>
+</section>
+<!-- Section 2: Archive Threshold -->
+<section class="bg-surface-card border border-primary/10 rounded-xl p-stack-lg shadow-[0_4px_20px_rgba(44,57,71,0.02)]">
+<div class="flex justify-between items-end mb-stack-md">
+<h3 class="font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: &quot;FILL&quot; 0;">history_toggle_off</span>
+                            Rediscovery Threshold
+                        </h3>
+<span class="font-label-technical text-label-technical text-primary bg-secondary/10 px-3 py-1 rounded" id="threshold-val">60 days</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 max-w-lg">
+                        Items older than this threshold will be surfaced in your Rediscovery view so you can revisit them. Nothing is ever deleted automatically.
+                    </p>
+<div class="w-full relative py-4">
+<input class="w-full z-10 relative" id="threshold-slider" max="180" min="15" oninput="document.getElementById('threshold-val').innerText = this.value + ' days'" step="15" type="range" value="60">
+<div class="flex justify-between mt-2 font-label-technical text-label-technical text-on-surface-variant/50">
+<span class="">15</span>
+<span class="">90</span>
+<span class="">180</span>
+</div>
+</div>
+</section>
+<!-- Section 3: Category Management -->
+<section class="bg-surface-card border border-primary/10 rounded-xl p-stack-lg shadow-[0_4px_20px_rgba(44,57,71,0.02)]">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-stack-md flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: &quot;FILL&quot; 0;">category</span>
+                        Categories
+                    </h3>
+<div class="flex flex-col gap-2 mb-stack-md">
+<!-- Category Item 1 -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors group">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md text-on-surface">Inspiration</span>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button aria-label="Rename" class="p-2 text-on-surface-variant hover:text-primary transition-colors" title="Rename">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+</button>
+<button aria-label="Remove" class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Remove">
+<span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+</button>
+</div>
+</div>
+<!-- Category Item 2 -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors group">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md text-on-surface">Receipts</span>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button aria-label="Rename" class="p-2 text-on-surface-variant hover:text-primary transition-colors" title="Rename">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+</button>
+<button aria-label="Remove" class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Remove">
+<span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+</button>
+</div>
+</div>
+<!-- Category Item 3 -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors group">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md text-on-surface">Reading List</span>
+</div>
+<div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button aria-label="Rename" class="p-2 text-on-surface-variant hover:text-primary transition-colors" title="Rename">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+</button>
+<button aria-label="Remove" class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Remove">
+<span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Add Category -->
+<div class="flex gap-3 items-center mt-4 pt-4 border-t border-primary/10">
+<input class="flex-1 font-body-md text-body-md text-on-surface bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary px-0 py-2 transition-colors placeholder:text-on-surface-variant/50" placeholder="New Category Name" type="text">
+<button class="px-4 py-2 text-secondary font-label-technical text-label-technical uppercase tracking-wider border border-secondary rounded hover:bg-secondary/5 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span> Add
+                        </button>
+</div>
+</section>
+<!-- Section 4: Actions -->
+<section class="pt-stack-md pb-stack-lg">
+<button class="px-6 py-3 font-body-md text-body-md text-secondary border border-secondary rounded-lg hover:bg-secondary/5 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">logout</span>
+                        Log Out
+                    </button>
+</section>
+</div>
+</div>
+</main>
+
+
+</body></html>

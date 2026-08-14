@@ -1,0 +1,337 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Maybe Later - Rediscovery</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Config injected from Style Guidance -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container": "#e9eef3",
+                "surface-bright": "#f5faff",
+                "surface-container-lowest": "#ffffff",
+                "secondary": "#3c627c",
+                "outline": "#74777c",
+                "on-error-container": "#93000a",
+                "background": "#f5faff",
+                "on-tertiary-fixed-variant": "#594415",
+                "inverse-primary": "#bac8d9",
+                "error-container": "#ffdad6",
+                "surface-tint": "#52606f",
+                "surface-dim": "#d5dbe0",
+                "tertiary-container": "#483507",
+                "on-primary-fixed": "#0f1d2a",
+                "on-error": "#ffffff",
+                "on-surface-variant": "#44474c",
+                "tertiary": "#2f2000",
+                "primary-fixed-dim": "#bac8d9",
+                "on-primary-container": "#95a2b3",
+                "on-secondary-fixed-variant": "#224b64",
+                "surface-variant": "#dee3e8",
+                "surface": "#f5faff",
+                "primary": "#162431",
+                "error": "#ba1a1a",
+                "secondary-container": "#b8dffd",
+                "on-tertiary-container": "#ba9e66",
+                "tertiary-fixed-dim": "#e1c388",
+                "on-secondary-container": "#3d637d",
+                "surface-container-low": "#eff4f9",
+                "on-surface": "#171c20",
+                "primary-fixed": "#d6e4f6",
+                "on-primary": "#ffffff",
+                "primary-container": "#2c3947",
+                "on-tertiary": "#ffffff",
+                "on-background": "#171c20",
+                "inverse-surface": "#2c3135",
+                "outline-variant": "#c4c6cc",
+                "secondary-fixed": "#c8e6ff",
+                "on-tertiary-fixed": "#261900",
+                "on-secondary": "#ffffff",
+                "tertiary-fixed": "#ffdea2",
+                "on-secondary-fixed": "#001e2e",
+                "surface-container-highest": "#dee3e8",
+                "surface-container-high": "#e4e9ee",
+                "inverse-on-surface": "#ecf1f6",
+                "secondary-fixed-dim": "#a5cbe9",
+                "on-primary-fixed-variant": "#3b4856"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "stack-sm": "8px",
+                "margin-desktop": "64px",
+                "stack-lg": "32px",
+                "stack-md": "16px",
+                "container-max": "1280px",
+                "margin-mobile": "20px",
+                "gutter": "24px"
+        },
+        "fontFamily": {
+                "display-md": [
+                        "Fraunces"
+                ],
+                "display-lg-mobile": [
+                        "Fraunces"
+                ],
+                "display-lg": [
+                        "Fraunces"
+                ],
+                "body-lg": [
+                        "IBM Plex Sans"
+                ],
+                "label-caps": [
+                        "IBM Plex Mono"
+                ],
+                "headline-sm": [
+                        "Fraunces"
+                ],
+                "body-md": [
+                        "IBM Plex Sans"
+                ],
+                "label-technical": [
+                        "IBM Plex Mono"
+                ]
+        },
+        "fontSize": {
+                "display-md": [
+                        "32px",
+                        {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "display-lg-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "1.05",
+                                "fontWeight": "700"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "1.4",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-sm": [
+                        "24px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.5",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-technical": [
+                        "13px",
+                        {
+                                "lineHeight": "1.4",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md text-body-md h-screen flex overflow-hidden">
+<!-- Top Navigation (Mobile Only) -->
+<nav class="md:hidden bg-background dark:bg-primary flex justify-between items-center w-full px-margin-mobile h-20 border-b border-primary/10 dark:border-primary-fixed/10 absolute top-0 left-0 z-50 shadow-none">
+<div class="text-headline-sm font-headline-sm text-primary dark:text-primary-fixed">
+            Maybe Later
+        </div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-on-primary font-label-caps text-label-caps hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A macro photograph of aged parchment paper texture, illuminated by soft natural light. The mood is calm and archival, fitting a light-mode editorial design system with muted off-white and warm grey tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy0T7iPIPDtnLuiWvXpxDEGSLVUsFDhRZMsDQeMqRF2dyiSK8KosVQUFEwy7cbaksKAiKQA8HiCDdz3OVAdxC_BXaVkILm3HdWf2FjX88ST_yCRHlBe5X8xp_EzJM9677Pg9BzDt5NeWCLpof63i_mEgdC_V-ewWTZi6U67QF_jRsIkSiWI3SX_C5EmXpmma0fPcaCDffX6xSxCEAkmAin6f51_9UAv3Bt3vYjRfs-Qog7Oi0JWDMUoQ">
+</div>
+</div>
+</nav>
+<!-- Side Navigation (Desktop Only) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full flex-col p-6 gap-stack-lg bg-surface dark:bg-primary-container docked h-full left-0 w-64 border-r border-primary/10 shadow-none z-50">
+<!-- Header -->
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden shrink-0"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWUtxEjAea0SdLewISrLTUWXGNh8oFAVkQVR3t8F3axywF46xaGCa-RMQyUfmxsQ4BXp8r5oiL6UFHUMkdnM6gWKtk2TPHDZA8WnmhilMb7tKDOf5mfGS7oqLIDrMa5B-CavFyBZgRQPVe8JlmuI5hR1ToyS91dqfVnCP6ISCe1Ph5XsDu06Zpu_6p5aZVy0Pn5A3ZRqal2AlneRZ2qguRj5K75h0uoo9eEQFAFidXLYIJbTEo6kFhyMp-Iqu_ctPsZH4" alt="Maybe Later Logo" class="w-full h-full object-cover"></div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed leading-tight">Maybe Later</h1>
+<p class="font-label-technical text-label-technical text-on-surface-variant">Personal Archive</p>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full py-3 px-4 bg-primary text-on-primary rounded-lg font-body-md text-body-md font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+            Import Screenshot
+        </button>
+<!-- Main Links -->
+<div class="flex flex-col gap-2 mt-4 flex-grow">
+<!-- Active state maps to Unorganized for "Forgotten" section conceptually -->
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="archive" data-weight="fill">archive</span>
+<span class="font-body-md text-body-md">All Items</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="grade" data-weight="fill">grade</span>
+<span class="font-body-md text-body-md">Favorites</span>
+</a>
+<a class="flex items-center gap-4 text-primary dark:text-primary-fixed font-bold bg-secondary-container/30 dark:bg-secondary-container/10 rounded-lg px-4 py-2 transition-transform duration-150 scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="error" data-weight="fill" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="font-body-md text-body-md">Unorganized</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings" data-weight="fill">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="flex flex-col gap-2 border-t border-primary/10 pt-6">
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-technical text-label-technical">Support</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant dark:text-on-primary-container px-4 py-2 hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant/20 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">shield</span>
+<span class="font-label-technical text-label-technical">Privacy</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto h-full md:ml-64 pt-24 md:pt-0">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24">
+<!-- Page Header -->
+<header class="mb-stack-lg border-b border-primary/10 pb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
+<div class="max-w-2xl">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-stack-sm tracking-tight">NEW: Rediscovery - Maybe Later (Final)</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Items that have been resting in your archive. Time to revisit or release?</p>
+</div>
+<div class="shrink-0">
+<button class="px-6 py-2 border border-primary/20 rounded-lg font-body-md text-body-md text-primary hover:bg-primary/5 transition-colors">
+                        Release All Unorganized
+                    </button>
+</div>
+</header>
+<!-- 143 Days Ago Section -->
+<section class="mb-24">
+<div class="flex items-center justify-between mb-stack-md border-b border-primary/5 pb-2">
+<h2 class="font-headline-sm text-headline-sm text-primary flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+                        143 days ago
+                    </h2>
+<button class="text-secondary hover:text-primary font-label-caps text-label-caps transition-colors flex items-center gap-1">
+                        Review Group <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<article class="flex flex-col group">
+<!-- Mini Browser Frame -->
+<div class="bg-surface rounded-lg border border-primary/10 shadow-[0_4px_20px_rgba(44,57,71,0.05)] overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<!-- Title Bar -->
+<div class="h-8 bg-primary-container flex items-center px-3 gap-1.5 border-b border-primary/10">
+<div class="w-2.5 h-2.5 rounded-full bg-error/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim/40"></div>
+</div>
+<!-- Image Content -->
+<div class="aspect-[4/3] bg-surface-container-low relative">
+<img alt="Saved visual reference" class="w-full h-full object-cover" data-alt="A vintage modernist architectural interior with clean lines, soft natural light streaming through large windows, and a serene, empty atmosphere. High-end editorial photography style, muted tones of beige, warm grey, and off-white." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7VXnq29yDXUdcwL5FCkGTnKc4PfPsHl_bw5c_mnrBSNFZo3KCWyfBF3nwQhfotDHt5aruZX7VEPgcjcUP5vqtRk4MTuQd4d-Oz4gQO5deg51mLxZivbuW-n9AQu97XHEl7SWSnHWq4D3LwrHfFqpLL55JqJZXtr2pY_nA-3cX1XFTTJr2FYJ4bEYctq22wQWjErh5PFnQ0tVHFkUheRUH2dBB_faL71KqGKWleWMV2lR1XKUAyO1A-Q">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+</div>
+</div>
+<!-- Metadata -->
+<div class="mt-stack-sm px-1">
+<h3 class="font-body-md text-body-md text-primary font-medium truncate">Modernist Interior Study</h3>
+<p class="font-label-technical text-label-technical text-on-surface-variant mt-1">Oct 12, 2023 · Are.na</p>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="flex flex-col group">
+<!-- Mini Browser Frame -->
+<div class="bg-surface rounded-lg border border-primary/10 shadow-[0_4px_20px_rgba(44,57,71,0.05)] overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<!-- Title Bar -->
+<div class="h-8 bg-primary-container flex items-center px-3 gap-1.5 border-b border-primary/10">
+<div class="w-2.5 h-2.5 rounded-full bg-error/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim/40"></div>
+</div>
+<!-- Image Content -->
+<div class="aspect-[4/3] bg-surface-container-low relative">
+<img alt="Typography reference" class="w-full h-full object-cover" data-alt="A close-up macro shot of beautifully typeset sans-serif typography on textured, high-quality off-white paper. Editorial design aesthetic, soft diffused lighting, focusing on the sophisticated ink and paper relationship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBifYZVFAFjsCegQAZW7ATW5fB0E0wYwuDIkhETZ8-CUAkp3rNxqyQdqdiiqCOEWVvMde8kicmr1b5Ls2SDS61Xo25AlqSBhbeJ9947OTwKTCdVHzAyn7LH7jWobm8JPcoTAfuLatUGmdpOGGj5SDBU4qm0M3TpGyRX3YxK_IZBNe4K4fihL5ahUugtK6UN6hofTu-INCj3CNjlSsBWkBDwY2tGCDotKPxC_DR_l_ciBKZ9aVTLw8KHPg">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+</div>
+</div>
+<!-- Metadata -->
+<div class="mt-stack-sm px-1">
+<h3 class="font-body-md text-body-md text-primary font-medium truncate">Swiss Poster Typography</h3>
+<p class="font-label-technical text-label-technical text-on-surface-variant mt-1">Oct 10, 2023 · Pinterest</p>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="flex flex-col group hidden lg:flex">
+<!-- Mini Browser Frame -->
+<div class="bg-surface rounded-lg border border-primary/10 shadow-[0_4px_20px_rgba(44,57,71,0.05)] overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<!-- Title Bar -->
+<div class="h-8 bg-primary-container flex items-center px-3 gap-1.5 border-b border-primary/10">
+<div class="w-2.5 h-2.5 rounded-full bg-error/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim/40"></div>
+</div>
+<!-- Image Content -->
+<div class="aspect-[4/3] bg-surface-container-low relative">
+<img alt="Sculpture reference" class="w-full h-full object-cover" data-alt="Abstract minimalist ceramic sculptures resting on a matte, light grey surface. Soft, elegant shadows cast by gentle, diffuse light. The composition is calm, sophisticated, and reminiscent of high-end museum catalogs." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr0a7eBGba_TEt_eqom2W1RJyBZiyfGgIivzIrDFNJf6FeqNeCLOwYSMUTv-W0O0UZsBjVBoUFq82mCfqmBlatopGs3osrBxZhxzHsxT_lUPcH1GFH0jaZET3YmO7Ni8wIObclqG1bPl4XVDZCYO3R1QwFWBXJndqnjImeWTNaaxZ_dTJkyXmkfWFf5qFcVFTIOTekYmUyeo-1lrs4L5MyQzhTg7I92993Tti7ksveiBWPrR_yM2LS6w">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+</div>
+</div>
+<!-- Metadata -->
+<div class="mt-stack-sm px-1">
+<h3 class="font-body-md text-body-md text-primary font-medium truncate">Ceramic Form Studies</h3>
+<p class="font-label-technical text-label-technical text-on-surface-variant mt-1">Oct 08, 2023 · Instagram</p>
+</div>
+</article>
+</div>
+</section>
+</div>
+</main>
+
+
+</body></html>

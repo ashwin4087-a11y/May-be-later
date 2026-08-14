@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Maybe Later - Empty States</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Fraunces:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#191c1e",
+                      "secondary-container": "#b8dffd",
+                      "primary-fixed-dim": "#bac8d9",
+                      "on-secondary-fixed-variant": "#224b64",
+                      "error": "#ba1a1a",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed-dim": "#e1c388",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#f8f9fb",
+                      "surface-dim": "#d8dadc",
+                      "error-container": "#ffdad6",
+                      "tertiary": "#2f2000",
+                      "surface-container-highest": "#e0e3e5",
+                      "primary-fixed": "#d6e4f6",
+                      "on-error": "#ffffff",
+                      "on-background": "#191c1e",
+                      "inverse-primary": "#bac8d9",
+                      "on-secondary-fixed": "#001e2e",
+                      "on-primary-container": "#95a2b3",
+                      "surface-container": "#eceef0",
+                      "outline": "#74777c",
+                      "secondary-fixed-dim": "#a5cbe9",
+                      "surface-variant": "#e0e3e5",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f2f4f6",
+                      "on-tertiary-fixed": "#261900",
+                      "outline-variant": "#c4c6cc",
+                      "inverse-surface": "#2d3133",
+                      "surface-container-high": "#e6e8ea",
+                      "secondary-fixed": "#c8e6ff",
+                      "on-error-container": "#93000a",
+                      "secondary": "#3c627c",
+                      "on-tertiary-container": "#ba9e66",
+                      "on-primary-fixed-variant": "#3b4856",
+                      "surface": "#f8f9fb",
+                      "on-tertiary-fixed-variant": "#594415",
+                      "primary": "#162431",
+                      "on-primary-fixed": "#0f1d2a",
+                      "on-tertiary": "#ffffff",
+                      "primary-container": "#2c3947",
+                      "tertiary-container": "#483507",
+                      "on-secondary-container": "#3d637d",
+                      "on-surface-variant": "#44474c",
+                      "surface-tint": "#52606f",
+                      "background": "#E8EDF2",
+                      "tertiary-fixed": "#ffdea2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "stack-md": "16px",
+                      "stack-lg": "32px",
+                      "stack-sm": "8px",
+                      "sidebar-width": "280px",
+                      "container-max": "1280px",
+                      "margin-desktop": "64px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "IBM Plex Sans"
+                      ],
+                      "display-lg-mobile": [
+                              "Fraunces"
+                      ],
+                      "label-caps": [
+                              "IBM Plex Mono"
+                      ],
+                      "label-technical": [
+                              "IBM Plex Mono"
+                      ],
+                      "display-lg": [
+                              "Fraunces"
+                      ],
+                      "body-lg": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-sm": [
+                              "Fraunces"
+                      ],
+                      "display-md": [
+                              "Fraunces"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "36px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "17px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-technical": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "48px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "29px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "29px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "35px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-primary font-body-md min-h-screen flex">
+<!-- Sidebar Navigation -->
+<nav class="w-[280px] h-screen fixed left-0 top-0 bg-surface-container-low dark:bg-surface-container-lowest shadow-[0_4px_20px_rgba(44,57,71,0.05)] shadow-sm flex flex-col py-stack-lg px-gutter gap-stack-md hidden md:flex z-50">
+<div class="mb-stack-lg">
+<div class="flex items-center gap-3 mb-1"><img alt="Maybe Later Logo" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5uw-xvQp5hxa38UCPlOu0MMBxWNBWSvrxy_mv1v83fO6GZ5lv9oEW4wQbwcr0MdV5jBUSkn6WTudfHlIwIs5_IAZYXI9n0VfIcLlNvOYMA7jd5Lvmu7ukcB8Z4in-jHBlgOJFNbuIU6siZhb00zGAyXDnGAZhowCkmSe6hrmZx3Wiee81IsDrB75l6AiaojXrZBvwaq4hO9I-MT4FCPzizMO1-U2QuXoCh3JmQIxFTZiEG1TnrOyNgG_R5FrS-3hjEDk"><h1 class="font-display-md text-display-md font-bold text-primary dark:text-primary-fixed">Maybe Later</h1></div>
+<p class="font-label-technical text-label-technical text-on-surface-variant">&nbsp; &nbsp;Personal Archive</p>
+</div>
+<button class="bg-primary text-on-primary font-body-md py-3 px-4 rounded-lg w-full flex items-center justify-center gap-2 mb-stack-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">add</span>
+            New Archive
+        </button>
+<ul class="flex flex-col gap-2 flex-grow overflow-y-auto">
+<li class="">
+<a class="flex items-center gap-3 py-2.5 px-3 bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container font-semibold rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">grid_view</span>
+<span class="font-body-md text-body-md">Gallery</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2.5 px-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">folder_special</span>
+<span class="font-body-md text-body-md">Collections</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2.5 px-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">fact_check</span>
+<span class="font-body-md text-body-md">Needs Review</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2.5 px-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">move_to_inbox</span>
+<span class="font-body-md text-body-md">Import</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2.5 px-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">inventory_2</span>
+<span class="font-body-md text-body-md">All Items</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2.5 px-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">star</span>
+<span class="font-body-md text-body-md">Favorites</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2.5 px-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">notification_important</span>
+<span class="font-body-md text-body-md">Unorganized</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto pt-stack-md border-t border-outline/20">
+<a class="flex items-center gap-3 py-2.5 px-3 text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-[0.98] transition-transform duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<div class="flex items-center gap-3 py-2.5 px-3 mt-2">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: &quot;FILL&quot; 1;">account_circle</span>
+<span class="font-label-technical text-label-technical text-on-surface-variant">user@example.com</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-0 md:ml-[280px] flex-1 p-margin-mobile md:p-margin-desktop w-full max-w-container-max mx-auto">
+<header class="mb-stack-lg">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4">NEW: Empty States - Maybe Later (Final)</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">A collection of quiet, spacious moments within the archive. These states guide the user gently, maintaining the editorial tone even when content is absent.</p>
+</header>
+<!-- Empty States Layout -->
+<div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Variant 1: Fresh Dashboard -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-lg flex flex-col items-center justify-center text-center min-h-[400px] border border-primary/10 shadow-sm relative overflow-hidden group">
+<!-- Abstract Illustration Area -->
+<div class="w-32 h-32 mb-8 relative flex items-center justify-center">
+<div class="absolute inset-0 border-2 border-dashed border-outline-variant rounded-lg transform -rotate-3 transition-transform group-hover:rotate-0 duration-500"></div>
+<div class="absolute inset-0 border-2 border-solid border-primary/20 rounded-lg transform rotate-3 transition-transform group-hover:rotate-0 duration-500 bg-surface-container-lowest"></div>
+<span class="material-symbols-outlined text-4xl text-primary z-10" style="font-variation-settings: &quot;FILL&quot; 0;">add</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">No screenshots yet</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 max-w-[240px]">Your library is a blank canvas. Start by importing a discovery.</p>
+<button class="bg-primary text-on-primary font-body-md py-2 px-6 rounded-lg hover:opacity-90 transition-opacity">
+                    Import Discovery
+                </button>
+</div>
+<!-- Variant 2: Rediscovery -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-lg flex flex-col items-center justify-center text-center min-h-[400px] border border-primary/10 shadow-sm relative overflow-hidden group">
+<!-- Abstract Illustration Area -->
+<div class="w-32 h-32 mb-8 relative flex items-center justify-center">
+<div class="absolute inset-0 bg-secondary-container/30 rounded-full scale-90 group-hover:scale-100 transition-transform duration-700 ease-out"></div>
+<span class="material-symbols-outlined text-5xl text-secondary z-10" style="font-variation-settings: &quot;FILL&quot; 0;">auto_stories</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Nothing forgotten</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[260px]">Your archive is current. Check back later for items ready to be rediscovered.</p>
+<div class="mt-8 font-label-technical text-label-technical text-on-primary-container tracking-wider uppercase">
+                    Archive up to date
+                </div>
+</div>
+<!-- Variant 3: Duplicates -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-lg flex flex-col items-center justify-center text-center min-h-[400px] border border-primary/10 shadow-sm relative overflow-hidden group">
+<!-- Abstract Illustration Area -->
+<div class="w-32 h-32 mb-8 relative flex items-center justify-center">
+<div class="absolute w-16 h-16 border border-tertiary-fixed-dim rounded-lg transform -translate-x-4 -translate-y-2 opacity-60 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500"></div>
+<div class="absolute w-16 h-16 border border-tertiary-fixed-dim rounded-lg transform translate-x-4 translate-y-2 opacity-60 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500"></div>
+<span class="material-symbols-outlined text-4xl text-tertiary-fixed-dim z-10" style="font-variation-settings: &quot;FILL&quot; 0;">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">No duplicates</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[240px]">Perfectly unique. We found no duplicate captures in your collection.</p>
+<!-- Subtle gold accent line -->
+<div class="w-12 h-1 bg-tertiary-fixed-dim mt-8 rounded-full"></div>
+</div>
+</div>
+</main>
+
+
+
+
+
+
+
+
+</body></html>

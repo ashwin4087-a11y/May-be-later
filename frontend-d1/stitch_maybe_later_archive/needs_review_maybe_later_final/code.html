@@ -1,0 +1,299 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Maybe Later - Needs Review</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Fraunces & IBM Plex Sans & IBM Plex Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#191c1e",
+                        "secondary-container": "#b8dffd",
+                        "primary-fixed-dim": "#bac8d9",
+                        "on-secondary-fixed-variant": "#224b64",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#e1c388",
+                        "surface-container-lowest": "#F6F8FA",
+                        "surface-bright": "#f8f9fb",
+                        "surface-dim": "#d8dadc",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#C2A56D",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary-fixed": "#d6e4f6",
+                        "on-error": "#ffffff",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#bac8d9",
+                        "on-secondary-fixed": "#001e2e",
+                        "on-primary-container": "#95a2b3",
+                        "surface-container": "#eceef0",
+                        "outline": "#74777c",
+                        "secondary-fixed-dim": "#a5cbe9",
+                        "surface-variant": "#e0e3e5",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-fixed": "#261900",
+                        "outline-variant": "#c4c6cc",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed": "#c8e6ff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#547A95",
+                        "on-tertiary-container": "#ba9e66",
+                        "on-primary-fixed-variant": "#3b4856",
+                        "surface": "#F6F8FA",
+                        "on-tertiary-fixed-variant": "#594415",
+                        "primary": "#2C3947",
+                        "on-primary-fixed": "#0f1d2a",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#2c3947",
+                        "tertiary-container": "#483507",
+                        "on-secondary-container": "#3d637d",
+                        "on-surface-variant": "#44474c",
+                        "surface-tint": "#52606f",
+                        "background": "#E8EDF2",
+                        "tertiary-fixed": "#ffdea2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "stack-sm": "8px",
+                        "sidebar-width": "280px",
+                        "container-max": "1280px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["IBM Plex Sans"],
+                        "display-lg-mobile": ["Fraunces"],
+                        "label-caps": ["IBM Plex Mono"],
+                        "label-technical": ["IBM Plex Mono"],
+                        "display-lg": ["Fraunces"],
+                        "body-lg": ["IBM Plex Sans"],
+                        "headline-sm": ["Fraunces"],
+                        "display-md": ["Fraunces"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "17px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "label-technical": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "29px", "fontWeight": "400"}],
+                        "headline-sm": ["24px", {"lineHeight": "29px", "fontWeight": "500"}],
+                        "display-md": ["32px", {"lineHeight": "35px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen text-on-surface antialiased font-body-md text-body-md flex selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- 
+    SIDE NAV BAR COMPONENT
+    JSON Definition: {"name": "SideNavBar", "num_tabs": 8, "tab_labels": ["Gallery", "Collections", "Needs Review", "Import", "All Items", "Favorites", "Unorganized", "Settings"], "tab_icons": ["grid_view", "folder_special", "fact_check", "move_to_inbox", "inventory_2", "star", "notification_important", "settings"], "header_avatar_alt": "Gold folded corner logomark", "header_title": "Maybe Later", "header_subtext": "Personal Archive", "cta": "New Archive", "footer_tab_labels": ["user@example.com"], "footer_tab_icons": ["account_circle"], "style_bg_color": "bg-surface-container-low dark:bg-surface-container-lowest", "style_primary_color": "text-primary dark:text-primary-fixed", "style_typography": "Headlines: font-display-md text-display-md. Navigation: font-body-md text-body-md. Labels: font-label-technical text-label-technical.", "style_brand_logo": "font-display-md text-display-md font-bold text-primary dark:text-primary-fixed", "style_component_shape": "w-[280px] h-screen fixed left-0 top-0", "style_separation_logic": "bg-surface-container-low dark:bg-surface-container-lowest shadow-[0_4px_20px_rgba(44,57,71,0.05)]", "style_shadows_and_elevation": "shadow-sm", "style_active_navigation": "bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container font-semibold rounded-lg", "style_inactive_navigation": "text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed", "style_universal_hover": "hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200", "style_interactions": "Active: scale-[0.98] transition-transform duration-150", "style_shell_layout": "flex flex-col h-full py-stack-lg px-gutter gap-stack-md"}
+    Intent Mapping: "Needs Review" tab is active.
+    -->
+<nav aria-label="Main Navigation" class="bg-surface-container-low w-[280px] h-screen fixed left-0 top-0 shadow-[0_4px_20px_rgba(44,57,71,0.05)] z-40 hidden md:flex flex-col py-stack-lg px-gutter gap-stack-md">
+<!-- Header -->
+<div class="flex items-center gap-stack-sm mb-stack-lg"><div class="flex items-center gap-3"><div class="w-10 h-10 shrink-0"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuByIKcDqgYTwc1JpDcrRzax_Gi2POIxaCG8aPDeMQhC_8ajgBvitSRn8Ijpnt8K1CCckG7zNbKLopyavd5KZJX5HxzlUUF5O3siYwZ8X-tEW8C3uarwZisZofNLugGBqFxzvui38kAZ35gMXVsp7y-IbnjcvdMzFMXkqkCzDXoRDCONci-rnKv7VP8OkW8jHgWqPf2qb23xUJJENSJmkAfdXpQwe57ExehIRhWSHB1OLnkbva6RjEMN660BravI-bnIcCI" alt="Maybe Later Logo" class="w-full h-full object-contain"></div><div><h1 class="font-display-md text-display-md font-bold text-primary tracking-tight" style="font-size: 24px; line-height: 28px;">Maybe Later</h1><p class="font-label-technical text-label-technical text-on-surface-variant">Personal Archive</p></div></div></div>
+<!-- CTA -->
+<button class="w-full bg-primary text-on-primary py-3 px-4 rounded-lg flex items-center justify-center gap-2 mb-stack-md hover:bg-opacity-90 transition-opacity font-label-technical text-label-technical shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+            New Archive
+        </button>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto pr-2 -mr-2 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">grid_view</span>
+<span class="font-body-md text-body-md">Gallery</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">folder_special</span>
+<span class="font-body-md text-body-md">Collections</span>
+</a>
+<!-- ACTIVE TAB -->
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container font-semibold rounded-lg scale-[0.98] transition-transform duration-150 relative" href="#">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-secondary rounded-r-full"></div>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+<span class="font-body-md text-body-md">Needs Review</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">content_copy</span>
+<span class="font-body-md text-body-md">Duplicates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">move_to_inbox</span>
+<span class="font-body-md text-body-md">Import</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">inventory_2</span>
+<span class="font-body-md text-body-md">All Items</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">star</span>
+<span class="font-body-md text-body-md">Favorites</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150 text-tertiary-fixed-dim">notification_important</span>
+<span class="font-body-md text-body-md">Unorganized</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group mt-stack-lg" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<!-- Footer -->
+<div class="mt-auto pt-stack-md border-t border-surface-variant border-opacity-50">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-[0.98] transition-transform duration-150">account_circle</span>
+<span class="font-label-technical text-label-technical">user@example.com</span>
+</a>
+</div>
+</nav>
+<!-- Mobile Top Bar (Simplified for structure context, visible md:hidden) -->
+<header class="md:hidden fixed top-0 left-0 right-0 h-16 bg-surface-container-low shadow-[0_4px_20px_rgba(44,57,71,0.05)] z-40 flex items-center px-margin-mobile justify-between">
+<h1 class="font-display-md text-display-md font-bold text-primary tracking-tight" style="font-size: 20px; line-height: 24px;">Maybe Later</h1>
+<button class="text-on-surface-variant p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[280px] w-full min-h-screen pt-20 md:pt-margin-desktop px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto pb-stack-lg flex flex-col">
+<!-- Page Header -->
+<div class="mb-stack-lg md:mb-[64px] max-w-3xl">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-stack-sm tracking-tight">NEW Needs Review</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Help us catalog these new additions.</p>
+</div>
+<!-- Review Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg md:gap-[32px] auto-rows-auto">
+<!-- Card 1: High Confidence -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(44,57,71,0.05)] border border-primary border-opacity-10 flex flex-col transition-transform hover:-translate-y-1 duration-300">
+<!-- Mini Browser Header -->
+<div class="bg-surface-container-low px-4 py-2 flex items-center gap-2 border-b border-primary border-opacity-10">
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant opacity-60"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant opacity-60"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant opacity-60"></div>
+<span class="font-label-technical text-label-technical text-on-surface-variant ml-2 opacity-70">shot_2023_10_04.png</span>
+</div>
+<div class="flex flex-col md:flex-row h-full">
+<!-- Image Area -->
+<div class="md:w-5/12 h-48 md:h-auto bg-surface-variant relative overflow-hidden group">
+<img class="object-cover w-full h-full absolute inset-0 mix-blend-multiply opacity-90 transition-transform duration-700 group-hover:scale-105" data-alt="A detailed digital screenshot of a modern, minimalist e-commerce website interface. The design features a light-mode aesthetic with expansive whitespace, elegant high-contrast typography, and precisely aligned product photography. Soft neutral grays and stark white backgrounds are punctuated by sleek dark navy interactive elements. The overall mood is clean, highly structured, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqx0SrBJRNQkvuZZx90Ztw1_rx0QBjyt8kwQNrR-JLEBnSWsmlKtLZOrtyUPQ8j3LhtZ1Y9ur7znbZfYyeOUBEHKdIxmYejy_k69LI1NCLIJgqH-2LzVbbGUgcenBESsulkgbsDHYzlO2hovqLBTCcfGndyuVPxfuSieONJuj8WfCG2B3q5WYQLN2BSU9RcVz3lJvD8FzDqUPEOXnD71yjegsoUGkeImc-6iyaPqF1Gluv7FIjG51UVQ">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+<!-- Metadata & Actions Area -->
+<div class="p-6 md:w-7/12 flex flex-col justify-between h-full bg-surface-container-lowest relative z-10">
+<div>
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Web Design</h3>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-tertiary-container flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                                            94% Match
+                                        </span>
+</div>
+</div>
+</div>
+<div class="space-y-2 mb-6">
+<div class="flex gap-4 border-b border-primary border-opacity-10 pb-2">
+<span class="font-label-technical text-label-technical text-outline w-16 shrink-0">Tags</span>
+<div class="flex flex-wrap gap-2">
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-0.5 rounded">e-commerce</span>
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-0.5 rounded">minimal</span>
+</div>
+</div>
+<div class="flex gap-4 border-b border-primary border-opacity-10 pb-2">
+<span class="font-label-technical text-label-technical text-outline w-16 shrink-0">Added</span>
+<span class="font-label-technical text-label-technical text-on-surface">Oct 4, 2023</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 mt-auto">
+<button class="flex-1 bg-primary text-on-primary font-body-md text-body-md py-2.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors">
+                                Accept
+                            </button>
+<button class="flex-1 bg-transparent text-secondary border border-secondary border-opacity-40 font-body-md text-body-md py-2.5 px-4 rounded-lg hover:bg-surface-variant transition-colors">
+                                Reassign
+                            </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: Low Confidence -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(44,57,71,0.05)] border border-primary border-opacity-10 flex flex-col transition-transform hover:-translate-y-1 duration-300">
+<!-- Mini Browser Header -->
+<div class="bg-surface-container-low px-4 py-2 flex items-center gap-2 border-b border-primary border-opacity-10">
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant opacity-60"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant opacity-60"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant opacity-60"></div>
+<span class="font-label-technical text-label-technical text-on-surface-variant ml-2 opacity-70">scan_doc_002.jpg</span>
+</div>
+<div class="flex flex-col md:flex-row h-full">
+<!-- Image Area -->
+<div class="md:w-5/12 h-48 md:h-auto bg-surface-variant relative overflow-hidden group">
+<img class="object-cover w-full h-full absolute inset-0 mix-blend-multiply opacity-90 transition-transform duration-700 group-hover:scale-105 filter grayscale" data-alt="A vintage, slightly yellowed paper texture featuring dense, faded typography. The image captures a macro shot of an old catalog or technical manual page, printed in a highly structured monospaced font. Lighting is soft and diffused, emphasizing the tactile quality of the aged paper against a clean, modern white background. The aesthetic contrasts historic archival material with pristine digital presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjm1dky8v4l4dB5IOq3EvE0rWH7uBvGF_1k23poN4fhEP9hwFelmlMX2jMocVSA36zuUZX-7VComLLOc4FD9jHYoY0ZtA1mP8Qgnykd2oCh2zBq4UE3rjedDOxZm5ZTTkkW_UJJqp0Ga6qmZrpx006fhyg8CeIYwWWfBgfyz_SKkiql3Qm0OjEo3jluQUup4I_FQm4hTLTwZ1kO325GHAMM4Hz--79V0ydZsk02lRslICZU3KgDWFFlg">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+<!-- Metadata & Actions Area -->
+<div class="p-6 md:w-7/12 flex flex-col justify-between h-full bg-surface-container-lowest relative z-10">
+<div>
+<div class="flex items-start justify-between mb-4">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Typography</h3>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">help_outline</span>
+                                            42% Match (Needs Verification)
+                                        </span>
+</div>
+</div>
+</div>
+<div class="space-y-2 mb-6">
+<div class="flex gap-4 border-b border-primary border-opacity-10 pb-2">
+<span class="font-label-technical text-label-technical text-outline w-16 shrink-0">Tags</span>
+<div class="flex flex-wrap gap-2">
+<span class="bg-secondary/10 text-secondary font-label-technical text-label-technical px-2 py-0.5 rounded opacity-60">print?</span>
+</div>
+</div>
+<div class="flex gap-4 border-b border-primary border-opacity-10 pb-2">
+<span class="font-label-technical text-label-technical text-outline w-16 shrink-0">Added</span>
+<span class="font-label-technical text-label-technical text-on-surface">Oct 3, 2023</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 mt-auto">
+<button class="flex-1 bg-primary text-on-primary font-body-md text-body-md py-2.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors">
+                                Accept
+                            </button>
+<button class="flex-1 bg-transparent text-secondary border border-secondary border-opacity-40 font-body-md text-body-md py-2.5 px-4 rounded-lg hover:bg-surface-variant transition-colors">
+                                Reassign
+                            </button>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+
+
+</body></html>

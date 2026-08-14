@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NEW Maybe Later - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Fraunces:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "primary": "#2C3947",
+                "secondary": "#547A95",
+                "tertiary": "#C2A56D",
+                "page-background": "#E8EDF2",
+                "card-background": "#F6F8FA",
+                "on-surface": "#191c1e",
+                "secondary-container": "#b8dffd",
+                "primary-fixed-dim": "#bac8d9",
+                "on-secondary-fixed-variant": "#224b64",
+                "error": "#ba1a1a",
+                "on-primary": "#ffffff",
+                "tertiary-fixed-dim": "#e1c388",
+                "surface-container-lowest": "#ffffff",
+                "surface-bright": "#f8f9fb",
+                "surface-dim": "#d8dadc",
+                "error-container": "#ffdad6",
+                "surface-container-highest": "#e0e3e5",
+                "primary-fixed": "#d6e4f6",
+                "on-error": "#ffffff",
+                "on-background": "#191c1e",
+                "inverse-primary": "#bac8d9",
+                "on-secondary-fixed": "#001e2e",
+                "on-primary-container": "#95a2b3",
+                "surface-container": "#eceef0",
+                "outline": "#74777c",
+                "secondary-fixed-dim": "#a5cbe9",
+                "surface-variant": "#e0e3e5",
+                "inverse-on-surface": "#eff1f3",
+                "on-secondary": "#ffffff",
+                "surface-container-low": "#f2f4f6",
+                "on-tertiary-fixed": "#261900",
+                "outline-variant": "#c4c6cc",
+                "inverse-surface": "#2d3133",
+                "surface-container-high": "#e6e8ea",
+                "secondary-fixed": "#c8e6ff",
+                "on-error-container": "#93000a",
+                "on-tertiary-container": "#ba9e66",
+                "on-primary-fixed-variant": "#3b4856",
+                "surface": "#f8f9fb",
+                "on-tertiary-fixed-variant": "#594415",
+                "on-primary-fixed": "#0f1d2a",
+                "on-tertiary": "#ffffff",
+                "primary-container": "#2c3947",
+                "tertiary-container": "#483507",
+                "on-secondary-container": "#3d637d",
+                "on-surface-variant": "#44474c",
+                "surface-tint": "#52606f",
+                "background": "#E8EDF2",
+                "tertiary-fixed": "#ffdea2"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "gutter": "24px",
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "stack-sm": "8px",
+                "sidebar-width": "280px",
+                "container-max": "1280px",
+                "margin-desktop": "64px",
+                "margin-mobile": "20px"
+        },
+        "fontFamily": {
+                "body-md": [
+                        "IBM Plex Sans"
+                ],
+                "display-lg-mobile": [
+                        "Fraunces"
+                ],
+                "label-caps": [
+                        "IBM Plex Mono"
+                ],
+                "label-technical": [
+                        "IBM Plex Mono"
+                ],
+                "display-lg": [
+                        "Fraunces"
+                ],
+                "body-lg": [
+                        "IBM Plex Sans"
+                ],
+                "headline-sm": [
+                        "Fraunces"
+                ],
+                "display-md": [
+                        "Fraunces"
+                ]
+        },
+        "fontSize": {
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "38px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "17px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "label-technical": [
+                        "13px",
+                        {
+                                "lineHeight": "18px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "48px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "29px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-sm": [
+                        "24px",
+                        {
+                                "lineHeight": "29px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-md": [
+                        "32px",
+                        {
+                                "lineHeight": "35px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: #E8EDF2; /* background */
+            color: #191c1e; /* on-surface */
+        }
+        
+        .shadow-subtle {
+            box-shadow: 0 4px 20px rgba(44, 57, 71, 0.05);
+        }
+
+        .border-subtle {
+            border: 1px solid rgba(22, 36, 49, 0.1);
+        }
+
+        /* "Mini Browser" Window Effect styles applied via utility classes below */
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex bg-page-background">
+<!-- Left Sidebar -->
+<aside class="w-[280px] h-screen fixed left-0 top-0 bg-page-background dark:bg-surface-container-lowest flex flex-col z-50">
+<div class="h-20 flex items-center px-6 border-b border-subtle"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv1TDYSLttBij_FIP4N4RvoSujGwsluyJRcobJz8SzDv4Oj5J5NwZGo0tv5x9hpND5J4GuxvbxLbopg96dzEVJJ7EPRczhdTRtORxSY-5zKGeGSMoYkvFWRqICMmIfNBx4PWAJ7di7Jjvm_rD5lqNCnRgijsS_-64-CiE51EKlRZuWSOH4D_wDtEcpWIr2kmChmTotPpOfcK7svL7op5XEbhfuGoqwzm6IWKVA_SUxtR4ryjYR8oNm0BBeJg9XbhkRGfM" alt="Maybe Later Logo" class="w-full h-full object-cover"></div><span class="font-display-md text-display-md font-bold text-primary dark:text-primary-fixed tracking-tight">Maybe Later</span></div></div>
+<!-- Navigation Links -->
+<nav class="flex-grow py-6 flex flex-col gap-2 px-4 overflow-y-auto">
+<div class="flex flex-col gap-1">
+<!-- Active Link -->
+<a class="bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container font-semibold rounded-lg px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                    Gallery
+                </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
+                    Collections
+                </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+                    Needs Review
+                </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="file_copy">file_copy</span>
+                    Duplicates
+                </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="move_to_inbox">move_to_inbox</span>
+                    Import
+                </a>
+</div>
+<div class="my-4 border-t border-subtle"></div>
+<div class="flex flex-col gap-1">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                    All Items
+                </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+                    Favorites
+                </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="notification_important">notification_important</span>
+                    Unorganized
+                </a>
+</div>
+<div class="mt-auto pt-4 border-t border-subtle">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 px-4 py-3 rounded-lg flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</div>
+</nav>
+<!-- User Profile & Settings -->
+<div class="p-4 border-t border-subtle flex items-center gap-3 cursor-pointer hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant flex-shrink-0 flex items-center justify-center bg-card-background">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="font-body-md font-medium text-primary truncate">Archivist</span>
+<span class="font-label-technical text-on-surface-variant text-xs truncate">user@example.com</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-grow w-full ml-[280px] max-w-[1024px] px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-16 overflow-y-auto">
+<!-- Header Area (Search & Global Action) -->
+<div class="flex justify-between items-center w-full">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-card-background border border-outline-variant rounded-md py-2 pl-10 pr-4 font-body-md text-body-md text-on-surface focus:outline-none focus:border-tertiary focus:ring-1 focus:ring-tertiary transition-colors" placeholder="Search archive..." type="text">
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-md font-body-md text-body-md font-medium hover:opacity-90 transition-opacity shadow-sm flex-shrink-0">
+                New Archive
+            </button>
+</div>
+<!-- Welcome Section -->
+<section class="flex flex-col gap-stack-md pt-4">
+<h1 class="font-display-lg text-display-lg md:font-display-lg md:text-display-lg text-primary tracking-tight">Good morning, Archivist.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Your personal library is calm and ready. Here is an overview of your recent captures and areas needing attention.</p>
+</section>
+<!-- Statistics (Editorial Layout) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter py-stack-lg border-y border-subtle">
+<div class="flex flex-col gap-stack-sm">
+<span class="font-display-md text-display-md text-primary">438</span>
+<span class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Total Screenshots</span>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<span class="font-display-md text-display-md text-tertiary">127</span>
+<span class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Forgotten Items</span>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<span class="font-display-md text-display-md text-on-surface-variant">18</span>
+<span class="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Duplicates Detected</span>
+</div>
+</section>
+<!-- Content Grid (Bento Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Collections -->
+<div class="lg:col-span-8 flex flex-col gap-stack-lg">
+<div class="flex justify-between items-end border-b border-subtle pb-4">
+<h2 class="font-headline-sm text-headline-sm text-primary">Collections</h2>
+<a class="font-label-technical text-label-technical text-secondary hover:text-primary transition-colors uppercase tracking-wider" href="#">View All</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Collection Card 1 -->
+<div class="bg-card-background rounded-lg p-6 shadow-subtle border border-subtle flex flex-col gap-stack-md group cursor-pointer hover:-translate-y-1 hover:border-tertiary transition-all duration-300">
+<div class="w-12 h-12 rounded-full bg-secondary-container/30 flex items-center justify-center text-primary mb-4 group-hover:scale-110 group-hover:bg-tertiary/20 group-hover:text-tertiary transition-all">
+<span class="material-symbols-outlined" data-icon="web">web</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Web Design Inspiration</h3>
+<p class="font-label-technical text-label-technical text-on-surface-variant">84 items · Last updated 2 days ago</p>
+</div>
+<!-- Collection Card 2 -->
+<div class="bg-card-background rounded-lg p-6 shadow-subtle border border-subtle flex flex-col gap-stack-md group cursor-pointer hover:-translate-y-1 hover:border-tertiary transition-all duration-300">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary-container mb-4 group-hover:scale-110 group-hover:bg-tertiary/20 group-hover:text-tertiary transition-all">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Receipts &amp; Invoices</h3>
+<p class="font-label-technical text-label-technical text-on-surface-variant">22 items · Last updated today</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Needs Attention (Mini Browser) -->
+<div class="lg:col-span-4 flex flex-col gap-stack-lg">
+<div class="flex justify-between items-end border-b border-subtle pb-4">
+<h2 class="font-headline-sm text-headline-sm text-tertiary-container flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container" data-icon="error" data-weight="fill" style="font-variation-settings: 'FILL' 1;">error</span>
+                        Needs Attention
+                    </h2>
+</div>
+<!-- Mini Browser Card -->
+<div class="bg-card-background rounded-lg shadow-subtle border border-subtle hover:border-tertiary transition-colors overflow-hidden flex flex-col group/browser">
+<!-- Browser Header -->
+<div class="h-8 bg-primary/90 flex items-center px-4 gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-error/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-secondary/40"></div>
+</div>
+<!-- Browser Content -->
+<div class="relative w-full h-48 bg-surface-variant group">
+<img alt="Unorganized screenshot" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A detailed digital screenshot of an abstract, minimalist web interface. The interface features muted editorial colors, precise typography, and plenty of whitespace. The lighting is soft and digital, implying a modern SaaS product captured mid-use. The style aligns with a sophisticated, premium personal archive platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqK2L6X6mI81_zPBv6fXcw8Bf2zeTyzVxrJcMkXg1JWvRJFJv22ugZImC1WIDiSlQpKPokFZ_HGIUctIGzw15l6YRD0lZ7BtvTpDKQwHCD1aHG2wwLEumnyXpQZtrXEG1LZnHuaIp8DDBav1aQRyqSmEpFYrGPbQuubRN2Xzca4LxfMSJgVsJXEUtYAyGutcsZT5UhNKOB77ChxB5FlZtkN6Xs6H1XxpdGHnSSJDs7NeTNP5PEI4zX-g">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
+<button class="opacity-0 group-hover:opacity-100 bg-tertiary text-primary px-4 py-2 rounded shadow-sm font-label-caps text-label-caps font-bold transition-all transform translate-y-2 group-hover:translate-y-0">Organize</button>
+</div>
+</div>
+<!-- Metadata below card -->
+<div class="p-4 bg-card-background flex justify-between items-center transition-colors">
+<span class="font-label-technical text-label-technical text-on-surface-variant">Captured Oct 12</span>
+<span class="bg-secondary-container/50 text-on-secondary-container font-label-technical text-label-technical px-2 py-1 rounded border border-secondary/20 uppercase tracking-wider">Unsorted</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Global CTA Section -->
+<section class="flex flex-col items-center justify-center py-stack-lg mt-8 bg-page-background rounded-xl border border-subtle hover:border-tertiary/50 transition-colors p-12 text-center">
+<h2 class="font-display-md text-display-md text-primary mb-4">Ready to add more?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-8">Drag and drop screenshots here or select files from your device to begin cataloging.</p>
+<button class="bg-primary text-on-primary px-8 py-4 rounded font-body-lg text-body-lg font-medium hover:opacity-90 transition-opacity shadow-subtle flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="upload">upload</span>
+                Import Screenshots
+            </button>
+</section>
+</main>
+
+
+</body></html>
