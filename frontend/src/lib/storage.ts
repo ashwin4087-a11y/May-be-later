@@ -107,6 +107,35 @@ export async function getScreenshotUrl(
 }
 
 /**
+ * Batch-generates signed URLs for multiple screenshots in a single HTTP request.
+ * Dramatically faster than calling getScreenshotUrl() per image when loading a gallery.
+ *
+ * @param storagePaths - Array of storage paths (user_id/filename)
+ * @param expiresIn    - Signed URL lifetime in seconds (default: 1 hour)
+ * @returns A Map from storagePath → signedUrl (omits paths that failed)
+ */
+export async function getBatchScreenshotUrls(
+  storagePaths: string[],
+  expiresIn = 3600
+): Promise<Map<string, string>> {
+  if (storagePaths.length === 0) return new Map();
+
+  const { data, error } = await supabase.storage
+    .from('screenshots')
+    .createSignedUrls(storagePaths, expiresIn);
+
+  const result = new Map<string, string>();
+  if (error || !data) return result;
+
+  for (const item of data) {
+    if (item.signedUrl && item.path) {
+      result.set(item.path, item.signedUrl);
+    }
+  }
+  return result;
+}
+
+/**
  * Deletes a screenshot from storage.
  *
  * @param storagePath - The path to delete (user_id/filename)

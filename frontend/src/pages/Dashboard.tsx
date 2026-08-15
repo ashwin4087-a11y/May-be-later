@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { uploadScreenshot, getScreenshotUrl, computeImageHash, findDuplicate } from '../lib/storage';
+import { uploadScreenshot, getScreenshotUrl, getBatchScreenshotUrls, computeImageHash, findDuplicate } from '../lib/storage';
 import ScreenshotModal from '../components/ScreenshotModal';
 import ScreenshotGrid, { Screenshot } from '../components/ScreenshotGrid';
 import BulkDeleteBar from '../components/BulkDeleteBar';
@@ -18,6 +18,7 @@ interface UploadStatus {
 export default function Dashboard() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [duplicateCount, setDuplicateCount] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [uploadStatuses, setUploadStatuses] = useState<UploadStatus[]>([]);
@@ -59,14 +60,25 @@ export default function Dashboard() {
     preLoadVisionModel();
   }, []);
 
-  // ── Fetch gallery ──────────────────────────────────────────────────────────
+  // ── Fetch gallery & stats ──────────────────────────────────────────────────
+
+  const fetchStats = useCallback(async () => {
+    const [totalRes, dupRes] = await Promise.all([
+      supabase.from('screenshots').select('*', { count: 'exact', head: true }).eq('is_duplicate', false),
+      supabase.from('screenshots').select('*', { count: 'exact', head: true }).eq('is_duplicate', true)
+    ]);
+
+    if (!totalRes.error && totalRes.count !== null) setTotalCount(totalRes.count);
+    if (!dupRes.error && dupRes.count !== null) setDuplicateCount(dupRes.count);
+  }, []);
 
   const fetchScreenshots = useCallback(async () => {
     setLoadingGallery(true);
-    // 1. Fetch original screenshots (non-duplicates)
+    // 1. Fetch original screenshots (non-duplicates); select only needed columns
     const { data, error } = await supabase
       .from('screenshots')
-      .select('*')
+      .select('id, title, notes, image_path, created_at')
+      .eq('is_duplicate', false)
       .order('created_at', { ascending: false });
 
     if (error || !data) {
@@ -74,39 +86,27 @@ export default function Dashboard() {
       return;
     }
 
-    // Filter out duplicates (is_duplicate = true)
-    const originalsOnly = data.filter((s: any) => !s.is_duplicate);
-
-    // Generate signed URLs for each image
-    const withUrls = await Promise.all(
-      originalsOnly.map(async (s: any) => {
-        try {
-          const signedUrl = await getScreenshotUrl(s.image_path);
-          return { ...s, signedUrl };
-        } catch {
-          return { ...s, signedUrl: undefined };
-        }
-      })
-    );
-
-    setScreenshots(withUrls);
-
-    // 2. Fetch total count of duplicate copies
-    const { count, error: dupErr } = await supabase
-      .from('screenshots')
-      .select('*', { count: 'exact', head: true })
-      .eq('is_duplicate', true);
-
-    if (!dupErr && count !== null) {
-      setDuplicateCount(count);
-    }
-
+    // Render cards immediately — signedUrls arrive in a single follow-up batch request
+    setScreenshots(data);
     setLoadingGallery(false);
+
+    // 2. Fetch ALL signed URLs in a single HTTP request (batch API)
+    const paths = data.map((s: any) => s.image_path).filter(Boolean);
+    const urlMap = await getBatchScreenshotUrls(paths);
+
+    // 3. Merge URLs back into the screenshot list
+    setScreenshots(
+      data.map((s: any) => ({ ...s, signedUrl: urlMap.get(s.image_path) }))
+    );
   }, []);
 
+  const refreshData = useCallback(async () => {
+    await Promise.all([fetchStats(), fetchScreenshots()]);
+  }, [fetchStats, fetchScreenshots]);
+
   useEffect(() => {
-    fetchScreenshots();
-  }, [fetchScreenshots]);
+    refreshData();
+  }, [refreshData]);
 
   // ── Upload handler ─────────────────────────────────────────────────────────
 
@@ -319,8 +319,8 @@ export default function Dashboard() {
     setUploading(false);
     // Reset the file input so the same files can be selected again
     if (fileInputRef.current) fileInputRef.current.value = '';
-    // Refresh gallery
-    await fetchScreenshots();
+    // Refresh gallery and stats
+    await refreshData();
     // Clear statuses after a short delay so the user can read them
     setTimeout(() => setUploadStatuses([]), 4000);
   };
@@ -444,7 +444,7 @@ export default function Dashboard() {
       alert("Reclassification complete. Check console for details.");
       
       // Refresh the gallery to force re-fetches
-      await fetchScreenshots();
+      await refreshData();
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -549,7 +549,7 @@ export default function Dashboard() {
       {/* Statistics */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-gutter py-stack-lg border-y border-subtle">
         <div className="flex flex-col gap-stack-sm">
-          <span className="font-display-md text-display-md text-primary">{screenshots.length}</span>
+          <span className="font-display-md text-display-md text-primary">{totalCount}</span>
           <span className="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Total Screenshots</span>
         </div>
         <div className="flex flex-col gap-stack-sm">

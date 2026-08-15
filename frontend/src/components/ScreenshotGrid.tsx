@@ -90,14 +90,15 @@ export default function ScreenshotGrid({
               <img
                 src={s.signedUrl}
                 alt={s.title}
+                loading="lazy"
+                decoding="async"
                 className={`w-full h-full object-cover transition-transform duration-500 ${
                   selectionMode ? '' : 'group-hover:scale-105'
                 } ${isSelected ? 'opacity-75' : ''}`}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <span className="material-symbols-outlined text-on-surface-variant">broken_image</span>
-              </div>
+              // Shimmer skeleton while signed URL is being fetched
+              <div className="w-full h-full bg-surface-container animate-pulse" />
             )}
 
             {/* Normal hover overlay */}

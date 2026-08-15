@@ -29,13 +29,13 @@ const CATEGORIES = [
 
 export type Category = typeof CATEGORIES[number];
 
-// â”€â”€â”€ Platform-First Rules â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Platform-First Rules ─────────────────────────────────────────────────────
 // These are checked BEFORE any OCR keyword scoring.
 // If a platform brand is present in the raw OCR text, its category is locked in
 // immediately and the listed categories can never override it, regardless of score.
 //
-// This ensures WhatsApp â†’ Social Media even if the screenshot shows a shopping promo.
-// Content words (â‚¹, order, delivery, playlist, etc.) belong to the CONTENT inside
+// This ensures WhatsApp → Social Media even if the screenshot shows a shopping promo.
+// Content words (₹, order, delivery, playlist, etc.) belong to the CONTENT inside
 // the platform, not to the screenshot category itself.
 
 type PlatformRule = {
@@ -49,69 +49,69 @@ type PlatformRule = {
 const CONVERSATION_CONTENT: Category[] = ['Shopping', 'Food', 'Travel', 'UPI', 'Entertainment', 'Movies & TV', 'Sports', 'Work', 'College', 'Coding', 'Reading', 'Events', 'Receipts', 'Documents', 'Certificates', 'Health & Fitness', 'QR Code', 'Other'];
 
 const PLATFORM_FIRST_RULES: PlatformRule[] = [
-  // â”€â”€ Social Media / Messaging platforms (brand name visible) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { detect: /instagram/i,            category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
-  { detect: /whatsapp/i,             category: 'Social Media', suppress: CONVERSATION_CONTENT },
-  { detect: /\bfacebook\b/i,         category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
-  { detect: /snapchat/i,             category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
-  { detect: /twitter|\bx\.com\b/i,   category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
-  { detect: /tiktok/i,               category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
-  { detect: /\btelegram\b/i,         category: 'Social Media', suppress: CONVERSATION_CONTENT },
-  { detect: /\blinkedin\b/i,         category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
-  // â”€â”€ WhatsApp UI fingerprints (brand name not always visible) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Social Media / Messaging platforms (brand name visible) ────────────
+  { detect: /instagram/i, category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
+  { detect: /whatsapp/i, category: 'Social Media', suppress: CONVERSATION_CONTENT },
+  { detect: /\bfacebook\b/i, category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
+  { detect: /snapchat/i, category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
+  { detect: /twitter|\bx\.com\b/i, category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
+  { detect: /tiktok/i, category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
+  { detect: /\btelegram\b/i, category: 'Social Media', suppress: CONVERSATION_CONTENT },
+  { detect: /\blinkedin\b/i, category: 'Social Media', suppress: [...CONVERSATION_CONTENT, 'Messages'] },
+  // ── WhatsApp UI fingerprints (brand name not always visible) ───────────
   // "Type a message" is WhatsApp's unique composer placeholder
-  { detect: /type a message/i,       category: 'Social Media', suppress: CONVERSATION_CONTENT },
+  { detect: /type a message/i, category: 'Social Media', suppress: CONVERSATION_CONTENT },
   // "Forwarded" label unique to WhatsApp message forwarding
-  { detect: /\bforwarded\b/i,        category: 'Social Media', suppress: CONVERSATION_CONTENT },
+  { detect: /\bforwarded\b/i, category: 'Social Media', suppress: CONVERSATION_CONTENT },
   // "click here for contact info" is WhatsApp's desktop subtitle
   { detect: /click here for contact info/i, category: 'Social Media', suppress: CONVERSATION_CONTENT },
   // WhatsApp Business chat header
-  { detect: /business account/i,     category: 'Social Media', suppress: CONVERSATION_CONTENT },
+  { detect: /business account/i, category: 'Social Media', suppress: CONVERSATION_CONTENT },
   // WhatsApp Meta security notice (appears in every WhatsApp Business chat)
   { detect: /secure service from meta/i, category: 'Social Media', suppress: CONVERSATION_CONTENT },
-  // â”€â”€ Shopping platforms â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { detect: /\bamazon\b/i,           category: 'Shopping',    suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
-  { detect: /flipkart/i,             category: 'Shopping',    suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
-  { detect: /myntra/i,               category: 'Shopping',    suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
+  // ── Shopping platforms ─────────────────────────────────────────────────
+  { detect: /\bamazon\b/i, category: 'Shopping', suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
+  { detect: /flipkart/i, category: 'Shopping', suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
+  { detect: /myntra/i, category: 'Shopping', suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
   // Google Shopping search results page
-  { detect: /popular products/i,     category: 'Shopping',    suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
-  // â”€â”€ Entertainment platforms â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { detect: /\byoutube\b/i,          category: 'Entertainment', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'College', 'Other'] },
-  { detect: /\bspotify\b/i,          category: 'Entertainment', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'College', 'Other'] },
-  { detect: /\bnetflix\b/i,          category: 'Movies & TV', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'Entertainment', 'College', 'Other'] },
-  { detect: /prime video/i,          category: 'Movies & TV', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'Entertainment', 'College', 'Other'] },
-  { detect: /disney\+/i,             category: 'Movies & TV', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'Entertainment', 'College', 'Other'] },
-  // â”€â”€ Admin/Dev platforms â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { detect: /supabase/i,             category: 'Other',       suppress: ['Social Media', 'Messages', 'Shopping', 'Entertainment', 'Coding', 'Work', 'College'] },
-  // â”€â”€ Receipt / Bill fingerprints â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  { detect: /popular products/i, category: 'Shopping', suppress: ['Social Media', 'Entertainment', 'Travel', 'Work', 'Food', 'UPI', 'College', 'Other'] },
+  // ── Entertainment platforms ────────────────────────────────────────────
+  { detect: /\byoutube\b/i, category: 'Entertainment', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'College', 'Other'] },
+  { detect: /\bspotify\b/i, category: 'Entertainment', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'College', 'Other'] },
+  { detect: /\bnetflix\b/i, category: 'Movies & TV', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'Entertainment', 'College', 'Other'] },
+  { detect: /prime video/i, category: 'Movies & TV', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'Entertainment', 'College', 'Other'] },
+  { detect: /disney\+/i, category: 'Movies & TV', suppress: ['Social Media', 'Shopping', 'Travel', 'Work', 'Entertainment', 'College', 'Other'] },
+  // ── Admin/Dev platforms ────────────────────────────────────────────────
+  { detect: /supabase/i, category: 'Other', suppress: ['Social Media', 'Messages', 'Shopping', 'Entertainment', 'Coding', 'Work', 'College'] },
+  // ── Receipt / Bill fingerprints ───────────────────────────────────────
   // These fire before keyword scoring so address words like "College Road"
   // can never override a clearly-detected bill/receipt.
-  { detect: /cash bill/i,            category: 'Receipts',    suppress: ['College', 'Work', 'Shopping', 'Food', 'Social Media', 'UPI', 'Documents', 'Other'] },
-  { detect: /tax invoice/i,          category: 'Receipts',    suppress: ['College', 'Work', 'Shopping', 'Social Media', 'UPI', 'Documents', 'Other'] },
-  { detect: /take.?out|takeaway/i,   category: 'Receipts',    suppress: ['College', 'Work', 'Shopping', 'Social Media', 'Documents', 'Other'] },
-  { detect: /sgst|cgst/i,            category: 'Receipts',    suppress: ['College', 'Work', 'Social Media', 'Other'] },
-  { detect: /\bfssai\b/i,            category: 'Receipts',    suppress: ['College', 'Work', 'Social Media', 'Other'] },
+  { detect: /cash bill/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Food', 'Social Media', 'UPI', 'Documents', 'Other'] },
+  { detect: /tax invoice/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Social Media', 'UPI', 'Documents', 'Other'] },
+  { detect: /take.?out|takeaway/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Social Media', 'Documents', 'Other'] },
+  { detect: /sgst|cgst/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
+  { detect: /\bfssai\b/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
   { detect: /thank you.*visit|visit again/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
   { detect: /net amt|tot items|tot qty/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
 ];
 
-// â”€â”€â”€ Keyword heuristics (content-based scoring, runs AFTER platform check) â”€â”€â”€â”€
+// ─── Keyword heuristics (content-based scoring, runs AFTER platform check) ────
 // These only decide the category when no platform brand was detected.
 type Rule = { regex: RegExp; weight: number };
 
 const CATEGORY_RULES: Record<Category, Rule[]> = {
   Shopping: [
     { regex: /add to cart|buy now|checkout|add to bag/i, weight: 3 },
-    { regex: /â‚¹\s?\d+|\$\d+/i, weight: 1 },
+    { regex: /₹\s?\d+|\$\d+/i, weight: 1 },
     { regex: /delivery by|order total|out of stock|buy at|selected color|product details|customer reviews|in stock|\bratings?\b|\bcart\b/i, weight: 1 }
   ],
   Travel: [
-    { regex: /boarding pass|\bflight\b|airbnb/i, weight: 3 },
-    { regex: /booking|ticket|\bhotel\b|itinerary|check-in/i, weight: 2 },
-    { regex: /\bdepart\b|\barrive\b|\btrain\b|\bterminal\b|\bpassenger\b/i, weight: 1 }
+    { regex: /\b(?:pnr|boarding pass|flight|airline|train|railway|irctc|bus|departure|arrival|airport|terminal|platform|coach)\b/i, weight: 5 },
+    { regex: /\b(?:hotel|airbnb|itinerary)\b/i, weight: 4 },
+    { regex: /\b(?:check-in|passenger)\b/i, weight: 3 }
   ],
   Food: [
-    // Note: Zomato/Swiggy/UberEats only â€” Zepto removed (also sells non-food)
+    // Note: Zomato/Swiggy/UberEats only — Zepto removed (also sells non-food)
     { regex: /zomato|swiggy|uber eats/i, weight: 3 },
     { regex: /restaurant|recipe/i, weight: 2 },
     { regex: /\bmenu\b|\bfood\b|ingredients/i, weight: 1 }
@@ -122,14 +122,14 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
     { regex: /(?:paid to|sent to|received from|paying to|debited from|credited to|transferred to)/i, weight: 5 },
     { regex: /(?:completed|successfully completed)\b/i, weight: 3 },
     { regex: /(?:transaction(?:\s+(?:id|details|date|time))?|txn(?:\s+id)?|ref(?:erence)?\s*no?\.?|bank reference)/i, weight: 3 },
-    { regex: /â‚¹\s?\d[\d,]*(?:\.\d{2})?/i, weight: 2 },
-    { regex: /(?:upi|gpay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed)[\s\S]{0,60}â‚¹\s?\d[\d,]*(?:\.\d{2})?|â‚¹\s?\d[\d,]*(?:\.\d{2})?[\s\S]{0,60}(?:upi|gpay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed)/i, weight: 8 }
+    { regex: /₹\s?\d[\d,]*(?:\.\d{2})?/i, weight: 2 },
+    { regex: /(?:upi|gpay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed)[\s\S]{0,60}₹\s?\d[\d,]*(?:\.\d{2})?|₹\s?\d[\d,]*(?:\.\d{2})?[\s\S]{0,60}(?:upi|gpay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed)/i, weight: 8 }
   ],
   College: [
     // Require actual academic platforms/terms, not just the word 'college' in an address
     { regex: /canvas|blackboard|syllabus|university portal/i, weight: 4 },
     { regex: /\bassignment\b|\bsemester\b|\bexam\b|\bgpa\b/i, weight: 3 },
-    // 'college' or 'university' alone is weight 1 â€” needs other signals to win
+    // 'college' or 'university' alone is weight 1 — needs other signals to win
     { regex: /\bcollege\b|\buniversity\b/i, weight: 1 },
     { regex: /\bgrade\b|\blecture\b|\bcourse\b/i, weight: 1 }
   ],
@@ -148,6 +148,8 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
     { regex: /\bchat\b|\bonline\b/i, weight: 1 }
   ],
   Entertainment: [
+    { regex: /\b(?:multiplex|cinema|theatre|screen no|movie|show time)\b/i, weight: 4 },
+    { regex: /\b(?:admission|class|seat|ticket|screen)\b/i, weight: 1 },
     { regex: /playlist|podcast|gaming/i, weight: 2 }
   ],
   'Movies & TV': [
@@ -186,7 +188,7 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
     { regex: /rs:\s*\d+|net amt|amount due/i, weight: 3 }
   ],
   Documents: [
-    // General documents â€” NOT receipts or certificates
+    // General documents — NOT receipts or certificates
     { regex: /admit card|hall ticket|marksheet/i, weight: 4 },
     { regex: /\.pdf|fillable form|application form/i, weight: 3 },
     { regex: /\bdoc\b|\bform\b|agreement|contract/i, weight: 1 }
@@ -209,7 +211,7 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
     { regex: /workout|calories|heart rate/i, weight: 2 },
     { regex: /steps|sleep|\bgym\b/i, weight: 1 }
   ],
-  'QR Code': [], // Strictly visual detection only â€” OCR keywords never score for QR Code
+  'QR Code': [], // Strictly visual detection only — OCR keywords never score for QR Code
   Other: [
     // Admin, technical, and generic UI dashboards fall here.
     { regex: /supabase|magic\s?link|rls|postgrest/i, weight: 4 },
@@ -376,23 +378,17 @@ export interface ClassificationOptions {
 
 /**
  * Runs OCR and Vision detection on a screenshot to return an array of meaningful categories.
- * Vision (person) and OCR are independent â€” failure of one does NOT suppress the other.
+ * Vision (person) and OCR are independent — failure of one does NOT suppress the other.
  */
 export async function classifyScreenshot(
   file: File,
   options: ClassificationOptions = {}
 ): Promise<Category[]> {
   const { personAreaThresholdPercent = 5 } = options;
+  const categories = new Set<Category>();
+  let visualQrDetected = false; // deferred until OCR text is available
 
-  // Intermediate state â€” populated by vision and OCR phases
-  const visionCategories = new Set<Category>();
-  const scores: Record<string, number> = {};
-
-  // Platform suppression state â€” hoisted so priority resolution can read it
-  const platformSuppressed = new Set<Category>();
-  let platformLocked = false;
-
-  // â”â”â” 1. VISUAL DETECTION (Objects & People) â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+  // ── 1. VISUAL DETECTION (Objects & People) ────────────────────────────────
   try {
     if (!cocoModel) {
       await preLoadVisionModel();
@@ -413,7 +409,7 @@ export async function classifyScreenshot(
         airplane: 'Travel',
         train: 'Travel',
         bus: 'Travel',
-        // laptop removed â€” causes false Work classifications on product/promo images
+        // laptop removed — causes false Work classifications on product/promo images
         tv: 'Entertainment',
         sports_ball: 'Sports',
         bottle: 'Food',
@@ -439,44 +435,41 @@ export async function classifyScreenshot(
           const areaPercent = (bboxArea / totalArea) * 100;
 
           if (areaPercent >= personAreaThresholdPercent) {
-            visionCategories.add(mappedCategory);
-            console.log(`[Vision] âœ… Meaningful ${pred.class}: ${areaPercent.toFixed(1)}% area â†’ Classified as ${mappedCategory}`);
+            categories.add(mappedCategory);
+            console.log(`[Vision] ✅ Meaningful ${pred.class}: ${areaPercent.toFixed(1)}% area → Classified as ${mappedCategory}`);
           } else {
-            console.log(`[Vision] âš  Incidental ${pred.class} ignored: ${areaPercent.toFixed(1)}% area < ${personAreaThresholdPercent}% threshold`);
+            console.log(`[Vision] ⬛ Incidental ${pred.class} ignored: ${areaPercent.toFixed(1)}% area < ${personAreaThresholdPercent}% threshold`);
           }
         }
       }
 
-      // â”â”â” QR Code detection (visual pattern analysis) â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
-      // NOTE: We record the QR detection result but do NOT add 'QR Code' to
-      // visionCategories here.  Adding it here would bypass the priority gate.
-      // Instead we add it to the candidate set only inside the priority resolution
-      // block, where it can be properly gated against stronger context.
+      // ── QR Code detection (visual pattern analysis) ─────────────────────
       const qrResult = await detectQRCodeVisually(img);
       console.log(`[QR] Actual QR detected: ${qrResult.detected}`);
       console.log(`[QR] QR confidence: ${qrResult.confidence.toFixed(2)}`);
       console.log(`[QR] Final QR score: ${qrResult.score}`);
 
       if (qrResult.detected) {
-        // Store in scores so priority resolution can gate it correctly.
-        // Use a sentinel score (100) to mark visual confirmation.
-        scores['QR Code'] = 100;
-        console.log(`[QR] âœ… Visual QR code confirmed â€” queued for priority resolution`);
+        // Defer payment vs. plain-QR routing to post-OCR (OCR hasn't run yet here)
+        visualQrDetected = true;
+        console.log(`[QR] 🔲 Visual QR confirmed — routing deferred until OCR text is available`);
 
-        if (visionCategories.has('People')) {
-          visionCategories.delete('People');
-          console.log(`[Vision] ðŸ”„ QR Code is primary subject; People classification suppressed`);
+        if (categories.has('People')) {
+          categories.delete('People');
+          console.log(`[Vision] 🔲 QR Code is primary subject; People classification suppressed`);
         }
       }
     } else {
-      console.warn('[Vision] COCO-SSD model unavailable â€” skipping visual detection');
+      console.warn('[Vision] COCO-SSD model unavailable — skipping visual detection');
     }
   } catch (visionErr) {
-    // Vision failure is non-fatal â€” OCR still runs
+    // Vision failure is non-fatal — OCR still runs
     console.error('[Vision] Error during person detection (non-fatal, proceeding with OCR):', visionErr);
   }
 
-  // â”â”â” 2. OCR TEXT DETECTION â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+  // ── 2. OCR TEXT DETECTION ─────────────────────────────────────────────────
+  const scores: Record<string, number> = {};
+
   try {
     console.log(`[OCR] Starting text extraction for "${file.name}"...`);
     const worker = await getOcrWorker();
@@ -486,24 +479,27 @@ export async function classifyScreenshot(
     const lowerText = text.toLowerCase();
     _lastOcrText = lowerText; // persist for post-OCR platform suppression
 
-    // VERBOSE LOGGING
+    // VERBOSE LOGGING REQUESTED BY USER
     console.log(`\n\n[OCR DEBUG] ========================================`);
     console.log(`[OCR DEBUG] Extracted text from "${file.name}":\n"${lowerText}"`);
     console.log(`[OCR DEBUG] ========================================\n\n`);
 
-    // â”â”â” STEP 1: Platform-first detection â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+    // ── STEP 1: Platform-first detection ──────────────────────────────────
     // Check for explicit platform brands BEFORE any keyword scoring.
     // If a platform is found, its category is locked in immediately.
     // The suppress list prevents content words inside the platform from overriding it.
+    const platformSuppressed = new Set<Category>();
+    let platformLocked = false;
+
     for (const rule of PLATFORM_FIRST_RULES) {
       if (rule.detect.test(lowerText)) {
-        console.log(`[Classifier] ðŸ”’ Platform detected: "${rule.detect.source}" â†’ locking "${rule.category}"`);
-        visionCategories.add(rule.category);
+        console.log(`[Classifier] 🔒 Platform detected: "${rule.detect.source}" → locking "${rule.category}"`);
+        categories.add(rule.category);
         for (const sup of rule.suppress) {
           platformSuppressed.add(sup);
         }
         platformLocked = true;
-        // Don't break â€” multiple platform rules may match (e.g. instagram + youtube url)
+        // Don't break — multiple platform rules may match (e.g. instagram + youtube url)
       }
     }
 
@@ -511,10 +507,10 @@ export async function classifyScreenshot(
       console.log(`[Classifier] Platform lock active. Suppressed categories: ${[...platformSuppressed].join(', ')}`);
     }
 
-    // â”â”â” STEP 2: Content-based keyword scoring (for non-platform screenshots) â”
+    // ── STEP 2: Content-based keyword scoring (for non-platform screenshots) ─
+
     for (const [category, rules] of Object.entries(CATEGORY_RULES)) {
-      if (category === 'People') continue;     // Vision-only
-      if (category === 'QR Code') continue;    // Visual-only â€” never score via OCR keywords
+      if (category === 'People') continue; // Vision-only
       if (platformSuppressed.has(category as Category)) continue; // Platform already won this slot
 
       let score = 0;
@@ -527,135 +523,135 @@ export async function classifyScreenshot(
       }
 
       if (score > 0) {
-        scores[category] = (scores[category] ?? 0) + score;
-        console.log(`[OCR] Category "${category}" total score: ${scores[category]}`);
+        scores[category] = score;
+        console.log(`[OCR] Category "${category}" total score: ${score}`);
       }
     }
+
+    // ─── STEP 2.5: Cross-category exclusion rules ──────────────────────────────
+    // If strong cinema evidence is present, exclude Travel
+    if (/\b(?:multiplex|cinema|theatre|screen no|movie|show time)\b/i.test(lowerText)) {
+      if (scores['Travel'] > 0) {
+        console.log(`[Classifier] Cross-category exclusion: Strong cinema evidence found. Suppressing Travel classification.`);
+        delete scores['Travel'];
+      }
+    }
+
+    // Pick the highest scoring non-platform, non-suppressed category
+    let bestOcrCategory: Category | null = null;
+    let maxScore = 0;
+
+    for (const [category, score] of Object.entries(scores)) {
+      // Require a minimum contextual score of 5 for Certificates so a single standalone "certificate" word (weight 3) does not trigger it
+      const minRequired = category === 'Certificates' ? 5 : 2;
+      if (score > maxScore && score >= minRequired && !platformSuppressed.has(category as Category)) {
+        maxScore = score;
+        bestOcrCategory = category as Category;
+      }
+    }
+
+    // ── SPECIAL ROUTING: QR Code with payment context → UPI ──────────────
+    // If QR Code wins but strong payment signals are present, route to UPI instead
+    if (bestOcrCategory === 'QR Code') {
+      const paymentKeywords = /\b(?:upi|bhim|google pay|gpay|phonepe|paytm|bharatpe|scan.*pay|accepted here)\b/i;
+      if (paymentKeywords.test(lowerText)) {
+        console.log(`[OCR] 🔄 QR Code detected with payment context → routing to UPI instead`);
+        bestOcrCategory = 'UPI';
+      }
+    }
+
+    if (bestOcrCategory) {
+      console.log(`[OCR] ✅ Best content match: "${bestOcrCategory}" (score: ${maxScore})`);
+      categories.add(bestOcrCategory);
+    } else if (!platformLocked) {
+      console.log('[OCR] No category met the minimum score threshold (2) from text.');
+    }
+
+    // ── 3. PLATFORM SUPPRESSION ───────────────────────────────────────────────
+    // Vision runs before OCR, so we must evict suppressed categories now.
+    if (platformLocked) {
+      for (const suppressed of platformSuppressed) {
+        if (categories.has(suppressed)) {
+          categories.delete(suppressed);
+          console.log(`[Classifier] Platform lock suppressed vision-added category: ${suppressed}`);
+        }
+      }
+    }
+
+
 
   } catch (ocrErr) {
     // OCR failure is non-fatal if vision already found something
     console.error('[OCR] Error during text extraction (non-fatal if vision succeeded):', ocrErr);
   }
 
-  // â”â”â” 3. PRIORITY-BASED SINGLE-WINNER RESOLUTION â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
-  // We collected candidate categories from vision (QR, People, Food, etc.) and
-  // OCR keyword scoring above. Now we resolve to exactly ONE final category
-  // using a strict priority chain so that a QR code embedded inside a receipt
-  // does NOT cause the screenshot to be placed in both Receipts and QR Code.
-  //
-  // Priority (highest â†’ lowest):
-  //   Certificates â†’ UPI â†’ Receipts â†’ Shopping â†’ Food â†’ College â†’ Work â†’
-  //   Travel â†’ Entertainment â†’ Movies & TV â†’ Sports â†’ Coding â†’ Reading â†’
-  //   Events â†’ Health & Fitness â†’ Documents â†’ Messages â†’ Social Media â†’
-  //   People â†’ QR Code â†’ Other
-  //
-  // QR Code only wins when NO higher-priority category reached its score
-  // threshold. A visual QR inside a bill/receipt â†’ Receipts wins.
+  // ── 4. QR CODE CONTEXTUAL PRIORITY RESOLUTION ────────────────────────────
+  // QR detection is an ADDITIONAL signal, not an automatic override.
+  // Now that OCR text is available, apply the full routing:
+  //   a) Payment keywords present → UPI (never Entertainment/Other/People)
+  //   b) Receipt/invoice context → Receipts + QR Code (multi-tag)
+  //   c) Entertainment/cinema OCR evidence → Entertainment + QR Code (multi-tag)
+  //   d) Travel OCR evidence → Travel + QR Code (multi-tag)
+  //   e) No strong context → standalone QR Code
+  //   f) Vision-added Entertainment WITHOUT genuine entertainment OCR evidence → suppress it
+  if (visualQrDetected) {
+    const paymentKeywords = /\b(?:upi|bhim|google pay|gpay|phonepe|paytm|bharatpe|scan.*pay|paid to|pay to|accepted here|credited|debited|transaction)\b/i;
+    const entertainmentOcrEvidence = /\b(?:multiplex|cinema|theatre|movie|show time|now showing|screen no|admission|ticket|booking)\b/i;
 
-  // Log all candidate scores
-  console.log(`[CLASSIFY] Candidate scores: ${JSON.stringify(scores)}`);
-  console.log(`[CLASSIFY] Vision-added categories: ${[...visionCategories].join(', ') || 'none'}`);
-
-  const PRIORITY_ORDER: Category[] = [
-    'Certificates',
-    'UPI',
-    'Receipts',
-    'Shopping',
-    'Food',
-    'College',
-    'Work',
-    'Travel',
-    'Entertainment',
-    'Movies & TV',
-    'Sports',
-    'Coding',
-    'Reading',
-    'Events',
-    'Health & Fitness',
-    'Documents',
-    'Messages',
-    'Social Media',
-    'People',
-    'QR Code',
-    'Other',
-  ];
-
-  let finalCategory: Category | null = null;
-
-  if (platformLocked) {
-    // Platform screenshots: remove all suppressed categories from vision set,
-    // then pick the first remaining platform category.
-    for (const suppressed of platformSuppressed) {
-      visionCategories.delete(suppressed);
-    }
-    finalCategory = [...visionCategories].find(c => !platformSuppressed.has(c)) ?? null;
-    if (finalCategory) {
-      console.log(`[CLASSIFY] Priority override: Platform lock â€” final category: "${finalCategory}"`);
-    }
-  } else {
-    // Non-platform screenshot: merge OCR scoring + vision into the priority chain.
-    // Build the candidate set:
-    //   â€¢ everything added by vision (People, Food, Shopping, etc.)
-    //   â€¢ every OCR-scored category that met its minimum threshold
-    const candidates = new Set<Category>(visionCategories);
-    for (const [cat, score] of Object.entries(scores)) {
-      const minRequired = cat === 'Certificates' ? 5 : 2;
-      if (score >= minRequired && !platformSuppressed.has(cat as Category)) {
-        candidates.add(cat as Category);
-      }
-    }
-
-    // Walk priority order â€” first candidate that appears wins.
-    for (const cat of PRIORITY_ORDER) {
-      if (!candidates.has(cat)) continue;
-
-      // â”€â”€ QR Code gate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-      // QR Code is a fallback category. If ANY higher-priority category is a
-      // confirmed candidate (via OCR score OR via vision), suppress QR Code so
-      // that a QR embedded in a receipt/bill/certificate/UPI screenshot does not
-      // win the classification.
-      if (cat === 'QR Code') {
-        const higherPriorityCats = PRIORITY_ORDER.slice(0, PRIORITY_ORDER.indexOf('QR Code'));
-        const strongerExists = higherPriorityCats.some(prior => candidates.has(prior));
-        if (strongerExists) {
-          console.log(`[CLASSIFY] Priority override: QR Code suppressed â€” a stronger context category is present.`);
-          continue; // skip QR Code, keep looking
-        }
-        // QR Code with UPI payment context â†’ route to UPI
-        const paymentKeywords = /\b(?:upi|bhim|google pay|gpay|phonepe|paytm|bharatpe|scan.*pay|paid to|pay to|accepted here|credited|debited|transaction)\b/i;
-        if (paymentKeywords.test(_lastOcrText)) {
-          console.log(`[CLASSIFY] Priority override: QR Code + payment context â†’ routing to UPI instead.`);
-          finalCategory = 'UPI';
-          break;
-        }
-      }
-      // â”€â”€ End QR Code gate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-      finalCategory = cat;
-      break;
-    }
-
-    if (finalCategory) {
-      console.log(`[CLASSIFY] Priority resolution â†’ "${finalCategory}"`);
-    }
-  }
-
-  // â”â”â” 4. FALLBACK â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
-  if (!finalCategory) {
-    const isAestheticOrQuote =
-      _lastOcrText.length > 0 &&
-      _lastOcrText.length < 150 &&
-      !/\b(?:invoice|bill|gst|tax|total|amount|receipt|payment)\b/i.test(_lastOcrText);
-    if (isAestheticOrQuote) {
-      finalCategory = 'Entertainment';
-      console.log('[CLASSIFY] Aesthetic quote/graphic detected â†’ Entertainment');
+    if (paymentKeywords.test(_lastOcrText)) {
+      // Payment QR → UPI, suppress generic fallbacks
+      categories.add('UPI');
+      categories.delete('QR Code');
+      (['Entertainment', 'Other', 'People'] as Category[]).forEach(cat => {
+        if (categories.has(cat)) { categories.delete(cat); }
+      });
+      console.log(`[QR] 💳 Payment QR → routed to UPI`);
     } else {
-      finalCategory = 'Other';
-      console.log('[CLASSIFY] No category detected â€” defaulting to Other');
+      // Non-payment QR: add QR Code as an additional tag
+      categories.add('QR Code');
+
+      // If vision added Entertainment but there's no genuine entertainment OCR evidence,
+      // suppress that vision-derived Entertainment tag (phone screen ≠ Entertainment)
+      if (categories.has('Entertainment') && !entertainmentOcrEvidence.test(_lastOcrText)) {
+        categories.delete('Entertainment');
+        console.log(`[QR] 🔲 Vision-added Entertainment suppressed — no entertainment OCR evidence alongside QR`);
+      }
+
+      console.log(`[QR] 🔲 QR Code retained; co-existing categories: ${[...categories].filter(c => c !== 'QR Code').join(', ') || 'none'}`);
+    }
+  } else if (categories.has('UPI')) {
+    // UPI from OCR keywords (not visual QR) — also suppress generic fallbacks
+    (['Entertainment', 'Other', 'People'] as Category[]).forEach(cat => {
+      if (categories.has(cat)) {
+        categories.delete(cat);
+        console.log(`[Classifier] 💳 UPI/payment context removes generic vision category: ${cat}`);
+      }
+    });
+  }
+
+  if (categories.size === 0) {
+    const isAestheticOrQuote = _lastOcrText.length > 0 && _lastOcrText.length < 150 && !/\b(?:invoice|bill|gst|tax|total|amount|receipt|payment)\b/i.test(_lastOcrText);
+    if (isAestheticOrQuote) {
+      console.log('[Classifier] Aesthetic quote/graphic detected → categorizing as Entertainment');
+      categories.add('Entertainment');
+    } else {
+      console.log('[Classifier] No categories detected — defaulting to Other');
+      categories.add('Other');
     }
   }
 
-  console.log(`[CLASSIFY] Final category for "${file.name}": "${finalCategory}"`);
-  return [finalCategory];
-}
+  const result = Array.from(categories);
 
+  // --- [CLASSIFY] EXPLICIT LOGGING REQUESTED BY USER ---
+  if (options.isTarget) {
+    console.log(`[OCR] Extracted text:\n${_lastOcrText}`);
+    console.log(`[SCORE] UPI: ${scores['UPI'] || 0}`);
+    console.log(`[SCORE] Shopping: ${scores['Shopping'] || 0}`);
+    console.log(`[SCORE] Other: ${scores['Other'] || 0}`);
+    console.log(`[CLASSIFY] Final categories: ${result.join(', ')}`);
+  }
+  // -----------------------------------------------------
+
+  console.log(`[CLASSIFY] Final returned categories for "${file.name}":`, result);
+  return result;
+}
