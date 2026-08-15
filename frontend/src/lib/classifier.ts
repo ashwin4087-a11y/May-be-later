@@ -178,7 +178,7 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
   Receipts: [
     // Physical bills, cash memos, takeaway receipts
     { regex: /cash bill|take.?out|takeaway|tax invoice/i, weight: 5 },
-    { regex: /net amt|round.?off|tot items|tot qty|total qty/i, weight: 4 },
+    { regex: /net amt|round.?off|tot items|tot qty|total qty|\bgrand total\b|\bsubtotal\b/i, weight: 4 },
     { regex: /\breceipt\b|\binvoice\b/i, weight: 3 },
     // Indian tax receipt signals
     { regex: /sgst|cgst|\bgst\b|fssai/i, weight: 4 },
@@ -410,7 +410,7 @@ export async function classifyScreenshot(
         train: 'Travel',
         bus: 'Travel',
         // laptop removed — causes false Work classifications on product/promo images
-        tv: 'Entertainment',
+        // tv removed — causes false Entertainment classifications on phones/screens
         sports_ball: 'Sports',
         bottle: 'Food',
         wine_glass: 'Food',
@@ -630,14 +630,8 @@ export async function classifyScreenshot(
   }
 
   if (categories.size === 0) {
-    const isAestheticOrQuote = _lastOcrText.length > 0 && _lastOcrText.length < 150 && !/\b(?:invoice|bill|gst|tax|total|amount|receipt|payment)\b/i.test(_lastOcrText);
-    if (isAestheticOrQuote) {
-      console.log('[Classifier] Aesthetic quote/graphic detected → categorizing as Entertainment');
-      categories.add('Entertainment');
-    } else {
-      console.log('[Classifier] No categories detected — defaulting to Other');
-      categories.add('Other');
-    }
+    console.log('[Classifier] No categories detected — defaulting to Other');
+    categories.add('Other');
   }
 
   const result = Array.from(categories);
