@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import JSZip from 'jszip';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Collection } from '../types/collections';
 import { getBatchScreenshotUrls, deleteScreenshot } from '../lib/storage';
+import { downloadScreenshotsAsZip } from '../lib/download';
+import { Collection } from '../types/collections';
 import ScreenshotGrid, { Screenshot } from '../components/ScreenshotGrid';
 import ScreenshotModal from '../components/ScreenshotModal';
 import CreateCollectionModal from '../components/CreateCollectionModal';
@@ -181,50 +181,12 @@ export default function CollectionDetail() {
     setError(null);
 
     try {
-      const zip = new JSZip();
       const selectedScreenshots = screenshots.filter((s) => idsToDownload.includes(s.id));
-      const total = selectedScreenshots.length;
-      let completed = 0;
-
-      for (let i = 0; i < total; i++) {
-        const s = selectedScreenshots[i];
-        if (!s.image_path) {
-          completed++;
-          continue;
-        }
-
-        // Fetch original file
-        const { data: blob, error: downloadError } = await supabase.storage
-          .from('screenshots')
-          .download(s.image_path);
-
-        if (downloadError || !blob) {
-          console.error(`Failed to download ${s.image_path}:`, downloadError);
-        } else {
-          // Determine filename
-          const ext = s.image_path.split('.').pop() || 'png';
-          const baseName = s.title && s.title.trim() !== '' 
-            ? s.title.replace(/[/\\?%*:|"<>]/g, '-') 
-            : String(i + 1).padStart(3, '0');
-          const fileName = `${collection?.name} - ${baseName}.${ext}`;
-          
-          zip.file(fileName, blob);
-        }
-        
-        completed++;
-        setDownloadProgress(Math.round((completed / total) * 100));
-      }
-
-      const zipBlob = await zip.generateAsync({ type: 'blob' });
-      const url = URL.createObjectURL(zipBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${collection?.name}.zip`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
+      await downloadScreenshotsAsZip(
+        selectedScreenshots, 
+        `${collection?.name || 'Collection'}.zip`,
+        (progress) => setDownloadProgress(progress)
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create ZIP.');
     } finally {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
-import { deleteScreenshot } from '../lib/storage';
+import { deleteScreenshot, toggleScreenshotFavorite } from '../lib/storage';
 import { Collection } from '../types/collections';
 import CreateCollectionModal from './CreateCollectionModal';
 
@@ -12,6 +12,7 @@ interface Screenshot {
   notes: string | null;
   image_path: string;
   created_at: string;
+  is_favorite?: boolean;
   signedUrl?: string;
 }
 
@@ -19,7 +20,7 @@ interface Props {
   screenshot: Screenshot;
   onClose: () => void;
   onDeleted: (id: string) => void;
-  onUpdated: (updated: Pick<Screenshot, 'id' | 'title' | 'notes'>) => void;
+  onUpdated: (updated: Pick<Screenshot, 'id' | 'title' | 'notes' | 'is_favorite'>) => void;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -57,11 +58,16 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
   const [togglingCollectionId, setTogglingCollectionId] = useState<string | null>(null);
   const [showCreateCollection, setShowCreateCollection] = useState(false);
 
+  // Favorite state
+  const [isFavorite, setIsFavorite] = useState(!!screenshot.is_favorite);
+  const [togglingFavorite, setTogglingFavorite] = useState(false);
+
   // Sync fields if parent screenshot prop changes (e.g. after save propagates back)
   useEffect(() => {
     setEditTitle(screenshot.title);
     setEditNotes(screenshot.notes ?? '');
-  }, [screenshot.id, screenshot.title, screenshot.notes]);
+    setIsFavorite(!!screenshot.is_favorite);
+  }, [screenshot.id, screenshot.title, screenshot.notes, screenshot.is_favorite]);
 
   // Auto-focus title input when edit mode opens
   useEffect(() => {
@@ -146,6 +152,24 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
     handleToggleCollection(newCol.id); // Auto-add to newly created collection
   };
 
+  const handleToggleFavorite = async () => {
+    if (togglingFavorite) return;
+    setTogglingFavorite(true);
+    const nextState = !isFavorite;
+    
+    // Optimistic update
+    setIsFavorite(nextState);
+    
+    const success = await toggleScreenshotFavorite(screenshot.id, nextState);
+    if (success) {
+      onUpdated({ ...screenshot, is_favorite: nextState });
+    } else {
+      // Revert optimistic update
+      setIsFavorite(!nextState);
+    }
+    setTogglingFavorite(false);
+  };
+
   // Escape: cancel edit or close
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -192,7 +216,7 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
       return;
     }
 
-    onUpdated({ id: screenshot.id, title: trimTitle, notes: editNotes.trim() || null });
+    onUpdated({ id: screenshot.id, title: trimTitle, notes: editNotes.trim() || null, is_favorite: isFavorite });
     setSaving(false);
     setEditing(false);
   };
@@ -294,9 +318,25 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
                   placeholder="Screenshot title"
                 />
               ) : (
-                <h2 className="flex-1 font-display-md text-[22px] leading-snug text-primary break-words">
-                  {screenshot.title || <span className="text-on-surface-variant italic font-normal">Untitled</span>}
-                </h2>
+                <div className="flex items-center justify-between w-full flex-1 min-w-0 pr-2">
+                  <h2 className="font-display-md text-[22px] leading-snug text-primary break-words flex-1 min-w-0">
+                    {screenshot.title || <span className="text-on-surface-variant italic font-normal">Untitled</span>}
+                  </h2>
+                  <button
+                    onClick={handleToggleFavorite}
+                    disabled={togglingFavorite}
+                    className={`flex-shrink-0 ml-3 flex items-center justify-center transition-all ${
+                      isFavorite 
+                        ? 'text-[#f59e0b] hover:text-[#d97706]' // Amber colors for active star
+                        : 'text-outline-variant hover:text-on-surface-variant'
+                    } ${togglingFavorite ? 'opacity-50 cursor-wait' : ''}`}
+                    title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: isFavorite ? "'FILL' 1" : "'FILL' 0" }}>
+                      star
+                    </span>
+                  </button>
+                </div>
               )}
               <button
                 onClick={editing ? cancelEdit : onClose}

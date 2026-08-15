@@ -4,6 +4,7 @@ export interface Screenshot {
   notes: string | null;
   image_path: string;
   created_at: string;
+  is_favorite?: boolean;
   signedUrl?: string;
 }
 
@@ -19,6 +20,8 @@ interface ScreenshotGridProps {
   selectionMode?: boolean;
   selectedIds?: Set<string>;
   onToggleSelect?: (id: string) => void;
+  // Favorites
+  onToggleFavorite?: (id: string, nextState: boolean) => void;
 }
 
 export default function ScreenshotGrid({
@@ -32,6 +35,7 @@ export default function ScreenshotGrid({
   selectionMode = false,
   selectedIds = new Set(),
   onToggleSelect,
+  onToggleFavorite,
 }: ScreenshotGridProps) {
   if (loading) {
     return (
@@ -103,8 +107,28 @@ export default function ScreenshotGrid({
 
             {/* Normal hover overlay */}
             {!selectionMode && (
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                <p className="font-label-technical text-on-primary text-xs truncate">{s.title}</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                <p className="font-label-technical text-on-primary text-xs truncate drop-shadow-md">{s.title}</p>
+                
+                {/* Favorite toggle star */}
+                {onToggleFavorite && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleFavorite(s.id, !s.is_favorite);
+                    }}
+                    className={`absolute top-2 right-2 flex items-center justify-center w-8 h-8 rounded-full backdrop-blur-md transition-all
+                      ${s.is_favorite 
+                        ? 'bg-black/40 text-[#fcd34d] hover:bg-black/60 hover:text-[#fde68a] hover:scale-110 shadow-lg' 
+                        : 'bg-black/20 text-white/70 hover:bg-black/40 hover:text-white hover:scale-110'
+                      }`}
+                    title={s.is_favorite ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: s.is_favorite ? "'FILL' 1" : "'FILL' 0" }}>
+                      star
+                    </span>
+                  </button>
+                )}
               </div>
             )}
 

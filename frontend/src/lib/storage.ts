@@ -1,5 +1,18 @@
 import { supabase } from './supabase';
 
+export async function toggleScreenshotFavorite(id: string, isFavorite: boolean): Promise<boolean> {
+  const { error } = await supabase
+    .from('screenshots')
+    .update({ is_favorite: isFavorite })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error toggling favorite:', error);
+    return false;
+  }
+  return true;
+}
+
 /**
  * Computes SHA-256 hash of a File's bytes.
  * Used for reliable duplicate detection (not filename-based).

@@ -6,6 +6,11 @@ import Dashboard from './pages/Dashboard';
 import Collections from './pages/Collections';
 import CollectionDetail from './pages/CollectionDetail';
 import Duplicates from './pages/Duplicates';
+import AllItems from './pages/AllItems';
+import Favorites from './pages/Favorites';
+import Unorganized from './pages/Unorganized';
+import NeedsReview from './pages/NeedsReview';
+import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 
@@ -52,6 +57,56 @@ function App() {
             <ProtectedRoute>
               <AuthenticatedLayout>
                 <Duplicates />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/all" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <AllItems />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/favorites" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <Favorites />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/unorganized" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <Unorganized />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/review" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <NeedsReview />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/settings" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <Settings />
               </AuthenticatedLayout>
             </ProtectedRoute>
           } 

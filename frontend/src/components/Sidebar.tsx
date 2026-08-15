@@ -25,7 +25,6 @@ export default function Sidebar() {
     { name: 'Collections', path: '/collections', icon: 'folder_special' },
     { name: 'Needs Review', path: '/review', icon: 'fact_check' },
     { name: 'Duplicates', path: '/duplicates', icon: 'file_copy' },
-    { name: 'Import', path: '/import', icon: 'move_to_inbox' },
   ];
 
   const filterItems = [

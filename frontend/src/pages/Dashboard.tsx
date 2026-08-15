@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { uploadScreenshot, getScreenshotUrl, getBatchScreenshotUrls, computeImageHash, findDuplicate } from '../lib/storage';
+import { uploadScreenshot, getScreenshotUrl, getBatchScreenshotUrls, computeImageHash, findDuplicate, toggleScreenshotFavorite } from '../lib/storage';
 import ScreenshotModal from '../components/ScreenshotModal';
 import ScreenshotGrid, { Screenshot } from '../components/ScreenshotGrid';
 import BulkDeleteBar from '../components/BulkDeleteBar';
@@ -77,7 +77,7 @@ export default function Dashboard() {
     // 1. Fetch original screenshots (non-duplicates); select only needed columns
     const { data, error } = await supabase
       .from('screenshots')
-      .select('id, title, notes, image_path, created_at')
+      .select('id, title, notes, image_path, created_at, is_favorite')
       .eq('is_duplicate', false)
       .order('created_at', { ascending: false });
 
@@ -458,7 +458,7 @@ export default function Dashboard() {
     setScreenshots((prev) => prev.filter((s) => s.id !== id));
   };
 
-  const handleUpdated = (updated: { id: string; title: string; notes: string | null }) => {
+  const handleUpdated = (updated: { id: string; title: string; notes: string | null; is_favorite?: boolean }) => {
     setScreenshots((prev) =>
       prev.map((s) => (s.id === updated.id ? { ...s, ...updated } : s))
     );
@@ -466,6 +466,14 @@ export default function Dashboard() {
     setSelectedScreenshot((prev) =>
       prev?.id === updated.id ? { ...prev, ...updated } : prev
     );
+  };
+
+  const handleToggleFavorite = async (id: string, nextState: boolean) => {
+    setScreenshots((prev) => prev.map(s => s.id === id ? { ...s, is_favorite: nextState } : s));
+    const success = await toggleScreenshotFavorite(id, nextState);
+    if (!success) {
+      setScreenshots((prev) => prev.map(s => s.id === id ? { ...s, is_favorite: !nextState } : s));
+    }
   };
 
   return (
@@ -625,6 +633,7 @@ export default function Dashboard() {
             loading={loadingGallery}
             onScreenshotClick={setSelectedScreenshot}
             onEmptyStateAction={() => fileInputRef.current?.click()}
+            onToggleFavorite={handleToggleFavorite}
             selectionMode={selectionMode}
             selectedIds={selectedIds}
             onToggleSelect={handleToggleSelect}
