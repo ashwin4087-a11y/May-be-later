@@ -1,5 +1,187 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Dependencies
+# ──────────────────────────────────────────────────────────────────────────────
 node_modules/
+
+# NOTE: Lock files SHOULD be committed for reproducible builds
+# package-lock.json (npm) — TRACKED
+# yarn.lock (yarn) — use if project switches to yarn
+# pnpm-lock.yaml (pnpm) — use if project switches to pnpm
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Build output & caches
+# ──────────────────────────────────────────────────────────────────────────────
+# Frontend (Vite/React)
 dist/
+frontend/dist/
+.vite/
+
+# Backend (if using Next.js or build)
+build/
+.next/
+
+# Compiled TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Environment variables & secrets (NEVER commit .env files)
+# ──────────────────────────────────────────────────────────────────────────────
 .env
 .env.local
+.env.*.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.staging
+.env.staging.local
+.env.production
+.env.production.local
+
+# IDE-specific secrets
+.env.idea
+.env.vscode
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Logs & diagnostic files
+# ──────────────────────────────────────────────────────────────────────────────
 *.log
+*.log.gz
+npm-debug.log*
+npm-error.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pnpm-error.log*
+lerna-debug.log*
+.npm
+.yarn/cache
+.yarn/unplugged
+
+# ──────────────────────────────────────────────────────────────────────────────
+# OS & temporary files
+# ──────────────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.#*
+
+# Windows-specific
+Thumbs.db
+*.lnk
+
+# ──────────────────────────────────────────────────────────────────────────────
+# IDE & editor files (but keep shared config)
+# ──────────────────────────────────────────────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+.idea/
+.idea_modules/
+*.iml
+*.iws
+*.ipr
+
+*.sublime-workspace
+.sublime-project
+
+# IntelliJ IDEA
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# vim/neovim
+*.swp
+*.swo
+.vim/
+
+# Emacs
+*~
+\#*\#
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Testing & coverage
+# ──────────────────────────────────────────────────────────────────────────────
+coverage/
+.coverage
+.nyc_output/
+.pytest_cache/
+junit.xml
+lcov.info
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Local caches
+# ──────────────────────────────────────────────────────────────────────────────
+.cache/
+.eslintcache
+.stylelintcache
+.turbo/
+dist-ssr/
+.vite-inspect/
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Local databases & generated files
+# ──────────────────────────────────────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+local.db
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Supabase local development
+# ──────────────────────────────────────────────────────────────────────────────
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Generated scripts & debugging (frontend only)
+# ──────────────────────────────────────────────────────────────────────────────
+frontend/scripts/check_db.js
+frontend/scripts/check_db.ts
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Deployment & platform-specific
+# ──────────────────────────────────────────────────────────────────────────────
+.vercel/
+.netlify/
+.firebase/
+.env.local.firebase
+dist-ssr/
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Temporary directories
+# ──────────────────────────────────────────────────────────────────────────────
+tmp/
+temp/
+.tmp/
+
+# ──────────────────────────────────────────────────────────────────────────────
+# System & user-specific files (NOT TO BE COMMITTED)
+# ──────────────────────────────────────────────────────────────────────────────
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Node-RED / runtime files
+# ──────────────────────────────────────────────────────────────────────────────
+flows_cred.json
+.node-red/

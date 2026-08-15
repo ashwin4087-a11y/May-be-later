@@ -1,12 +1,23 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from './Logo';
 import { supabase } from '../lib/supabase';
+import { User } from '@supabase/supabase-js';
 
 export default function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    navigate('/');
   };
 
   const navItems = [
@@ -83,7 +94,9 @@ export default function Sidebar() {
           <span className="material-symbols-outlined text-on-surface-variant">account_circle</span>
         </div>
         <div className="flex flex-col overflow-hidden">
-          <span className="font-body-md font-medium text-primary truncate">Archivist</span>
+          <span className="font-body-md font-medium text-primary truncate">
+            {user?.user_metadata?.full_name || user?.email || 'Archivist'}
+          </span>
           <span className="font-label-technical text-on-surface-variant text-xs truncate">Log Out</span>
         </div>
       </div>

@@ -17,7 +17,11 @@ export default function Signup() {
     setLoading(true);
     setError(null);
     
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({ 
+      email, 
+      password,
+      options: { data: { full_name: fullName } }
+    });
     if (error) {
       setError(error.message);
       setLoading(false);
@@ -27,9 +31,9 @@ export default function Signup() {
   };
 
   return (
-    <div className="bg-surface-container min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop antialiased w-full">
+    <div className="bg-surface-container min-h-[100dvh] flex items-center justify-center px-margin-mobile md:px-margin-desktop py-6 md:py-10 antialiased w-full">
       <main className="w-full max-w-[480px]">
-        <div className="text-center mb-10">
+        <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2">
             <div className="w-[28px] h-[28px] rounded-full overflow-hidden">
               <Logo className="w-full h-full" />
@@ -38,8 +42,8 @@ export default function Signup() {
           </div>
         </div>
         
-        <div className="bg-card-background rounded-xl p-8 md:p-12 shadow-subtle border border-primary/10">
-          <header className="mb-10 text-center">
+        <div className="bg-card-background rounded-xl p-8 md:px-12 md:py-10 shadow-subtle border border-primary/10">
+          <header className="mb-8 text-center">
             <h2 className="font-display-md text-display-md text-primary mb-4">Begin your archive</h2>
             <p className="font-body-md text-body-md text-on-surface-variant">A quiet place for your references, thoughts, and discoveries.</p>
           </header>
@@ -112,7 +116,7 @@ export default function Signup() {
           </form>
         </div>
         
-        <div className="text-center mt-8">
+        <div className="text-center mt-6">
           <p className="font-body-md text-body-md text-on-surface-variant">
             Already have an archive? <Link className="text-primary hover:text-primary-container font-medium transition-colors underline decoration-primary/30 underline-offset-4 hover:decoration-primary" to="/login">Log in</Link>
           </p>

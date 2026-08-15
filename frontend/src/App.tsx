@@ -3,6 +3,9 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import Collections from './pages/Collections';
+import CollectionDetail from './pages/CollectionDetail';
+import Duplicates from './pages/Duplicates';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 
@@ -19,6 +22,36 @@ function App() {
             <ProtectedRoute>
               <AuthenticatedLayout>
                 <Dashboard />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/collections" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <Collections />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/collections/:id" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <CollectionDetail />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/duplicates" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <Duplicates />
               </AuthenticatedLayout>
             </ProtectedRoute>
           } 
