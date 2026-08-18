@@ -65,6 +65,8 @@ export default function Unorganized() {
           }}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
+          screenshots={screenshots}
+          onNavigate={setSelectedScreenshot}
         />
       )}
 

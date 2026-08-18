@@ -238,6 +238,8 @@ export default function CollectionDetail() {
           }}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
+          screenshots={screenshots}
+          onNavigate={setSelectedScreenshot}
         />
       )}
 

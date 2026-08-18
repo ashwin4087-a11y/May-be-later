@@ -486,6 +486,8 @@ export default function Dashboard() {
           onClose={() => setSelectedScreenshot(null)}
           onDeleted={handleDeleted}
           onUpdated={handleUpdated}
+          screenshots={screenshots}
+          onNavigate={setSelectedScreenshot}
         />
       )}
 

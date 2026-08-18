@@ -21,6 +21,10 @@ interface Props {
   onClose: () => void;
   onDeleted: (id: string) => void;
   onUpdated: (updated: Pick<Screenshot, 'id' | 'title' | 'notes' | 'is_favorite'>) => void;
+  /** Ordered list of screenshots in the current view — enables Prev/Next navigation */
+  screenshots?: Screenshot[];
+  /** Called with the adjacent screenshot when the user navigates */
+  onNavigate?: (screenshot: Screenshot) => void;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -35,7 +39,7 @@ function formatDate(iso: string) {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpdated }: Props) {
+export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpdated, screenshots = [], onNavigate }: Props) {
   // Edit state
   const [editing, setEditing]     = useState(false);
   const [editTitle, setEditTitle] = useState(screenshot.title);
@@ -62,11 +66,28 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
   const [isFavorite, setIsFavorite] = useState(!!screenshot.is_favorite);
   const [togglingFavorite, setTogglingFavorite] = useState(false);
 
-  // Sync fields if parent screenshot prop changes (e.g. after save propagates back)
+  // ── Navigation ──────────────────────────────────────────────────────────────
+  const currentIndex = screenshots.findIndex((s) => s.id === screenshot.id);
+  const hasPrev = currentIndex > 0;
+  const hasNext = currentIndex !== -1 && currentIndex < screenshots.length - 1;
+
+  const goToPrev = () => {
+    if (hasPrev && onNavigate) onNavigate(screenshots[currentIndex - 1]);
+  };
+  const goToNext = () => {
+    if (hasNext && onNavigate) onNavigate(screenshots[currentIndex + 1]);
+  };
+
+  // Sync fields if parent screenshot prop changes (e.g. after save propagates back, or navigation)
   useEffect(() => {
     setEditTitle(screenshot.title);
     setEditNotes(screenshot.notes ?? '');
     setIsFavorite(!!screenshot.is_favorite);
+    // Reset edit/delete state when navigating to a new screenshot
+    setEditing(false);
+    setConfirmDelete(false);
+    setSaveError(null);
+    setDeleteError(null);
   }, [screenshot.id, screenshot.title, screenshot.notes, screenshot.is_favorite]);
 
   // Auto-focus title input when edit mode opens
@@ -170,17 +191,27 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
     setTogglingFavorite(false);
   };
 
-  // Escape: cancel edit or close
+  // Escape: cancel edit or close; Left/Right: navigate (skip when typing in an input/textarea)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      if (editing) cancelEdit();
-      else onClose();
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea';
+
+      if (e.key === 'Escape') {
+        if (editing) cancelEdit();
+        else onClose();
+        return;
+      }
+
+      if (!isTyping) {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); goToPrev(); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); goToNext(); }
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editing, onClose]);
+  }, [editing, onClose, hasPrev, hasNext, currentIndex, screenshots]);
 
   // Lock body scroll
   useEffect(() => {
@@ -188,6 +219,7 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = prev; };
   }, []);
+
 
   // ── Edit ──────────────────────────────────────────────────────────────────
 
@@ -300,7 +332,54 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
               {filename}
             </span>
           </div>
+
+          {/* ── Prev / Next navigation arrows (only shown when a screenshots list is provided) ── */}
+          {screenshots.length > 1 && onNavigate && (
+            <>
+              {/* Previous */}
+              <button
+                onClick={goToPrev}
+                disabled={!hasPrev}
+                title="Previous screenshot (←)"
+                aria-label="Previous screenshot"
+                className={`absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center
+                  backdrop-blur-md transition-all duration-150 z-10
+                  ${hasPrev
+                    ? 'bg-black/50 text-white/80 hover:bg-black/70 hover:text-white hover:scale-110 cursor-pointer'
+                    : 'bg-black/20 text-white/20 cursor-not-allowed'
+                  }`}
+              >
+                <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+              </button>
+
+              {/* Next */}
+              <button
+                onClick={goToNext}
+                disabled={!hasNext}
+                title="Next screenshot (→)"
+                aria-label="Next screenshot"
+                className={`absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center
+                  backdrop-blur-md transition-all duration-150 z-10
+                  ${hasNext
+                    ? 'bg-black/50 text-white/80 hover:bg-black/70 hover:text-white hover:scale-110 cursor-pointer'
+                    : 'bg-black/20 text-white/20 cursor-not-allowed'
+                  }`}
+              >
+                <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+              </button>
+
+              {/* Position counter e.g. "3 / 12" */}
+              {currentIndex !== -1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm rounded-full px-3 py-0.5">
+                  <span className="font-label-technical text-white/60" style={{ fontSize: '11px' }}>
+                    {currentIndex + 1} / {screenshots.length}
+                  </span>
+                </div>
+              )}
+            </>
+          )}
         </div>
+
 
         {/* ══ RIGHT — Sidebar ════════════════════════════════════════════════ */}
         <div className="w-full md:w-[320px] flex-shrink-0 flex flex-col border-t md:border-t-0 md:border-l border-outline-variant/40 overflow-hidden">

@@ -86,13 +86,13 @@ const PLATFORM_FIRST_RULES: PlatformRule[] = [
   // ── Receipt / Bill fingerprints ───────────────────────────────────────
   // These fire before keyword scoring so address words like "College Road"
   // can never override a clearly-detected bill/receipt.
-  { detect: /cash bill/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Food', 'Social Media', 'UPI', 'Documents', 'Other'] },
-  { detect: /tax invoice/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Social Media', 'UPI', 'Documents', 'Other'] },
-  { detect: /take.?out|takeaway/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Social Media', 'Documents', 'Other'] },
-  { detect: /sgst|cgst/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
-  { detect: /\bfssai\b/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
-  { detect: /thank you.*visit|visit again/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
-  { detect: /net amt|tot items|tot qty/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Other'] },
+  { detect: /cash bill/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Food', 'Social Media', 'UPI', 'Documents', 'Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other'] },
+  { detect: /tax invoice/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Social Media', 'UPI', 'Documents', 'Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other'] },
+  { detect: /take.?out|takeaway/i, category: 'Receipts', suppress: ['College', 'Work', 'Shopping', 'Social Media', 'Documents', 'Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other'] },
+  { detect: /sgst|cgst/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other'] },
+  { detect: /\bfssai\b/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other'] },
+  { detect: /thank you.*visit|visit again/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other'] },
+  { detect: /net amt|tot items|tot qty/i, category: 'Receipts', suppress: ['College', 'Work', 'Social Media', 'Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other'] },
 ];
 
 // ─── Keyword heuristics (content-based scoring, runs AFTER platform check) ────
@@ -108,7 +108,7 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
   Travel: [
     { regex: /\b(?:pnr|boarding pass|flight|airline|train|railway|irctc|bus|departure|arrival|airport|terminal|platform|coach)\b/i, weight: 5 },
     { regex: /\b(?:hotel|airbnb|itinerary)\b/i, weight: 4 },
-    { regex: /\b(?:check-in|passenger)\b/i, weight: 3 }
+    { regex: /\b(?:check-in|passenger|ticket|booking|seat)\b/i, weight: 2 }
   ],
   Food: [
     // Note: Zomato/Swiggy/UberEats only — Zepto removed (also sells non-food)
@@ -117,13 +117,12 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
     { regex: /\bmenu\b|\bfood\b|ingredients/i, weight: 1 }
   ],
   UPI: [
-    { regex: /\b(?:upi|bhim|google pay|gpay|phonepe|paytm|bharatpe|upi id|vpa)\b/i, weight: 5 },
-    { regex: /(?:pay again|retry payment|make payment|payment successful|payment completed|transaction successful)/i, weight: 5 },
-    { regex: /(?:paid to|sent to|received from|paying to|debited from|credited to|transferred to)/i, weight: 5 },
-    { regex: /(?:completed|successfully completed)\b/i, weight: 3 },
-    { regex: /(?:transaction(?:\s+(?:id|details|date|time))?|txn(?:\s+id)?|ref(?:erence)?\s*no?\.?|bank reference)/i, weight: 3 },
+    { regex: /(?:paid to|sent to|payment successful|received from|paying to|debited from|credited to|transferred to|pay again|retry payment|make payment|payment completed|transaction successful)/i, weight: 8 },
+    { regex: /(?:transaction(?:\s+(?:id|details|date|time))?|txn(?:\s+id)?|ref(?:erence)?\s*no?\.?|bank reference|upi id|vpa)\b/i, weight: 5 },
+    { regex: /\b(?:gpay|google pay|phonepe|paytm|upi|bhim|bharatpe)\b/i, weight: 3 },
+    { regex: /(?:completed|successfully completed)\b/i, weight: 2 },
     { regex: /₹\s?\d[\d,]*(?:\.\d{2})?/i, weight: 2 },
-    { regex: /(?:upi|gpay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed)[\s\S]{0,60}₹\s?\d[\d,]*(?:\.\d{2})?|₹\s?\d[\d,]*(?:\.\d{2})?[\s\S]{0,60}(?:upi|gpay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed)/i, weight: 8 }
+    { regex: /(?:upi|gpay|google pay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed|paying to|debited from|credited to)[\s\S]*₹\s?\d[\d,]*(?:\.\d{2})?|₹\s?\d[\d,]*(?:\.\d{2})?[\s\S]*(?:upi|gpay|google pay|phonepe|paytm|paid to|sent to|received from|pay again|payment successful|transaction|completed|paying to|debited from|credited to)/i, weight: 10 }
   ],
   College: [
     // Require actual academic platforms/terms, not just the word 'college' in an address
@@ -148,8 +147,8 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
     { regex: /\bchat\b|\bonline\b/i, weight: 1 }
   ],
   Entertainment: [
-    { regex: /\b(?:multiplex|cinema|theatre|screen no|movie|show time)\b/i, weight: 4 },
-    { regex: /\b(?:admission|class|seat|ticket|screen)\b/i, weight: 1 },
+    { regex: /\b(?:multiplex|cinema|theatre|screen no|movie|show time|concert|event|live show|standup)\b/i, weight: 4 },
+    { regex: /\b(?:admission|class|seat|ticket|booking)\b/i, weight: 1 },
     { regex: /playlist|podcast|gaming/i, weight: 2 }
   ],
   'Movies & TV': [
@@ -176,16 +175,12 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
     { regex: /ticket|invite/i, weight: 1 }
   ],
   Receipts: [
-    // Physical bills, cash memos, takeaway receipts
-    { regex: /cash bill|take.?out|takeaway|tax invoice/i, weight: 5 },
-    { regex: /net amt|round.?off|tot items|tot qty|total qty|\bgrand total\b|\bsubtotal\b/i, weight: 4 },
+    { regex: /cash bill|tax invoice|takeaway|take.?out/i, weight: 6 },
+    { regex: /sgst|cgst|grand total|subtotal|net amt|round.?off|tot items|tot qty|total qty|\bgst\b|fssai/i, weight: 5 },
     { regex: /\breceipt\b|\binvoice\b/i, weight: 3 },
-    // Indian tax receipt signals
-    { regex: /sgst|cgst|\bgst\b|fssai/i, weight: 4 },
-    // Common receipt fields
     { regex: /sales.?man|b\.no|bill.?no|sl\.no|particulars/i, weight: 3 },
     { regex: /thank you.*visit|visit again/i, weight: 4 },
-    { regex: /rs:\s*\d+|net amt|amount due/i, weight: 3 }
+    { regex: /rs:\s*\d+|amount due/i, weight: 3 }
   ],
   Documents: [
     // General documents — NOT receipts or certificates
@@ -223,8 +218,6 @@ const CATEGORY_RULES: Record<Category, Rule[]> = {
 // Global model instance
 let cocoModel: cocoSsd.ObjectDetection | null = null;
 let ocrWorker: Tesseract.Worker | null = null;
-// Stores the last OCR text so platform suppression can access it outside the OCR try-block
-let _lastOcrText = '';
 
 async function getOcrWorker() {
   if (!ocrWorker) {
@@ -307,11 +300,13 @@ async function detectQRCodeVisually(img: HTMLImageElement): Promise<QRDetectionR
     for (let y = 15; y < height - 15; y += step) {
       let currentState = 0;
       let runLengths = [0, 0, 0, 0, 0];
+      let foundFirstBlack = false;
 
       for (let x = 15; x < width - 15; x++) {
         const pixelIsBlack = binary[y * width + x];
 
         if (pixelIsBlack) {
+          foundFirstBlack = true;
           if (currentState % 2 === 1) {
             currentState++;
           }
@@ -329,6 +324,7 @@ async function detectQRCodeVisually(img: HTMLImageElement): Promise<QRDetectionR
             currentState = 3;
           }
         } else {
+          if (!foundFirstBlack) continue;
           if (currentState % 2 === 0) {
             if (currentState === 4) {
               if (checkRatio(runLengths)) {
@@ -336,6 +332,7 @@ async function detectQRCodeVisually(img: HTMLImageElement): Promise<QRDetectionR
               }
               runLengths = [0, 0, 0, 0, 0];
               currentState = 0;
+              foundFirstBlack = false;
             } else {
               currentState++;
               runLengths[currentState]++;
@@ -469,6 +466,9 @@ export async function classifyScreenshot(
 
   // ── 2. OCR TEXT DETECTION ─────────────────────────────────────────────────
   const scores: Record<string, number> = {};
+  // Hoisted so post-OCR blocks (QR routing, debug logging) can access it even if OCR fails
+  let ocrText = '';
+  let platformLocked = false;
 
   try {
     console.log(`[OCR] Starting text extraction for "${file.name}"...`);
@@ -477,7 +477,7 @@ export async function classifyScreenshot(
     // DO NOT terminate worker so it can be reused for the next file
 
     const lowerText = text.toLowerCase();
-    _lastOcrText = lowerText; // persist for post-OCR platform suppression
+    ocrText = lowerText; // make available to post-OCR blocks outside this try
 
     // VERBOSE LOGGING REQUESTED BY USER
     console.log(`\n\n[OCR DEBUG] ========================================`);
@@ -489,7 +489,7 @@ export async function classifyScreenshot(
     // If a platform is found, its category is locked in immediately.
     // The suppress list prevents content words inside the platform from overriding it.
     const platformSuppressed = new Set<Category>();
-    let platformLocked = false;
+    // platformLocked is hoisted above — set it here so QR routing can read it outside this try block
 
     for (const rule of PLATFORM_FIRST_RULES) {
       if (rule.detect.test(lowerText)) {
@@ -508,6 +508,7 @@ export async function classifyScreenshot(
     }
 
     // ── STEP 2: Content-based keyword scoring (for non-platform screenshots) ─
+    const hasStrongMatch: Record<string, boolean> = {};
 
     for (const [category, rules] of Object.entries(CATEGORY_RULES)) {
       if (category === 'People') continue; // Vision-only
@@ -519,6 +520,9 @@ export async function classifyScreenshot(
         if (matches) {
           score += matches.length * rule.weight;
           console.log(`[OCR] Match in ${category}: "${rule.regex.source}" x${matches.length} (weight ${rule.weight})`);
+          if (rule.weight >= 3) {
+            hasStrongMatch[category] = true;
+          }
         }
       }
 
@@ -542,9 +546,16 @@ export async function classifyScreenshot(
     let maxScore = 0;
 
     for (const [category, score] of Object.entries(scores)) {
-      // Require a minimum contextual score of 5 for Certificates so a single standalone "certificate" word (weight 3) does not trigger it
-      const minRequired = category === 'Certificates' ? 5 : 2;
+      // Require higher minimums for certain categories
+      let minRequired = 2;
+      if (category === 'Certificates') minRequired = 5;
+      if (category === 'UPI') minRequired = 5;
+
       if (score > maxScore && score >= minRequired && !platformSuppressed.has(category as Category)) {
+        if (hasStrongMatch[category] !== true) {
+          console.log(`[Classifier] Skipped category "${category}" (score: ${score}) because it lacked a strong match (weight >= 3)`);
+          continue;
+        }
         maxScore = score;
         bestOcrCategory = category as Category;
       }
@@ -585,20 +596,33 @@ export async function classifyScreenshot(
     console.error('[OCR] Error during text extraction (non-fatal if vision succeeded):', ocrErr);
   }
 
-  // ── 4. QR CODE CONTEXTUAL PRIORITY RESOLUTION ────────────────────────────
+  // ── 4. QR CODE CONTEXTUAL PRIORITY RESOLUTION ────────────────────────
   // QR detection is an ADDITIONAL signal, not an automatic override.
   // Now that OCR text is available, apply the full routing:
   //   a) Payment keywords present → UPI (never Entertainment/Other/People)
-  //   b) Receipt/invoice context → Receipts + QR Code (multi-tag)
+  //   b) Strong receipt evidence → Receipts + QR Code (multi-tag). Receipt always survives.
   //   c) Entertainment/cinema OCR evidence → Entertainment + QR Code (multi-tag)
   //   d) Travel OCR evidence → Travel + QR Code (multi-tag)
   //   e) No strong context → standalone QR Code
   //   f) Vision-added Entertainment WITHOUT genuine entertainment OCR evidence → suppress it
+
+  // --- DEBUG: Receipt + QR summary ---
+  const receiptOcrEvidence = /cash bill|tax invoice|take.?out|takeaway|\bfssai\b|sgst|cgst|\bgst\b|grand total|net amt|\bsubtotal\b|tot items|tot qty|total qty|thank you.*visit|visit again|\breceipt\b|\binvoice\b|rs:\s*\d+|amount due/i;
+  const receiptDetected = categories.has('Receipts');
+  const receiptOcrMatched = receiptOcrEvidence.test(ocrText);
+  console.log(`[QR DEBUG] visualQrDetected=${visualQrDetected}`);
+  console.log(`[QR DEBUG] categories before QR routing: ${[...categories].join(', ') || 'none'}`);
+  console.log(`[QR DEBUG] ocrText length: ${ocrText.length}`);
+  console.log(`[QR DEBUG] receipt in categories: ${receiptDetected}`);
+  console.log(`[QR DEBUG] receipt OCR evidence matched: ${receiptOcrMatched}`);
+  console.log(`[QR DEBUG] ocrText snippet: "${ocrText.slice(0, 200)}"`);
+
   if (visualQrDetected) {
     const paymentKeywords = /\b(?:upi|bhim|google pay|gpay|phonepe|paytm|bharatpe|scan.*pay|paid to|pay to|accepted here|credited|debited|transaction)\b/i;
     const entertainmentOcrEvidence = /\b(?:multiplex|cinema|theatre|movie|show time|now showing|screen no|admission|ticket|booking)\b/i;
+    const travelOcrEvidence = /\b(?:pnr|boarding pass|flight|airline|train|railway|irctc|bus|departure|arrival|airport|terminal|coach)\b/i;
 
-    if (paymentKeywords.test(_lastOcrText)) {
+    if (paymentKeywords.test(ocrText)) {
       // Payment QR → UPI, suppress generic fallbacks
       categories.add('UPI');
       categories.delete('QR Code');
@@ -606,18 +630,35 @@ export async function classifyScreenshot(
         if (categories.has(cat)) { categories.delete(cat); }
       });
       console.log(`[QR] 💳 Payment QR → routed to UPI`);
+
+    } else if (receiptDetected || receiptOcrMatched) {
+      // Strong receipt evidence is present
+      categories.add('Receipts');
+      categories.delete('QR Code');
+      (['Entertainment', 'Travel', 'Events', 'Movies & TV', 'Sports', 'Other', 'People'] as Category[]).forEach(cat => {
+        if (categories.has(cat)) {
+          categories.delete(cat);
+        }
+      });
+      console.log(`[QR] 🧾 Receipt+QR: strong receipt evidence — routed to Receipts`);
+
+    } else if (categories.has('Travel') || travelOcrEvidence.test(ocrText)) {
+      categories.add('Travel');
+      categories.delete('QR Code');
+      console.log(`[QR] ✈️ Travel+QR: routed to Travel`);
+
+    } else if (categories.has('Entertainment') || entertainmentOcrEvidence.test(ocrText)) {
+      categories.add('Entertainment');
+      categories.delete('QR Code');
+      console.log(`[QR] 🎟️ Entertainment+QR: routed to Entertainment`);
+
+    } else if (categories.has('Certificates') || categories.has('Documents') || categories.has('Shopping') || platformLocked) {
+      categories.delete('QR Code');
+      console.log(`[QR] 🔲 QR Code suppressed by stronger contextual category or platform lock`);
+
     } else {
-      // Non-payment QR: add QR Code as an additional tag
       categories.add('QR Code');
-
-      // If vision added Entertainment but there's no genuine entertainment OCR evidence,
-      // suppress that vision-derived Entertainment tag (phone screen ≠ Entertainment)
-      if (categories.has('Entertainment') && !entertainmentOcrEvidence.test(_lastOcrText)) {
-        categories.delete('Entertainment');
-        console.log(`[QR] 🔲 Vision-added Entertainment suppressed — no entertainment OCR evidence alongside QR`);
-      }
-
-      console.log(`[QR] 🔲 QR Code retained; co-existing categories: ${[...categories].filter(c => c !== 'QR Code').join(', ') || 'none'}`);
+      console.log(`[QR] 🔲 QR Code retained as primary category`);
     }
   } else if (categories.has('UPI')) {
     // UPI from OCR keywords (not visual QR) — also suppress generic fallbacks
@@ -638,7 +679,7 @@ export async function classifyScreenshot(
 
   // --- [CLASSIFY] EXPLICIT LOGGING REQUESTED BY USER ---
   if (options.isTarget) {
-    console.log(`[OCR] Extracted text:\n${_lastOcrText}`);
+    console.log(`[OCR] Extracted text:\n${ocrText}`);
     console.log(`[SCORE] UPI: ${scores['UPI'] || 0}`);
     console.log(`[SCORE] Shopping: ${scores['Shopping'] || 0}`);
     console.log(`[SCORE] Other: ${scores['Other'] || 0}`);

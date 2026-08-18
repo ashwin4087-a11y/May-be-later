@@ -97,6 +97,8 @@ export default function Favorites() {
           }}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
+          screenshots={screenshots}
+          onNavigate={setSelectedScreenshot}
         />
       )}
 

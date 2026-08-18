@@ -78,6 +78,8 @@ export default function NeedsReview() {
           }}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
+          screenshots={screenshots}
+          onNavigate={setSelectedScreenshot}
         />
       )}
 

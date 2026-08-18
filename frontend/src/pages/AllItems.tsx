@@ -93,6 +93,8 @@ export default function AllItems() {
           }}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
+          screenshots={screenshots}
+          onNavigate={setSelectedScreenshot}
         />
       )}
 
