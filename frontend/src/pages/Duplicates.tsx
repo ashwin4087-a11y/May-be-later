@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { getScreenshotUrl } from '../lib/storage';
 import { Screenshot } from '../components/ScreenshotGrid';
+import PageShell from '../components/PageShell';
+import PageHeader from '../components/PageHeader';
 
 export interface DuplicateGroup {
   originalId: string;
@@ -183,23 +185,18 @@ export default function Duplicates() {
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <main className="max-w-[1024px] px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-8 overflow-y-auto min-h-screen">
-      {/* Page Header */}
-      <div className="flex justify-between items-end border-b border-subtle pb-6">
-        <div>
-          <h1 className="font-display-lg text-[32px] text-primary tracking-tight">Duplicates</h1>
-          <p className="font-body-md text-on-surface-variant mt-1">
-            Identical screenshots detected during upload.
-          </p>
-        </div>
-        {groups.length > 0 && (
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full font-label-technical text-xs border border-subtle">
-              {groups.length} Group{groups.length !== 1 ? 's' : ''} Found
+    <PageShell>
+      <PageHeader
+        title="Duplicates"
+        description="Identical screenshots detected during upload."
+        action={
+          groups.length > 0 ? (
+            <span className="count-badge">
+              {groups.length} group{groups.length !== 1 ? 's' : ''} found
             </span>
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      />
 
       {error && (
         <div className="flex items-center gap-2 bg-error-container/60 text-on-error-container rounded-lg px-4 py-3">
@@ -216,8 +213,7 @@ export default function Duplicates() {
           ))}
         </div>
       ) : groups.length === 0 ? (
-        /* Empty State */
-        <div className="bg-card-background rounded-xl p-12 flex flex-col items-center justify-center text-center min-h-[380px] border border-subtle shadow-subtle relative overflow-hidden group">
+        <div className="empty-state-card min-h-[380px] group">
           <div className="w-28 h-28 mb-6 relative flex items-center justify-center">
             <div className="absolute w-16 h-16 border border-tertiary/40 rounded-lg transform -translate-x-3 -translate-y-2 opacity-60 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500" />
             <div className="absolute w-16 h-16 border border-tertiary/40 rounded-lg transform translate-x-3 translate-y-2 opacity-60 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500" />
@@ -229,15 +225,14 @@ export default function Duplicates() {
           <p className="font-body-md text-on-surface-variant max-w-[260px]">
             New uploads will be checked automatically.
           </p>
-          <div className="w-12 h-1 bg-tertiary/40 mt-8 rounded-full" />
+          <div className="w-12 h-1 bg-tertiary/40 mt-4 rounded-full" />
         </div>
       ) : (
-        /* Groups Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
           {groups.map((group, idx) => (
             <article
               key={group.originalId}
-              className="bg-card-background rounded-xl p-6 border border-subtle shadow-subtle hover:border-secondary transition-all duration-300 flex flex-col gap-4"
+              className="surface-card p-6 hover:border-secondary/60 transition-all duration-300 flex flex-col gap-4"
             >
               <div className="flex justify-between items-center border-b border-subtle pb-3">
                 <h2 className="font-label-caps text-xs text-primary font-semibold tracking-wider uppercase">
@@ -503,6 +498,6 @@ export default function Duplicates() {
           </div>
         </div>
       )}
-    </main>
+    </PageShell>
   );
 }

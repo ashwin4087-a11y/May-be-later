@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { getBatchScreenshotUrls, deleteScreenshot } from '../lib/storage';
+import { getBatchScreenshotUrls, deleteScreenshotsFully } from '../lib/storage';
 import { downloadScreenshotsAsZip } from '../lib/download';
 import { Collection } from '../types/collections';
 import ScreenshotGrid, { Screenshot } from '../components/ScreenshotGrid';
 import ScreenshotModal from '../components/ScreenshotModal';
+import { useScreenshotModalState } from '../hooks/useScreenshotModalState';
 import CreateCollectionModal from '../components/CreateCollectionModal';
 
 export default function CollectionDetail() {
@@ -17,7 +18,7 @@ export default function CollectionDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  const [selectedScreenshot, setSelectedScreenshot] = useState<Screenshot | null>(null);
+  const { selectedScreenshot, setSelectedScreenshot } = useScreenshotModalState(screenshots);
   
   // Modals
   const [showEditModal, setShowEditModal] = useState(false);
@@ -47,6 +48,7 @@ export default function CollectionDetail() {
         supabase
           .from('screenshots')
           .select('id, title, notes, image_path, created_at, screenshot_collections!inner(collection_id, created_at)')
+          .eq('is_duplicate', false)
           .eq('screenshot_collections.collection_id', id)
           .order('created_at', { ascending: false })
       ]);
@@ -141,28 +143,10 @@ export default function CollectionDetail() {
     setDeletingScreenshots(true);
     setError(null);
 
-    const idsToDelete = Array.from(selectedIds);
-    const pathsToDelete = screenshots
-      .filter((s) => selectedIds.has(s.id))
-      .map((s) => s.image_path);
+    const itemsToDelete = screenshots.filter((s) => selectedIds.has(s.id));
 
     try {
-      // 1. Delete from storage sequentially (could fail midway but safe to try)
-      for (const path of pathsToDelete) {
-        if (path) {
-          await deleteScreenshot(path);
-        }
-      }
-
-      // 2. Delete from DB (cascade handles screenshot_collections)
-      const { error: dbError } = await supabase
-        .from('screenshots')
-        .delete()
-        .in('id', idsToDelete);
-
-      if (dbError) throw new Error(dbError.message);
-
-      // 3. Update UI
+      await deleteScreenshotsFully(itemsToDelete);
       setScreenshots((prev) => prev.filter((s) => !selectedIds.has(s.id)));
       setSelectedIds(new Set());
       setSelectionMode(false);
@@ -231,15 +215,13 @@ export default function CollectionDetail() {
       {selectedScreenshot && (
         <ScreenshotModal
           screenshot={selectedScreenshot}
-          onClose={() => {
-            setSelectedScreenshot(null);
-            // We fetch the collection again to ensure the grid is in sync if it was removed from the collection
-            fetchCollection();
-          }}
+          onClose={() => setSelectedScreenshot(null)}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
           screenshots={screenshots}
           onNavigate={setSelectedScreenshot}
+          onRemovedFromView={(removedId) => setScreenshots((prev) => prev.filter((s) => s.id !== removedId))}
+          viewCollectionId={id}
         />
       )}
 

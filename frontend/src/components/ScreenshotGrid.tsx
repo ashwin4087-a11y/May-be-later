@@ -49,14 +49,20 @@ export default function ScreenshotGrid({
 
   if (screenshots.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center gap-3 border border-dashed border-outline-variant rounded-lg">
-        <span className="material-symbols-outlined text-[48px] text-on-surface-variant">photo_library</span>
-        <p className="font-body-md text-on-surface-variant">{emptyStateTitle}</p>
-        {emptyStateMessage && <p className="font-body-sm text-on-surface-variant max-w-sm">{emptyStateMessage}</p>}
+      <div className="empty-state-card">
+        <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-2">
+          <span className="material-symbols-outlined text-[36px] text-on-surface-variant/70">photo_library</span>
+        </div>
+        <p className="font-headline-sm text-[18px] text-primary">{emptyStateTitle}</p>
+        {emptyStateMessage && (
+          <p className="font-body-md text-[14px] text-on-surface-variant max-w-md leading-relaxed">
+            {emptyStateMessage}
+          </p>
+        )}
         {emptyStateActionText && onEmptyStateAction && (
           <button
             onClick={onEmptyStateAction}
-            className="font-label-technical text-label-technical text-secondary hover:text-primary transition-colors uppercase tracking-wider"
+            className="mt-2 font-label-technical text-[12px] text-secondary hover:text-primary transition-colors uppercase tracking-wider"
           >
             {emptyStateActionText}
           </button>

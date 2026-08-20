@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
+import { deleteScreenshotsFully } from '../lib/storage';
 
 interface BulkDeleteBarProps {
   allScreenshots: { id: string; image_path: string }[];
@@ -85,45 +86,37 @@ export default function BulkDeleteBar({
     setShowConfirm(false);
 
     const ids = Array.from(selectedIds);
-    const paths = allScreenshots
-      .filter((s) => selectedIds.has(s.id))
-      .map((s) => s.image_path);
+    const items = allScreenshots.filter((s) => selectedIds.has(s.id));
 
-    // Delete from DB (cascade handles screenshot_collections)
-    const { error } = await supabase.from('screenshots').delete().in('id', ids);
+    try {
+      await deleteScreenshotsFully(items);
 
-    if (error) {
-      console.error('[BulkDelete] DB error:', error.message);
+      onDeleted(ids);
+      onSelectionChange(new Set());
       setDeleting(false);
-      return;
+
+      // Start undo window (5 seconds — undo not truly possible after storage delete,
+      // but we keep references so UI shows the toast. A real undo would need soft-delete.)
+      setUndoData({ ids, paths: items.map((i) => i.image_path) });
+      setUndoCountdown(5);
+
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      if (countdownRef.current) clearInterval(countdownRef.current);
+
+      countdownRef.current = setInterval(() => {
+        setUndoCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdownRef.current!);
+            setUndoData(null);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err) {
+      console.error('[BulkDelete] Delete failed:', err);
+      setDeleting(false);
     }
-
-    // Delete storage files
-    await supabase.storage.from('screenshots').remove(paths);
-
-    // Notify parent to remove from UI immediately
-    onDeleted(ids);
-    onSelectionChange(new Set());
-    setDeleting(false);
-
-    // Start undo window (5 seconds — undo not truly possible after storage delete,
-    // but we keep references so UI shows the toast. A real undo would need soft-delete.)
-    setUndoData({ ids, paths });
-    setUndoCountdown(5);
-
-    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
-    if (countdownRef.current) clearInterval(countdownRef.current);
-
-    countdownRef.current = setInterval(() => {
-      setUndoCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(countdownRef.current!);
-          setUndoData(null);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
   };
 
   // Cleanup on unmount

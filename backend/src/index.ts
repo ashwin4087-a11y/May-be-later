@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
@@ -11,9 +10,6 @@ const port = process.env.PORT || 3001;
 // Middlewares
 app.use(cors());
 app.use(express.json());
-
-// Basic Prisma initialization
-const prisma = new PrismaClient();
 
 // Health check endpoint
 app.get('/health', (req, res) => {

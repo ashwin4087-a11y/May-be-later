@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { fetchCollectionScreenshotCounts } from '../lib/screenshotQueries';
 import { Collection } from '../types/collections';
 import CreateCollectionModal from '../components/CreateCollectionModal';
+import PageShell from '../components/PageShell';
+import PageHeader from '../components/PageHeader';
 
 export default function Collections() {
   const [collections, setCollections] = useState<Collection[]>([]);
@@ -17,14 +20,16 @@ export default function Collections() {
       try {
         const { data, error } = await supabase
           .from('collections')
-          .select('*, screenshot_collections(count)')
+          .select('*')
           .order('created_at', { ascending: false });
 
         if (error) throw new Error(error.message);
 
-        const mapped = data.map((c: any) => ({
+        const countMap = await fetchCollectionScreenshotCounts();
+
+        const mapped = data.map((c: Collection) => ({
           ...c,
-          screenshot_count: c.screenshot_collections?.[0]?.count ?? 0,
+          screenshot_count: countMap.get(c.id) ?? 0,
         }));
         
         setCollections(mapped);
@@ -43,22 +48,20 @@ export default function Collections() {
   };
 
   return (
-    <main className="max-w-[1024px] px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-8 overflow-y-auto min-h-screen">
-      
-      {/* Header */}
-      <div className="flex justify-between items-end border-b border-subtle pb-6">
-        <div>
-          <h1 className="font-display-lg text-[32px] text-primary tracking-tight">Collections</h1>
-          <p className="font-body-md text-on-surface-variant mt-1">Organize your archive into focused groups.</p>
-        </div>
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-body-md text-[14px] font-medium hover:opacity-90 transition-opacity shadow-sm flex items-center gap-2"
-        >
-          <span className="material-symbols-outlined text-[18px]">add</span>
-          New Collection
-        </button>
-      </div>
+    <PageShell>
+      <PageHeader
+        title="Collections"
+        description="Organize your archive into focused groups."
+        action={
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-body-md text-[14px] font-medium hover:opacity-90 transition-opacity shadow-subtle flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-[18px]">add</span>
+            New Collection
+          </button>
+        }
+      />
 
       {error && (
         <div className="flex items-center gap-2 bg-error-container/60 text-on-error-container rounded-lg px-4 py-3">
@@ -75,17 +78,17 @@ export default function Collections() {
           ))}
         </div>
       ) : collections.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center gap-4 border border-dashed border-outline-variant/60 rounded-2xl bg-surface-container-lowest/50">
-          <div className="w-16 h-16 rounded-full bg-secondary-container/30 flex items-center justify-center text-primary mb-2">
-            <span className="material-symbols-outlined text-[32px]">folder_special</span>
+        <div className="empty-state-card">
+          <div className="w-16 h-16 rounded-full bg-secondary-container/40 flex items-center justify-center mb-2">
+            <span className="material-symbols-outlined text-[32px] text-secondary">folder_special</span>
           </div>
-          <h2 className="font-headline-sm text-headline-sm text-primary">No collections yet.</h2>
-          <p className="font-body-md text-on-surface-variant max-w-sm mb-2">
+          <h2 className="font-headline-sm text-[18px] text-primary">No collections yet.</h2>
+          <p className="font-body-md text-[14px] text-on-surface-variant max-w-md leading-relaxed">
             Create your first collection to organize your screenshots.
           </p>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="font-label-technical text-label-technical text-secondary hover:text-primary transition-colors uppercase tracking-wider flex items-center gap-1.5"
+            className="mt-2 font-label-technical text-[12px] text-secondary hover:text-primary transition-colors uppercase tracking-wider flex items-center gap-1.5"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             New Collection
@@ -97,7 +100,7 @@ export default function Collections() {
             <Link
               key={collection.id}
               to={`/collections/${collection.id}`}
-              className="group bg-card-background rounded-xl p-6 border border-subtle hover:border-secondary transition-all duration-300 shadow-subtle hover:-translate-y-1 flex flex-col gap-3"
+              className="group surface-card p-6 hover:border-secondary/60 transition-all duration-300 hover:-translate-y-0.5 flex flex-col gap-3"
             >
               <div className="flex items-start justify-between gap-4">
                 <h3 className="font-headline-sm text-[18px] text-primary group-hover:text-secondary transition-colors line-clamp-2">
@@ -128,6 +131,6 @@ export default function Collections() {
           onCreated={handleCreated}
         />
       )}
-    </main>
+    </PageShell>
   );
 }

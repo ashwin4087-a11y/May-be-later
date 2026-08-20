@@ -2,17 +2,20 @@ import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { getBatchScreenshotUrls } from '../lib/storage';
 import ScreenshotGrid, { Screenshot } from '../components/ScreenshotGrid';
+import { useScreenshotModalState } from '../hooks/useScreenshotModalState';
 import ScreenshotModal from '../components/ScreenshotModal';
+import PageShell from '../components/PageShell';
+import PageHeader from '../components/PageHeader';
 
 export default function NeedsReview() {
   const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedScreenshot, setSelectedScreenshot] = useState<Screenshot | null>(null);
+  const { selectedScreenshot, setSelectedScreenshot } = useScreenshotModalState(screenshots);
+  const [otherCollectionId, setOtherCollectionId] = useState<string | null>(null);
 
   const fetchNeedsReview = useCallback(async () => {
     setLoading(true);
 
-    // Get the "Other" collection which is our classification fallback
     const { data: otherCol } = await supabase
       .from('collections')
       .select('id')
@@ -21,14 +24,17 @@ export default function NeedsReview() {
       .single();
 
     if (!otherCol) {
+      setOtherCollectionId(null);
       setScreenshots([]);
       setLoading(false);
       return;
     }
 
+    setOtherCollectionId(otherCol.id);
+
     const { data, error } = await supabase
       .from('screenshots')
-      .select('id, title, notes, image_path, created_at, screenshot_collections!inner(collection_id)')
+      .select('id, title, notes, image_path, created_at, is_favorite, screenshot_collections!inner(collection_id)')
       .eq('is_duplicate', false)
       .eq('screenshot_collections.collection_id', otherCol.id)
       .order('created_at', { ascending: false });
@@ -42,11 +48,11 @@ export default function NeedsReview() {
     setScreenshots(data);
     setLoading(false);
 
-    const paths = data.map((s: any) => s.image_path).filter(Boolean);
+    const paths = data.map((s: { image_path: string }) => s.image_path).filter(Boolean);
     const urlMap = await getBatchScreenshotUrls(paths);
 
     setScreenshots(
-      data.map((s: any) => ({ ...s, signedUrl: urlMap.get(s.image_path) }))
+      data.map((s) => ({ ...s, signedUrl: urlMap.get(s.image_path) }))
     );
   }, []);
 
@@ -58,7 +64,11 @@ export default function NeedsReview() {
     setScreenshots((prev) => prev.filter((s) => s.id !== deletedId));
   };
 
-  const handleScreenshotUpdated = (updated: { id: string; title: string; notes: string | null }) => {
+  const handleRemovedFromView = (id: string) => {
+    setScreenshots((prev) => prev.filter((s) => s.id !== id));
+  };
+
+  const handleScreenshotUpdated = (updated: { id: string; title: string; notes: string | null; is_favorite?: boolean }) => {
     setScreenshots((prev) =>
       prev.map((s) => (s.id === updated.id ? { ...s, ...updated } : s))
     );
@@ -68,32 +78,25 @@ export default function NeedsReview() {
   };
 
   return (
-    <main className="max-w-[1024px] px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-8 overflow-y-auto min-h-screen">
+    <PageShell>
       {selectedScreenshot && (
         <ScreenshotModal
           screenshot={selectedScreenshot}
-          onClose={() => {
-            setSelectedScreenshot(null);
-            fetchNeedsReview();
-          }}
+          onClose={() => setSelectedScreenshot(null)}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
           screenshots={screenshots}
           onNavigate={setSelectedScreenshot}
+          onRemovedFromView={handleRemovedFromView}
+          reviewCollectionId={otherCollectionId ?? undefined}
         />
       )}
 
-      <div className="flex flex-col gap-2 border-b border-subtle pb-6">
-        <h1 className="font-display-lg text-[32px] text-primary tracking-tight">Needs Review</h1>
-        <p className="font-body-md text-on-surface-variant leading-relaxed">
-          Screenshots the classifier wasn't sure about.
-        </p>
-        {!loading && (
-          <span className="bg-surface-variant text-on-surface-variant px-2.5 py-1 rounded-full font-label-technical text-[11px] w-fit">
-            {screenshots.length} item{screenshots.length !== 1 && 's'}
-          </span>
-        )}
-      </div>
+      <PageHeader
+        title="Needs Review"
+        description="Screenshots classified as “Other” — open one, assign a collection, then use Next to continue reviewing."
+        count={!loading ? screenshots.length : undefined}
+      />
 
       <ScreenshotGrid
         screenshots={screenshots}
@@ -103,6 +106,6 @@ export default function NeedsReview() {
         emptyStateMessage="No screenshots currently need manual review."
         emptyStateActionText=""
       />
-    </main>
+    </PageShell>
   );
 }

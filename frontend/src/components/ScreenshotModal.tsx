@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
-import { deleteScreenshot, toggleScreenshotFavorite } from '../lib/storage';
+import { deleteScreenshotFully, toggleScreenshotFavorite } from '../lib/storage';
 import { Collection } from '../types/collections';
 import CreateCollectionModal from './CreateCollectionModal';
 
@@ -25,6 +25,16 @@ interface Props {
   screenshots?: Screenshot[];
   /** Called with the adjacent screenshot when the user navigates */
   onNavigate?: (screenshot: Screenshot) => void;
+  /** When screenshot leaves the current view (e.g. reclassified), parent removes it from the list */
+  onRemovedFromView?: (id: string) => void;
+  /** Collection ID that defines the current view — removing from it triggers onRemovedFromView + advance */
+  viewCollectionId?: string;
+  /** "Other" collection ID for review workflow — adding another collection removes Other and advances */
+  reviewCollectionId?: string;
+  /** When unfavorited, remove from view and advance (Favorites page) */
+  removeWhenUnfavorited?: boolean;
+  /** When first collection is added, remove from view and advance (Unorganized page) */
+  removeWhenOrganized?: boolean;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -39,7 +49,19 @@ function formatDate(iso: string) {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpdated, screenshots = [], onNavigate }: Props) {
+export default function ScreenshotModal({
+  screenshot,
+  onClose,
+  onDeleted,
+  onUpdated,
+  screenshots = [],
+  onNavigate,
+  onRemovedFromView,
+  viewCollectionId,
+  reviewCollectionId,
+  removeWhenUnfavorited,
+  removeWhenOrganized,
+}: Props) {
   // Edit state
   const [editing, setEditing]     = useState(false);
   const [editTitle, setEditTitle] = useState(screenshot.title);
@@ -76,6 +98,21 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
   };
   const goToNext = () => {
     if (hasNext && onNavigate) onNavigate(screenshots[currentIndex + 1]);
+  };
+
+  /** Advance to next/prev item after the current screenshot leaves the view list */
+  const advanceAfterRemoval = (removedId: string) => {
+    const remaining = screenshots.filter((s) => s.id !== removedId);
+    onRemovedFromView?.(removedId);
+
+    if (remaining.length === 0) {
+      onClose();
+      return;
+    }
+
+    const idx = screenshots.findIndex((s) => s.id === removedId);
+    const next = remaining[idx] ?? remaining[idx - 1] ?? remaining[0];
+    onNavigate?.(next);
   };
 
   // Sync fields if parent screenshot prop changes (e.g. after save propagates back, or navigation)
@@ -148,6 +185,13 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
           next.delete(collectionId);
           return next;
         });
+
+        if (viewCollectionId && collectionId === viewCollectionId) {
+          advanceAfterRemoval(screenshot.id);
+        }
+        if (reviewCollectionId && collectionId === reviewCollectionId) {
+          advanceAfterRemoval(screenshot.id);
+        }
       } else {
         const { error } = await supabase
           .from('screenshot_collections')
@@ -160,6 +204,26 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
           next.add(collectionId);
           return next;
         });
+
+        // Review workflow: assigning a real category removes "Other" and advances
+        if (reviewCollectionId && collectionId !== reviewCollectionId) {
+          if (selectedCollections.has(reviewCollectionId)) {
+            const { error: removeOtherErr } = await supabase
+              .from('screenshot_collections')
+              .delete()
+              .match({ screenshot_id: screenshot.id, collection_id: reviewCollectionId });
+            if (!removeOtherErr) {
+              setSelectedCollections((prev) => {
+                const next = new Set(prev);
+                next.delete(reviewCollectionId);
+                return next;
+              });
+            }
+          }
+          advanceAfterRemoval(screenshot.id);
+        } else if (removeWhenOrganized && selectedCollections.size === 0) {
+          advanceAfterRemoval(screenshot.id);
+        }
       }
     } catch (err) {
       setCollectionError(err instanceof Error ? err.message : 'Failed to update collection.');
@@ -184,6 +248,9 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
     const success = await toggleScreenshotFavorite(screenshot.id, nextState);
     if (success) {
       onUpdated({ ...screenshot, is_favorite: nextState });
+      if (removeWhenUnfavorited && !nextState) {
+        advanceAfterRemoval(screenshot.id);
+      }
     } else {
       // Revert optimistic update
       setIsFavorite(!nextState);
@@ -262,17 +329,19 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
     setDeleteError(null);
 
     try {
-      await deleteScreenshot(screenshot.image_path);
+      await deleteScreenshotFully(screenshot.id, screenshot.image_path);
 
-      const { error } = await supabase
-        .from('screenshots')
-        .delete()
-        .eq('id', screenshot.id);
+      const deletedId = screenshot.id;
+      onDeleted(deletedId);
 
-      if (error) throw new Error(error.message);
-
-      onDeleted(screenshot.id);
-      onClose();
+      const remaining = screenshots.filter((s) => s.id !== deletedId);
+      if (remaining.length === 0 || !onNavigate) {
+        onClose();
+      } else {
+        const idx = currentIndex;
+        const next = remaining[idx] ?? remaining[idx - 1] ?? remaining[0];
+        onNavigate(next);
+      }
     } catch (err) {
       setDeleteError(err instanceof Error ? err.message : 'Delete failed.');
       setDeleting(false);
@@ -372,7 +441,7 @@ export default function ScreenshotModal({ screenshot, onClose, onDeleted, onUpda
               {currentIndex !== -1 && (
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm rounded-full px-3 py-0.5">
                   <span className="font-label-technical text-white/60" style={{ fontSize: '11px' }}>
-                    {currentIndex + 1} / {screenshots.length}
+                    {currentIndex + 1} of {screenshots.length}
                   </span>
                 </div>
               )}

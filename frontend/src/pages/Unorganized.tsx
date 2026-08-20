@@ -2,12 +2,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { getBatchScreenshotUrls } from '../lib/storage';
 import ScreenshotGrid, { Screenshot } from '../components/ScreenshotGrid';
+import { useScreenshotModalState } from '../hooks/useScreenshotModalState';
 import ScreenshotModal from '../components/ScreenshotModal';
+import PageShell from '../components/PageShell';
+import PageHeader from '../components/PageHeader';
 
 export default function Unorganized() {
   const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedScreenshot, setSelectedScreenshot] = useState<Screenshot | null>(null);
+  const { selectedScreenshot, setSelectedScreenshot } = useScreenshotModalState(screenshots);
 
   const fetchUnorganized = useCallback(async () => {
     setLoading(true);
@@ -55,32 +58,25 @@ export default function Unorganized() {
   };
 
   return (
-    <main className="max-w-[1024px] px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-8 overflow-y-auto min-h-screen">
+    <PageShell>
       {selectedScreenshot && (
         <ScreenshotModal
           screenshot={selectedScreenshot}
-          onClose={() => {
-            setSelectedScreenshot(null);
-            fetchUnorganized();
-          }}
+          onClose={() => setSelectedScreenshot(null)}
           onDeleted={handleScreenshotDeleted}
           onUpdated={handleScreenshotUpdated}
           screenshots={screenshots}
           onNavigate={setSelectedScreenshot}
+          onRemovedFromView={(id) => setScreenshots((prev) => prev.filter((s) => s.id !== id))}
+          removeWhenOrganized
         />
       )}
 
-      <div className="flex flex-col gap-2 border-b border-subtle pb-6">
-        <h1 className="font-display-lg text-[32px] text-primary tracking-tight">Unorganized</h1>
-        <p className="font-body-md text-on-surface-variant leading-relaxed">
-          Screenshots that don't belong to any collection.
-        </p>
-        {!loading && (
-          <span className="bg-surface-variant text-on-surface-variant px-2.5 py-1 rounded-full font-label-technical text-[11px] w-fit">
-            {screenshots.length} item{screenshots.length !== 1 && 's'}
-          </span>
-        )}
-      </div>
+      <PageHeader
+        title="Unorganized"
+        description="Screenshots that don't belong to any collection."
+        count={!loading ? screenshots.length : undefined}
+      />
 
       <ScreenshotGrid
         screenshots={screenshots}
@@ -90,6 +86,6 @@ export default function Unorganized() {
         emptyStateMessage="All your screenshots belong to at least one collection."
         emptyStateActionText=""
       />
-    </main>
+    </PageShell>
   );
 }

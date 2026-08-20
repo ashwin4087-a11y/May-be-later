@@ -149,16 +149,54 @@ export async function getBatchScreenshotUrls(
 }
 
 /**
- * Deletes a screenshot from storage.
- *
- * @param storagePath - The path to delete (user_id/filename)
+ * Deletes a file from the screenshots storage bucket.
+ * No-op when path is empty (e.g. duplicate records without stored files).
  */
 export async function deleteScreenshot(storagePath: string): Promise<void> {
+  if (!storagePath) return;
+
   const { error } = await supabase.storage
     .from('screenshots')
     .remove([storagePath]);
 
   if (error) {
     throw new Error(`Delete failed: ${error.message}`);
+  }
+}
+
+/**
+ * Deletes a screenshot record then removes its storage file.
+ * DB is deleted first so a failed storage cleanup does not leave a ghost record.
+ */
+export async function deleteScreenshotFully(id: string, imagePath: string): Promise<void> {
+  const { error } = await supabase.from('screenshots').delete().eq('id', id);
+  if (error) throw new Error(error.message);
+
+  if (imagePath) {
+    try {
+      await deleteScreenshot(imagePath);
+    } catch (err) {
+      console.error('[deleteScreenshotFully] Storage cleanup failed:', err);
+    }
+  }
+}
+
+/**
+ * Deletes multiple screenshots: DB first, then storage (best-effort).
+ */
+export async function deleteScreenshotsFully(
+  items: Array<{ id: string; image_path: string }>
+): Promise<void> {
+  const ids = items.map((i) => i.id);
+  const { error } = await supabase.from('screenshots').delete().in('id', ids);
+  if (error) throw new Error(error.message);
+
+  const paths = items.map((i) => i.image_path).filter(Boolean);
+  if (paths.length > 0) {
+    try {
+      await supabase.storage.from('screenshots').remove(paths);
+    } catch (err) {
+      console.error('[deleteScreenshotsFully] Storage cleanup failed:', err);
+    }
   }
 }

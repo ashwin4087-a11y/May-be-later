@@ -11,6 +11,7 @@ import Favorites from './pages/Favorites';
 import Unorganized from './pages/Unorganized';
 import NeedsReview from './pages/NeedsReview';
 import Settings from './pages/Settings';
+import Search from './pages/Search';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthenticatedLayout from './components/AuthenticatedLayout';
 
@@ -97,6 +98,16 @@ function App() {
             <ProtectedRoute>
               <AuthenticatedLayout>
                 <NeedsReview />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/search" 
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <Search />
               </AuthenticatedLayout>
             </ProtectedRoute>
           } 

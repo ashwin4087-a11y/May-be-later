@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { uploadScreenshot, getScreenshotUrl, getBatchScreenshotUrls, computeImageHash, findDuplicate, toggleScreenshotFavorite } from '../lib/storage';
+import { uploadScreenshot, getBatchScreenshotUrls, computeImageHash, findDuplicate, toggleScreenshotFavorite } from '../lib/storage';
+import { useScreenshotModalState } from '../hooks/useScreenshotModalState';
 import ScreenshotModal from '../components/ScreenshotModal';
 import ScreenshotGrid, { Screenshot } from '../components/ScreenshotGrid';
 import BulkDeleteBar from '../components/BulkDeleteBar';
-import { classifyScreenshot, preLoadVisionModel } from '../lib/classifier';
+import { classifyScreenshot, categoriesForLinking, preLoadVisionModel } from '../lib/classifier';
+import { previewReclassification, applyReclassification, repairDuplicateDataIntegrity } from '../lib/reclassify';
+import PageShell from '../components/PageShell';
 
 interface UploadStatus {
   file: string;
@@ -16,10 +20,14 @@ interface UploadStatus {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [duplicateCount, setDuplicateCount] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
+  const [unorganizedCount, setUnorganizedCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadStatuses, setUploadStatuses] = useState<UploadStatus[]>([]);
   const [loadingGallery, setLoadingGallery] = useState(true);
@@ -63,13 +71,34 @@ export default function Dashboard() {
   // ── Fetch gallery & stats ──────────────────────────────────────────────────
 
   const fetchStats = useCallback(async () => {
-    const [totalRes, dupRes] = await Promise.all([
+    const [totalRes, dupRes, otherColRes, allSsRes] = await Promise.all([
       supabase.from('screenshots').select('*', { count: 'exact', head: true }).eq('is_duplicate', false),
-      supabase.from('screenshots').select('*', { count: 'exact', head: true }).eq('is_duplicate', true)
+      supabase.from('screenshots').select('*', { count: 'exact', head: true }).eq('is_duplicate', true),
+      supabase.from('collections').select('id').eq('name', 'Other').limit(1),
+      supabase.from('screenshots').select('id, screenshot_collections(collection_id)').eq('is_duplicate', false),
     ]);
 
     if (!totalRes.error && totalRes.count !== null) setTotalCount(totalRes.count);
     if (!dupRes.error && dupRes.count !== null) setDuplicateCount(dupRes.count);
+
+    const otherCol = otherColRes.data?.[0];
+    if (otherCol) {
+      const { count } = await supabase
+        .from('screenshot_collections')
+        .select('*', { count: 'exact', head: true })
+        .eq('collection_id', otherCol.id);
+      setReviewCount(count ?? 0);
+    } else {
+      setReviewCount(0);
+    }
+
+    if (allSsRes.data) {
+      const unorg = allSsRes.data.filter(
+        (s: { screenshot_collections?: { collection_id: string }[] }) =>
+          !s.screenshot_collections || s.screenshot_collections.length === 0
+      );
+      setUnorganizedCount(unorg.length);
+    }
   }, []);
 
   const fetchScreenshots = useCallback(async () => {
@@ -200,7 +229,10 @@ export default function Dashboard() {
           .select('id')
           .single();
 
-        if (dbError) throw new Error(dbError.message);
+        if (dbError) {
+          await supabase.storage.from('screenshots').remove([imagePath]);
+          throw new Error(dbError.message);
+        }
         const screenshotId = insertedData.id;
 
         // 3. Classification (OCR)
@@ -208,8 +240,10 @@ export default function Dashboard() {
           prev.map((s, idx) => (idx === i ? { ...s, status: 'analyzing' } : s))
         );
 
-        const categories = await classifyScreenshot(file);
-        console.log(`[Upload] File "${file.name}" classified as:`, categories);
+        const result = await classifyScreenshot(file);
+        console.log(`[Upload] File "${file.name}" classified as:`, result.primary, result.reason);
+
+        const categories = categoriesForLinking(result);
 
         // Track whether any category link succeeded for UI feedback
         const linkedCategories: string[] = [];
@@ -327,8 +361,8 @@ export default function Dashboard() {
 
   // ── Drag-and-drop ──────────────────────────────────────────────────────────
 
-  const [selectedScreenshot, setSelectedScreenshot] = useState<Screenshot | null>(null);
   const [dragging, setDragging] = useState(false);
+  const { selectedScreenshot, setSelectedScreenshot } = useScreenshotModalState(screenshots);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -345,105 +379,42 @@ export default function Dashboard() {
   const [reclassifying, setReclassifying] = useState(false);
 
   const handleReclassifyAll = async () => {
-    if (!window.confirm("This will run the updated classifier on all existing screenshots and organize them into new collections. This might take a minute. Continue?")) return;
-    
+    const dryRun = window.confirm(
+      'Step 1: Run DRY RUN preview in console?\n\nOK = Dry run (preview only)\nCancel = Skip dry run'
+    );
+
     setReclassifying(true);
     setUploadError(null);
-    
+
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not logged in");
-
-      // Fetch all screenshots
-      const { data: allScreenshots, error: fetchErr } = await supabase
-        .from('screenshots')
-        .select('*');
-        
-      if (fetchErr) throw new Error(fetchErr.message);
-
-      for (const s of allScreenshots) {
-        try {
-          // SKIP duplicates during reclassification
-          if (s.is_duplicate) {
-            console.log(`[RECLASSIFY] Skipping duplicate ${s.id} (duplicate_of: ${s.duplicate_of})`);
-            continue;
-          }
-
-          const isTarget = s.title.includes('173553') || s.title.includes('1786709180987');
-          if (isTarget) {
-            console.log(`\n\n----------------------------------------`);
-            console.log(`[RECLASSIFY] Screenshot ID: ${s.id} (${s.title})`);
-          }
-          
-          // 1. Download image as File
-          const url = await getScreenshotUrl(s.image_path);
-          const response = await fetch(url);
-          const blob = await response.blob();
-          const file = new File([blob], `${s.title}.png`, { type: blob.type });
-
-          // 2. Classify using latest logic
-          const categories = await classifyScreenshot(file, { isTarget });
-
-          // 3. Remove existing relationships
-          const { error: delErr } = await supabase
-            .from('screenshot_collections')
-            .delete()
-            .eq('screenshot_id', s.id);
-            
-          if (isTarget) {
-            console.log(`[DB] Old collection links removed: ${delErr ? 'FAILED' : 'SUCCESS'}`);
-          }
-          
-          if (delErr) {
-            console.error(`[RECLASSIFY] Error deleting old links for ${s.id}:`, delErr.message);
-            continue;
-          }
-
-          // 4. Create new links
-          const addedCategories: string[] = [];
-          for (const category of categories) {
-            let collectionId;
-            const { data: existingCols } = await supabase
-              .from('collections')
-              .select('id')
-              .eq('name', category)
-              .limit(1);
-
-            if (existingCols && existingCols.length > 0) {
-              collectionId = existingCols[0].id;
-            } else {
-              const { data: newCol, error: createErr } = await supabase
-                .from('collections')
-                .insert({ user_id: user.id, name: category })
-                .select('id')
-                .single();
-              if (createErr) throw new Error(createErr.message);
-              collectionId = newCol.id;
-            }
-
-            const { error: linkErr } = await supabase
-              .from('screenshot_collections')
-              .insert({ screenshot_id: s.id, collection_id: collectionId });
-              
-            if (linkErr && linkErr.code !== '23505') {
-              console.error(`[RECLASSIFY] Error linking to ${category}:`, linkErr.message);
-            } else {
-              addedCategories.push(category);
-            }
-          }
-          if (isTarget) {
-            console.log(`[DB] New collection links added: ${addedCategories.join(', ')}`);
-            console.log(`----------------------------------------\n\n`);
-          }
-        } catch (err) {
-          console.error(`[RECLASSIFY] Failed for screenshot ${s.id}:`, err);
+      if (dryRun) {
+        const preview = await previewReclassification(100);
+        console.table(preview.items.filter((i) => i.changed));
+        alert(
+          `${preview.totalScreenshots} screenshots scanned.\n${preview.needsReclassification} need reclassification.\nSee console for details.`
+        );
+        const proceed = window.confirm('Apply reclassification now?');
+        if (!proceed) {
+          setReclassifying(false);
+          return;
+        }
+      } else {
+        const proceed = window.confirm(
+          'This will re-run the classifier on non-duplicate screenshots and update auto-category links only. Continue?'
+        );
+        if (!proceed) {
+          setReclassifying(false);
+          return;
         }
       }
-      
-      console.log(`[RECLASSIFY] 🎉 All screenshots reclassified!`);
-      alert("Reclassification complete. Check console for details.");
-      
-      // Refresh the gallery to force re-fetches
+
+      const { linksRemoved } = await repairDuplicateDataIntegrity();
+      if (linksRemoved > 0) {
+        console.log(`[Integrity] Removed ${linksRemoved} duplicate collection links`);
+      }
+
+      const { processed, updated } = await applyReclassification();
+      alert(`Reclassification complete.\nProcessed: ${processed}\nUpdated: ${updated}`);
       await refreshData();
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : String(err));
@@ -477,7 +448,7 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="max-w-[1024px] px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-16 overflow-y-auto min-h-screen">
+    <PageShell className="gap-10 md:gap-12">
 
       {/* Screenshot detail modal */}
       {selectedScreenshot && (
@@ -504,12 +475,25 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex justify-between items-center w-full">
         <div className="relative w-full max-w-md">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-          <input
-            className="w-full bg-card-background border border-outline-variant rounded-md py-2 pl-10 pr-4 font-body-md text-body-md text-on-surface focus:outline-none focus:border-tertiary focus:ring-1 focus:ring-tertiary transition-colors"
-            placeholder="Search archive..."
-            type="text"
-          />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (searchQuery.trim()) {
+                navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+              } else {
+                navigate('/search');
+              }
+            }}
+          >
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-card-background border border-outline-variant rounded-md py-2 pl-10 pr-4 font-body-md text-body-md text-on-surface focus:outline-none focus:border-tertiary focus:ring-1 focus:ring-tertiary transition-colors"
+              placeholder="Search archive..."
+              type="search"
+            />
+          </form>
         </div>
         <div className="flex gap-2">
           <button
@@ -547,28 +531,30 @@ export default function Dashboard() {
       </div>
 
       {/* Welcome */}
-      <section className="flex flex-col gap-stack-md pt-4">
-        <h1 className="font-display-lg text-display-lg text-primary tracking-tight">
-          {greeting}, Archivist.
-        </h1>
-        <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-          Your personal library is calm and ready. Here is an overview of your recent captures and areas needing attention.
-        </p>
+      <section className="page-header-card">
+        <div className="flex flex-col gap-4">
+          <h1 className="font-display-lg text-[36px] md:text-[42px] text-primary tracking-tight leading-tight">
+            {greeting}, Archivist.
+          </h1>
+          <p className="font-body-lg text-[17px] text-on-surface-variant max-w-2xl leading-relaxed">
+            Your personal library is calm and ready. Here is an overview of your recent captures and areas needing attention.
+          </p>
+        </div>
       </section>
 
       {/* Statistics */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-gutter py-stack-lg border-y border-subtle">
-        <div className="flex flex-col gap-stack-sm">
-          <span className="font-display-md text-display-md text-primary">{totalCount}</span>
-          <span className="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Total Screenshots</span>
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+        <div className="kpi-card">
+          <span className="font-display-md text-[36px] text-primary leading-none">{totalCount}</span>
+          <span className="font-label-technical text-[12px] text-on-surface-variant uppercase tracking-wider">Total Screenshots</span>
         </div>
-        <div className="flex flex-col gap-stack-sm">
-          <span className="font-display-md text-display-md text-tertiary">0</span>
-          <span className="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Forgotten Items</span>
+        <div className="kpi-card">
+          <span className="font-display-md text-[36px] text-tertiary leading-none">{unorganizedCount}</span>
+          <span className="font-label-technical text-[12px] text-on-surface-variant uppercase tracking-wider">Unorganized</span>
         </div>
-        <div className="flex flex-col gap-stack-sm">
-          <span className="font-display-md text-display-md text-on-surface-variant">{duplicateCount}</span>
-          <span className="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">Duplicates Detected</span>
+        <div className="kpi-card">
+          <span className="font-display-md text-[36px] text-on-surface-variant leading-none">{duplicateCount}</span>
+          <span className="font-label-technical text-[12px] text-on-surface-variant uppercase tracking-wider">Duplicates Detected</span>
         </div>
       </section>
 
@@ -611,10 +597,10 @@ export default function Dashboard() {
       {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
         {/* Left: Gallery */}
-        <div className="lg:col-span-8 flex flex-col gap-stack-lg">
-          <div className="flex justify-between items-end border-b border-subtle pb-4">
-            <h2 className="font-headline-sm text-headline-sm text-primary">Gallery</h2>
-            <span className="font-label-technical text-label-technical text-on-surface-variant uppercase tracking-wider">
+        <div className="lg:col-span-8 flex flex-col gap-6">
+          <div className="flex justify-between items-center pb-1">
+            <h2 className="font-headline-sm text-[20px] text-primary">Gallery</h2>
+            <span className="count-badge">
               {screenshots.length} item{screenshots.length !== 1 ? 's' : ''}
             </span>
           </div>
@@ -643,15 +629,48 @@ export default function Dashboard() {
         </div>
 
         {/* Right: Needs Attention */}
-        <div className="lg:col-span-4 flex flex-col gap-stack-lg">
-          <div className="flex justify-between items-end border-b border-subtle pb-4">
-            <h2 className="font-headline-sm text-headline-sm text-tertiary-container flex items-center gap-2">
-              <span className="material-symbols-outlined text-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>error</span>
-              Needs Attention
-            </h2>
-          </div>
-          <div className="bg-card-background rounded-lg p-6 text-center shadow-subtle border border-subtle flex flex-col items-center justify-center gap-4">
-            <p className="font-body-md text-on-surface-variant">No items need your attention right now.</p>
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          <h2 className="font-headline-sm text-[20px] text-tertiary-container flex items-center gap-2">
+            <span className="material-symbols-outlined text-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>error</span>
+            Needs Attention
+          </h2>
+          <div className="surface-card p-6 flex flex-col gap-4">
+            {reviewCount === 0 && unorganizedCount === 0 ? (
+              <p className="font-body-md text-on-surface-variant text-center">No items need your attention right now.</p>
+            ) : (
+              <>
+                {reviewCount > 0 && (
+                  <Link
+                    to="/review"
+                    className="flex items-center justify-between gap-3 p-3 rounded-lg border border-tertiary/30 bg-tertiary/5 hover:bg-tertiary/10 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="material-symbols-outlined text-tertiary-container">fact_check</span>
+                      <div>
+                        <p className="font-body-md text-primary font-medium">{reviewCount} need review</p>
+                        <p className="font-body-sm text-[13px] text-on-surface-variant">Classified as Other — assign collections</p>
+                      </div>
+                    </div>
+                    <span className="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+                  </Link>
+                )}
+                {unorganizedCount > 0 && (
+                  <Link
+                    to="/unorganized"
+                    className="flex items-center justify-between gap-3 p-3 rounded-lg border border-outline-variant hover:border-secondary transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="material-symbols-outlined text-secondary">notification_important</span>
+                      <div>
+                        <p className="font-body-md text-primary font-medium">{unorganizedCount} unorganized</p>
+                        <p className="font-body-sm text-[13px] text-on-surface-variant">Not in any collection yet</p>
+                      </div>
+                    </div>
+                    <span className="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+                  </Link>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -661,10 +680,10 @@ export default function Dashboard() {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`flex flex-col items-center justify-center py-stack-lg mt-8 rounded-xl border-2 border-dashed p-12 text-center transition-all duration-200 cursor-pointer ${
+        className={`surface-card flex flex-col items-center justify-center py-12 px-8 text-center transition-all duration-200 cursor-pointer ${
           dragging
-            ? 'border-tertiary bg-tertiary/5 scale-[1.01]'
-            : 'border-subtle bg-page-background hover:border-tertiary/50'
+            ? 'border-secondary bg-secondary/5 scale-[1.01]'
+            : 'hover:border-secondary/50'
         }`}
         onClick={() => !uploading && fileInputRef.current?.click()}
       >
@@ -683,6 +702,6 @@ export default function Dashboard() {
           {uploading ? 'Importing...' : 'Import Screenshots'}
         </button>
       </section>
-    </main>
+    </PageShell>
   );
 }
